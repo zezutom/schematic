@@ -1,0 +1,16 @@
+{
+  "type": "object",
+  "properties": {
+    "x": {
+      "type": "number"
+    },
+    "y": {
+      "type": "number",
+      "minimum": 10
+    },
+    "z": {
+      "type": "number",
+      "enum": [1, 2, 3, 4, 5]
+    }
+  }
+}

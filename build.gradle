@@ -1,0 +1,46 @@
+plugins {
+    id 'jacoco'
+    id 'com.github.kt3k.coveralls' version '2.6.3'
+}
+
+apply plugin: 'java'
+
+jacocoTestReport {
+    reports {
+        xml.enabled = true
+        html.enabled = true
+    }
+}
+
+group 'org.zezutom'
+version '0.1.0'
+
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '3.3'
+}
+
+// Create a single JAR with all dependencies
+// Credit: https://www.mkyong.com/gradle/gradle-create-a-jar-file-with-dependencies/
+task fatJar(type: Jar) {
+    manifest {
+        attributes("Main-Class": "org.zezutom.schematic.App")
+    }
+    baseName = project.name + '-all'
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+}
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    compile 'com.fasterxml.jackson.core:jackson-databind:2.8.6'
+    compile 'com.github.mifmif:generex:1.0.2'
+    compile 'com.sparkjava:spark-core:2.5.4'
+    testCompile 'junit:junit:4.12'
+    testCompile 'org.mockito:mockito-all:1.8.4'
+}
+
+build.dependsOn fatJar
