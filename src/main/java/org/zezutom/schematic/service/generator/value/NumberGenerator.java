@@ -1,42 +1,59 @@
 package org.zezutom.schematic.service.generator.value;
 
-import org.zezutom.schematic.util.RandomUtil;
+/**
+ * Generates a numeric value according to the provided schema constraints.
+ * @see org.zezutom.schematic.model.json.properties.JsonNumericProperty
+ */
+public class NumberGenerator implements ValueGenerator<Number> {
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
-public class NumberGenerator implements EnumValueGenerator<Number> {
-
-    private final List<Number> values = new ArrayList<>();
-
-    private Integer min;
+    private Boolean exclusiveMaximum = false;
+    private Boolean exclusiveMinimum = false;
+    private Number minimum;
+    private Number maximum;
+    private Integer multipleOf;
 
     @Override
     public Number next() {
-
-        Optional<Number> valueOptional;
-
-        if (values.isEmpty()) {
-            valueOptional = (min == null) ? Optional.empty() : Optional.of(RandomUtil.nextInt(min));
-        } else if (values.size() == 1) {
-            valueOptional = values.stream().findFirst();
-        } else {
-            valueOptional = RandomUtil.getRandomValue(values);
-        }
-
-        return valueOptional.orElse(RandomUtil.nextInt());
+        return null;
     }
 
-    @Override
-    public void addValue(Number value) {
-        if (value == null) {
-            return;
-        }
-        values.add(value);
+    public Boolean getExclusiveMaximum() {
+        return exclusiveMaximum;
     }
 
-    public void setMin(Integer min) {
-        this.min = min;
+    public Boolean getExclusiveMinimum() {
+        return exclusiveMinimum;
+    }
+
+    public Number getMinimum() {
+        return minimum;
+    }
+
+    public Number getMaximum() {
+        return maximum;
+    }
+
+    public Integer getMultipleOf() {
+        return multipleOf;
+    }
+
+    public void setExclusiveMaximum(Boolean exclusiveMaximum) {
+        this.exclusiveMaximum = exclusiveMaximum;
+    }
+
+    public void setExclusiveMinimum(Boolean exclusiveMinimum) {
+        this.exclusiveMinimum = exclusiveMinimum;
+    }
+
+    public void setMinimum(Number minimum) {
+        this.minimum = minimum;
+    }
+
+    public void setMaximum(Number maximum) {
+        this.maximum = maximum;
+    }
+
+    public void setMultipleOf(Integer multipleOf) {
+        this.multipleOf = multipleOf;
     }
 }

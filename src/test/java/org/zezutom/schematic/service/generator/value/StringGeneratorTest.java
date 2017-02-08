@@ -7,11 +7,11 @@ import java.util.List;
 
 import static org.junit.Assert.assertTrue;
 
-public class StringGeneratorTest extends EnumValueGeneratorTest<String, StringGenerator> {
+public class StringGeneratorTest extends EnumValueGeneratorTest<String, StringGeneratorToDelete> {
 
     @Override
-    StringGenerator getInstance() {
-        return new StringGenerator();
+    StringGeneratorToDelete getInstance() {
+        return new StringGeneratorToDelete();
     }
 
     @Override

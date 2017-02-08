@@ -1,9 +1,9 @@
 package org.zezutom.schematic;
 
-import org.zezutom.schematic.model.Tree;
+import org.zezutom.schematic.model.Node;
 import org.zezutom.schematic.service.generator.model.ModelGenerator;
 import org.zezutom.schematic.service.generator.model.TreeModelGenerator;
-import org.zezutom.schematic.service.parser.JsonSchemaParser;
+import org.zezutom.schematic.service.parser.json.JsonSchemaParser;
 
 import java.io.IOException;
 import java.util.logging.Logger;
@@ -20,7 +20,7 @@ public class App {
 
     private static final String ENDPOINT = "/api/v1/next";
 
-    private static Tree parseSchema(String schemaPath) throws IOException {
+    private static Node parseSchema(String schemaPath) throws IOException {
         System.out.println("Schema path: '" + schemaPath + "'");
         return new JsonSchemaParser().parse(schemaPath);
     }
@@ -38,7 +38,7 @@ public class App {
             return;
         }
         // Load schema definition
-        Tree tree = parseSchema(schema);
+        Node tree = parseSchema(schema);
 
         // Get hang of a model generator
         ModelGenerator modelGenerator = new TreeModelGenerator(tree);

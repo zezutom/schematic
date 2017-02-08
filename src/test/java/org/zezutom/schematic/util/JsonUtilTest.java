@@ -4,8 +4,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 import org.zezutom.schematic.service.generator.value.EnumValueGenerator;
-import org.zezutom.schematic.service.generator.value.NumberGenerator;
-import org.zezutom.schematic.service.generator.value.StringGenerator;
+import org.zezutom.schematic.service.generator.value.NumberGeneratorToDelete;
+import org.zezutom.schematic.service.generator.value.StringGeneratorToDelete;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -74,11 +74,11 @@ public class JsonUtilTest {
         assertTrue(JsonUtil.isBoolean(parseJsonNode("{\"type\":\"boolean\"}")));
     }
 
-    private NumberGenerator createNumberGenerator(String nodeDefinition) {
+    private NumberGeneratorToDelete createNumberGenerator(String nodeDefinition) {
         return createGenerator(nodeDefinition, JsonUtil::createNumberGenerator);
     }
 
-    private StringGenerator createStringGenerator(String nodeDefinition) {
+    private StringGeneratorToDelete createStringGenerator(String nodeDefinition) {
         return createGenerator(nodeDefinition, JsonUtil::createStringGenerator);
     }
 

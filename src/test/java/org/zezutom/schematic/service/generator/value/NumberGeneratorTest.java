@@ -3,11 +3,11 @@ package org.zezutom.schematic.service.generator.value;
 import java.util.Arrays;
 import java.util.List;
 
-public class NumberGeneratorTest extends EnumValueGeneratorTest<Number, NumberGenerator> {
+public class NumberGeneratorTest extends EnumValueGeneratorTest<Number, NumberGeneratorToDelete> {
 
     @Override
-    NumberGenerator getInstance() {
-        return new NumberGenerator();
+    NumberGeneratorToDelete getInstance() {
+        return new NumberGeneratorToDelete();
     }
 
     @Override

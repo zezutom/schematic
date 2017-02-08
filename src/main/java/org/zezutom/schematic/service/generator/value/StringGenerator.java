@@ -1,68 +1,53 @@
 package org.zezutom.schematic.service.generator.value;
 
-import com.mifmif.common.regex.Generex;
-import org.zezutom.schematic.util.RandomUtil;
-
-import java.util.Map;
-import java.util.Optional;
-import java.util.TreeMap;
-import java.util.UUID;
-
 /**
- * Produces a new textual value according to the parsing rules.
+ * Generates a string value according to the provided schema constraints.
+ * @see org.zezutom.schematic.model.json.properties.JsonStringProperty
  */
-public class StringGenerator implements EnumValueGenerator<String> {
+public class StringGenerator implements ValueGenerator<String> {
 
-    private final Map<String, Boolean> valueMap = new TreeMap<>();
+    private String format;
 
-    public void addValue(String value) {
-        addValue(value, false);
+    private Integer maxLength;
+
+    private Integer minLength;
+
+    private String pattern;
+
+    public String getFormat() {
+        return format;
     }
 
-    public void addValue(String value, boolean isPattern) {
-        if (value == null || value.isEmpty()) {
-            return;
-        }
-        valueMap.put(value, isPattern);
+    public Integer getMaxLength() {
+        return maxLength;
+    }
+
+    public Integer getMinLength() {
+        return minLength;
+    }
+
+    public String getPattern() {
+        return pattern;
+    }
+
+    public void setFormat(String format) {
+        this.format = format;
+    }
+
+    public void setMaxLength(Integer maxLength) {
+        this.maxLength = maxLength;
+    }
+
+    public void setMinLength(Integer minLength) {
+        this.minLength = minLength;
+    }
+
+    public void setPattern(String pattern) {
+        this.pattern = pattern;
     }
 
     @Override
     public String next() {
-
-        Optional<String> valueOptional;
-
-        if (valueMap.isEmpty()) {
-            // No value has been assigned at all
-            valueOptional = Optional.empty();
-        } else if (valueMap.size() == 1) {
-            // There is just a single value, fetch it!
-            valueOptional = valueMap.keySet().stream().findFirst();
-        } else {
-            // Pick one of the values at random
-            valueOptional = RandomUtil.getRandomValue(valueMap.keySet());
-        }
-
-        String value;
-
-        if (valueOptional.isPresent()) {
-
-            String key = valueOptional.get();
-
-            // Does the value represent a regex?
-            if (valueMap.get(key)) {
-                value = new Generex(key).random();
-            } else {
-                value = valueOptional.get();
-            }
-
-        } else {
-            // No value has been found, generate a default random value
-            value = UUID
-                    .randomUUID()
-                    .toString()
-                    .replace("-", "");
-        }
-
-        return value;
+        return null;
     }
 }

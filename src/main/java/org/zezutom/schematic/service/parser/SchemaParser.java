@@ -1,6 +1,6 @@
 package org.zezutom.schematic.service.parser;
 
-import org.zezutom.schematic.model.Tree;
+import org.zezutom.schematic.model.Node;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -10,7 +10,7 @@ import java.io.InputStream;
  */
 public interface SchemaParser {
 
-    Tree parse(String schemaPath) throws IOException;
+    Node parse(String schemaPath) throws IOException;
 
-    Tree parse(InputStream schema) throws IOException;
+    Node parse(InputStream schema) throws IOException;
 }

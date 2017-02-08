@@ -2,17 +2,12 @@ package org.zezutom.schematic.service.generator.model;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.zezutom.schematic.model.Node;
-import org.zezutom.schematic.model.Tree;
-import org.zezutom.schematic.service.generator.value.StringGenerator;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class TreeModelGeneratorTest {
 
@@ -24,10 +19,10 @@ public class TreeModelGeneratorTest {
 
     @Before
     public void before() {
-        Tree tree = new Tree();
-        valueNodeNames.forEach(name -> tree.addNode(new Node<>(name, new StringGenerator())));
-        nonValueNodeNames.forEach(name -> tree.addNode(new Node<>(name, null)));
-        generator = new TreeModelGenerator(tree);
+//        Tree tree = new Tree();
+//        valueNodeNames.forEach(name -> tree.addNode(new LeafNode<>(name, new StringGeneratorToDelete())));
+//        nonValueNodeNames.forEach(name -> tree.addNode(new LeafNode<>(name, null)));
+//        generator = new TreeModelGenerator(tree);
     }
 
     @Test

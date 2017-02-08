@@ -2,9 +2,11 @@ package org.zezutom.schematic.util;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeType;
+import org.zezutom.schematic.model.json.JsonDataType;
 import org.zezutom.schematic.model.json.JsonSchemaAttribute;
-import org.zezutom.schematic.service.generator.value.NumberGenerator;
-import org.zezutom.schematic.service.generator.value.StringGenerator;
+import org.zezutom.schematic.model.json.keywords.JsonSchemaKeyword;
+import org.zezutom.schematic.service.generator.value.NumberGeneratorToDelete;
+import org.zezutom.schematic.service.generator.value.StringGeneratorToDelete;
 
 import java.util.Iterator;
 import java.util.Optional;
@@ -16,8 +18,15 @@ public class JsonUtil {
 
     private JsonUtil() {}
 
-    public static NumberGenerator createNumberGenerator(JsonNode node) {
-        NumberGenerator generator = new NumberGenerator();
+    public static JsonDataType getDataType(JsonNode node) {
+        String typeFieldName = JsonSchemaKeyword.TYPE.getValue();
+        if (node == null || !node.has(typeFieldName)) return null;
+        JsonNode typeNode = node.get(typeFieldName);
+        return (typeNode == null) ? null : JsonDataType.get(typeNode.textValue());
+    }
+
+    public static NumberGeneratorToDelete createNumberGenerator(JsonNode node) {
+        NumberGeneratorToDelete generator = new NumberGeneratorToDelete();
         if (isMinNode(node)) {
             JsonNode minNode = node.get(JsonSchemaAttribute.MIN.getValue());
             if (minNode != null && minNode.isNumber()) {
@@ -35,8 +44,8 @@ public class JsonUtil {
         return generator;
     }
 
-    public static StringGenerator createStringGenerator(JsonNode node) {
-        StringGenerator generator = new StringGenerator();
+    public static StringGeneratorToDelete createStringGenerator(JsonNode node) {
+        StringGeneratorToDelete generator = new StringGeneratorToDelete();
         if (isPatternNode(node)) {
             JsonNode patternNode = node.get(JsonSchemaAttribute.PATTERN.getValue());
             if (patternNode != null && patternNode.isTextual()) {

@@ -1,30 +1,18 @@
 package org.zezutom.schematic.model;
 
-import org.zezutom.schematic.service.generator.value.ValueGenerator;
-
 /**
- * This is a value node. It bears a field name as well as a value generator.
+ * A generic node.
+ * @see org.zezutom.schematic.model.LeafNode
  */
-public class Node<T> {
+public abstract class Node {
 
     private String name;
 
-    private ValueGenerator<T> valueGenerator;
-
-    public Node(String name, ValueGenerator<T> valueGenerator) {
+    public Node(String name) {
         this.name = name;
-        this.valueGenerator = valueGenerator;
     }
 
     public String getName() {
         return name;
-    }
-
-    public boolean hasValue() {
-        return valueGenerator != null;
-    }
-
-    public T getValue() {
-        return valueGenerator.next();
     }
 }

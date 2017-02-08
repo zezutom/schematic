@@ -39,6 +39,7 @@ dependencies {
     compile 'com.fasterxml.jackson.core:jackson-databind:2.8.6'
     compile 'com.github.mifmif:generex:1.0.2'
     compile 'com.sparkjava:spark-core:2.5.4'
+    compile 'javax.validation:validation-api:1.1.0.Final'
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-all:1.8.4'
 }
