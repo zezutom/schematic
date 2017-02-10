@@ -6,7 +6,7 @@ import org.zezutom.schematic.service.generator.value.NullGenerator;
 
 import javax.lang.model.type.NullType;
 
-public class JsonNullParserTestJson extends JsonLeafNodeParserTestCase<NullType, NullGenerator, NullNode> {
+public class JsonNullParserTest extends JsonLeafNodeParserTestCase<NullType, NullGenerator, NullNode> {
 
     @Override
     String getResourceDir() {

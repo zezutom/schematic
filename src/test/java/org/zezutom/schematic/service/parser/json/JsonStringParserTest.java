@@ -6,7 +6,7 @@ import org.zezutom.schematic.service.generator.value.StringGenerator;
 
 import static org.junit.Assert.*;
 
-public class JsonStringParserTestJson extends JsonLeafNodeParserTestCase<String, StringGenerator, StringNode> {
+public class JsonStringParserTest extends JsonLeafNodeParserTestCase<String, StringGenerator, StringNode> {
 
     @Override
     String getResourceDir() {
