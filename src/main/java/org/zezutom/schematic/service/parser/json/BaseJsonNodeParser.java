@@ -1,7 +1,6 @@
 package org.zezutom.schematic.service.parser.json;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.zezutom.schematic.model.LeafNode;
 import org.zezutom.schematic.model.Node;
 
 import javax.validation.constraints.NotNull;
@@ -10,7 +9,7 @@ import java.util.Iterator;
 /**
  * Serves as a template for parsing a JSON node.
  */
-public abstract class BaseJsonNodeParser<T, P> implements JsonLeafNodeParser<T> {
+public abstract class BaseJsonNodeParser<T extends Node, P> implements JsonNodeParser<T> {
 
     abstract boolean isProperty(String fieldName);
 
@@ -18,10 +17,10 @@ public abstract class BaseJsonNodeParser<T, P> implements JsonLeafNodeParser<T> 
 
     abstract void parseProperty(@NotNull P property, @NotNull JsonNode node);
 
-    abstract LeafNode<T> getNode(String nodeName);
+    abstract T getNode(String nodeName);
 
     @Override
-    public LeafNode<T> parse(String nodeName, JsonNode node) {
+    public T parse(String nodeName, JsonNode node) {
 
         // Iterate over node's properties
         Iterator<String> fieldNameIterator = node.fieldNames();
@@ -38,7 +37,7 @@ public abstract class BaseJsonNodeParser<T, P> implements JsonLeafNodeParser<T> 
     }
 
     @Override
-    public Node parse(JsonNode node) {
+    public T parse(JsonNode node) {
         return parse(null, node);
     }
 }

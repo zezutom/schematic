@@ -5,16 +5,16 @@ import org.zezutom.schematic.service.generator.value.ValueGenerator;
 /**
  * This is a leaf node, ie it bears a value.
  */
-public class LeafNode<T> extends Node {
+public abstract class LeafNode<T, G extends ValueGenerator<T>> extends Node {
 
-    private ValueGenerator<T> valueGenerator;
+    private G valueGenerator;
 
-    public LeafNode(String name, ValueGenerator<T> valueGenerator) {
+    public LeafNode(String name, G valueGenerator) {
         super(name);
         this.valueGenerator = valueGenerator;
     }
 
-    public ValueGenerator<T> getValueGenerator() {
+    public G getValueGenerator() {
         return valueGenerator;
     }
 

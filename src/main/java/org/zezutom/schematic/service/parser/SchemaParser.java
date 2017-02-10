@@ -10,7 +10,7 @@ import java.io.InputStream;
  */
 public interface SchemaParser {
 
-    Node parse(String schemaPath) throws IOException;
+    <T extends Node> T parse(String schemaPath) throws IOException;
 
-    Node parse(InputStream schema) throws IOException;
+    <T extends Node> T parse(InputStream schema) throws IOException;
 }

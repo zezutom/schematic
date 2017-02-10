@@ -1,8 +1,7 @@
 package org.zezutom.schematic.service.parser.json;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.zezutom.schematic.model.LeafNode;
-import org.zezutom.schematic.model.Node;
+import org.zezutom.schematic.model.EnumNode;
 import org.zezutom.schematic.model.json.JsonDataType;
 import org.zezutom.schematic.service.generator.value.EnumGenerator;
 
@@ -13,12 +12,12 @@ import java.util.Iterator;
  * Parses an 'enum' type of node.
  * @see org.zezutom.schematic.model.json.JsonDataType
  */
-public class JsonEnumParser implements JsonLeafNodeParser<Object>  {
+public class JsonEnumParser implements JsonNodeParser<EnumNode>  {
 
-    private EnumGenerator generator;
+    private final EnumGenerator generator = new EnumGenerator();
 
     @Override
-    public LeafNode<Object> parse(String nodeName, @NotNull JsonNode node) {
+    public EnumNode parse(String nodeName, @NotNull JsonNode node) {
 
         if (node.isArray()) {
             JsonDataType dataType = generator.getDataType();
@@ -65,11 +64,11 @@ public class JsonEnumParser implements JsonLeafNodeParser<Object>  {
                 }
             }
         }
-        return new LeafNode<>(nodeName, generator);
+        return new EnumNode(nodeName, generator);
     }
 
     @Override
-    public Node parse(JsonNode node) {
-        return null;
+    public EnumNode parse(JsonNode node) {
+        return parse(null, node);
     }
 }

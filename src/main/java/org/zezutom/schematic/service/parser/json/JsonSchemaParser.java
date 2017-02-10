@@ -14,12 +14,12 @@ import java.nio.file.Paths;
 public class JsonSchemaParser implements SchemaParser {
 
     @Override
-    public Node parse(String schemaPath) throws IOException {
+    public <T extends Node> T parse(String schemaPath) throws IOException {
         return parse(Files.newInputStream(Paths.get(schemaPath)));
     }
 
     @Override
-    public Node parse(InputStream schema) throws IOException {
+    public <T extends Node> T parse(InputStream schema) throws IOException {
         return parse(loadJson(schema));
     }
 
@@ -29,8 +29,8 @@ public class JsonSchemaParser implements SchemaParser {
         return objectMapper.readTree(inputStream);
     }
 
-    private Node parse(JsonNode rootNode) {
-        JsonNodeParser parser = JsonNodeParserFactory.newInstance(rootNode);
+    private <T extends Node> T parse(JsonNode rootNode) {
+        JsonNodeParser<T> parser = JsonNodeParserFactory.newInstance(rootNode);
         return parser == null ? null : parser.parse(rootNode);
     }
 }
