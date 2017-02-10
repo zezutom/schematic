@@ -4,7 +4,7 @@ import org.junit.Test;
 import org.zezutom.schematic.model.BooleanNode;
 import org.zezutom.schematic.service.generator.value.BooleanGenerator;
 
-public class JsonSchemaBooleanParserTest extends JsonSchemaLeafNodeParserTestCase<Boolean, BooleanGenerator, BooleanNode> {
+public class JsonBooleanParserTest extends JsonLeafNodeParserTestCase<Boolean, BooleanGenerator, BooleanNode> {
 
     @Override
     String getResourceDir() {
