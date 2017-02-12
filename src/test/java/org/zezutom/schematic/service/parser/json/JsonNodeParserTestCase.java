@@ -1,15 +1,18 @@
 package org.zezutom.schematic.service.parser.json;
 
 import org.zezutom.schematic.model.Node;
+import org.zezutom.schematic.model.json.JsonSchemaCombinationRule;
+import org.zezutom.schematic.model.json.JsonSchemaCombinationType;
 import org.zezutom.schematic.service.generator.ValueGenerator;
 
 import javax.validation.constraints.NotNull;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
+import java.util.function.Function;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 /**
  * Allows to test parsing of primitive data types.
@@ -24,6 +27,38 @@ abstract class JsonNodeParserTestCase<T, G extends ValueGenerator<T>, N extends 
 
     @NotNull G getGenerator(String fileName) {
         return getGenerator(getResourceDir(), fileName);
+    }
+
+    void assertCombinationRule(
+            JsonSchemaCombinationRule<G> rule,
+            JsonSchemaCombinationType expectedType
+    ) {
+        assertCombinationRule(rule, expectedType, null);
+        List<G> generators = rule.getGenerators();
+        assertNotNull(generators);
+        assertTrue(generators.size() == 2);
+    }
+
+    @SafeVarargs
+    final <V>void assertCombinationRule(
+            JsonSchemaCombinationRule<G> rule,
+            JsonSchemaCombinationType expectedType,
+            Function<G, V> valueExtractor,
+            V... expectedValues) {
+
+        assertNotNull(rule);
+        assertTrue(expectedType.equals(rule.getType()));
+
+        if (valueExtractor != null && expectedValues != null) {
+            List<G> generators = rule.getGenerators();
+            assertNotNull(generators);
+            assertTrue(generators.size() == expectedValues.length);
+
+            int i = 0;
+            for (G generator : generators) {
+                assertEquals(expectedValues[i++], valueExtractor.apply(generator));
+            }
+        }
     }
 
     private @NotNull G getGenerator(String dir, String fileName) {

@@ -1,6 +1,6 @@
 package org.zezutom.schematic.model;
 
-import org.zezutom.schematic.service.generator.EnumGenerator;
+import org.zezutom.schematic.service.generator.json.EnumGenerator;
 
 public class EnumNode extends Node<Object, EnumGenerator> {
 

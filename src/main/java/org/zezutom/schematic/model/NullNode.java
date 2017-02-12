@@ -1,6 +1,6 @@
 package org.zezutom.schematic.model;
 
-import org.zezutom.schematic.service.generator.NullGenerator;
+import org.zezutom.schematic.service.generator.json.NullGenerator;
 
 import javax.lang.model.type.NullType;
 

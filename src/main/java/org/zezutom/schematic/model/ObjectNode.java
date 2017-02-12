@@ -1,6 +1,6 @@
 package org.zezutom.schematic.model;
 
-import org.zezutom.schematic.service.generator.ObjectGenerator;
+import org.zezutom.schematic.service.generator.json.ObjectGenerator;
 
 public class ObjectNode extends Node<Object, ObjectGenerator> {
 

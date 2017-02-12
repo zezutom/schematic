@@ -1,6 +1,6 @@
 package org.zezutom.schematic.model;
 
-import org.zezutom.schematic.service.generator.BooleanGenerator;
+import org.zezutom.schematic.service.generator.json.BooleanGenerator;
 
 public class BooleanNode extends Node<Boolean, BooleanGenerator> {
 

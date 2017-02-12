@@ -1,6 +1,6 @@
 package org.zezutom.schematic.model;
 
-import org.zezutom.schematic.service.generator.StringGenerator;
+import org.zezutom.schematic.service.generator.json.StringGenerator;
 
 public class StringNode extends Node<String, StringGenerator> {
 

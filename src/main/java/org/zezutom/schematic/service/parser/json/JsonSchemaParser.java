@@ -4,7 +4,6 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.zezutom.schematic.model.Node;
-import org.zezutom.schematic.service.generator.ValueGenerator;
 import org.zezutom.schematic.service.parser.SchemaParser;
 
 import java.io.IOException;
@@ -30,8 +29,8 @@ public class JsonSchemaParser implements SchemaParser {
         return objectMapper.readTree(inputStream);
     }
 
-    private <T extends Node, G extends ValueGenerator> T parse(JsonNode rootNode) {
-        JsonNodeParser<T, G> parser = JsonNodeParserFactory.newInstance(rootNode);
+    private <T extends Node> T parse(JsonNode rootNode) {
+        JsonNodeParser<T> parser = JsonNodeParserFactory.newInstance(rootNode);
         return parser == null ? null : parser.parse(rootNode);
     }
 }

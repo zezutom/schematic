@@ -3,7 +3,6 @@ package org.zezutom.schematic.service.parser.json;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.zezutom.schematic.model.Node;
 import org.zezutom.schematic.model.json.JsonDataType;
-import org.zezutom.schematic.service.generator.ValueGenerator;
 import org.zezutom.schematic.util.JsonUtil;
 
 import java.util.EnumMap;
@@ -17,17 +16,17 @@ class JsonNodeParserFactory {
 
     private static final Map<JsonDataType, Supplier<JsonNodeParser>> nodeParserMap = new EnumMap<>(JsonDataType.class);
     static {
-        nodeParserMap.put(JsonDataType.ARRAY, JsonArrayParser::new);
-        nodeParserMap.put(JsonDataType.BOOLEAN, JsonBooleanParser::new);
-        nodeParserMap.put(JsonDataType.ENUM, JsonEnumParser::new);
-        nodeParserMap.put(JsonDataType.INTEGER, JsonIntegerParser::new);
-        nodeParserMap.put(JsonDataType.NULL, JsonNullParser::new);
-        nodeParserMap.put(JsonDataType.NUMBER, JsonNumberParser::new);
-        nodeParserMap.put(JsonDataType.OBJECT, JsonObjectParser::new);
-        nodeParserMap.put(JsonDataType.STRING, JsonStringParser::new);
+        nodeParserMap.put(JsonDataType.ARRAY, ArrayParser::new);
+        nodeParserMap.put(JsonDataType.BOOLEAN, BooleanParser::new);
+        nodeParserMap.put(JsonDataType.ENUM, EnumParser::new);
+        nodeParserMap.put(JsonDataType.INTEGER, IntegerParser::new);
+        nodeParserMap.put(JsonDataType.NULL, NullParser::new);
+        nodeParserMap.put(JsonDataType.NUMBER, NumberParser::new);
+        nodeParserMap.put(JsonDataType.OBJECT, ObjectParser::new);
+        nodeParserMap.put(JsonDataType.STRING, StringParser::new);
     }
 
-    static <T extends Node, G extends ValueGenerator> JsonNodeParser<T, G> newInstance(JsonNode node) {
+    static <T extends Node> JsonNodeParser<T> newInstance(JsonNode node) {
         JsonDataType dataType = JsonUtil.getDataType(node);
         Supplier<JsonNodeParser> parserSupplier = nodeParserMap.get(dataType);
         return (parserSupplier == null) ? null : parserSupplier.get();

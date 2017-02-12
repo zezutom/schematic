@@ -1,10 +1,8 @@
 package org.zezutom.schematic.model.json;
 
-import org.zezutom.schematic.model.json.keywords.JsonSchemaKeyword;
-
 /**
  * Supported data types. Each data type is a value of the 'type' keyword.
- * @see JsonSchemaKeyword
+ * @see JsonSchemaAttribute
  */
 public enum JsonDataType {
     STRING("string"),

@@ -1,6 +1,6 @@
 package org.zezutom.schematic.model;
 
-import org.zezutom.schematic.service.generator.ArrayGenerator;
+import org.zezutom.schematic.service.generator.json.ArrayGenerator;
 
 import java.util.List;
 

@@ -2,32 +2,33 @@ package org.zezutom.schematic.service.parser.json;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.zezutom.schematic.model.Node;
-import org.zezutom.schematic.service.generator.ValueGenerator;
+import org.zezutom.schematic.model.json.JsonSchemaCombinationType;
+import org.zezutom.schematic.service.generator.json.JsonSchemaGenerator;
 
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 /**
  * Serves as a template for parsing a JSON node.
  */
-public abstract class BaseJsonNodeParser<T extends Node, P, G extends ValueGenerator> implements JsonNodeParser<T, G> {
+public abstract class BaseJsonNodeParser<T, N extends Node<T, G>, P, G extends JsonSchemaGenerator<T>> implements JsonNodeParser<N> {
 
     abstract boolean isProperty(String fieldName);
 
     abstract P getProperty(String fieldName);
 
-    abstract void parseProperty(@NotNull P property, @NotNull JsonNode node);
+    abstract void parseProperty(@NotNull G generator, @NotNull P property, @NotNull JsonNode node);
 
-    abstract T getNode(String nodeName);
+    abstract N getNode(String nodeName, G generator);
 
-    final G generator;
-
-    BaseJsonNodeParser(G generator) {
-        this.generator = generator;
-    }
+    abstract G newGenerator();
 
     @Override
-    public T parse(String nodeName, JsonNode node) {
+    public N parse(String nodeName, JsonNode node) {
+
+        G generator = newGenerator();
 
         // Iterate over node's properties
         Iterator<String> fieldNameIterator = node.fieldNames();
@@ -37,19 +38,29 @@ public abstract class BaseJsonNodeParser<T extends Node, P, G extends ValueGener
                 P property = getProperty(fieldName);
                 JsonNode propertyNode = node.get(fieldName);
                 if (property == null || propertyNode == null) continue;
-                parseProperty(property, propertyNode);
+                parseProperty(generator, property, propertyNode);
+            } else if (isCombinationType(fieldName)) {
+                JsonNode combinationNode = node.get(fieldName);
+                if (combinationNode != null && combinationNode.isArray()) {
+                    JsonSchemaCombinationType type = JsonSchemaCombinationType.get(fieldName);
+                    List<JsonNode> combinationNodes = new ArrayList<>();
+                    Iterator<JsonNode> combinationNodeIterator = combinationNode.elements();
+                    while (combinationNodeIterator.hasNext()) {
+                        combinationNodes.add(combinationNodeIterator.next());
+                    }
+                    generator.combine(type, combinationNodes);
+                }
             }
         }
-        return getNode(nodeName);
+        return getNode(nodeName, generator);
     }
 
     @Override
-    public T parse(JsonNode node) {
+    public N parse(JsonNode node) {
         return parse(null, node);
     }
 
-    @Override
-    public G getGenerator() {
-        return generator;
+    private boolean isCombinationType(String fieldName) {
+        return JsonSchemaCombinationType.contains(fieldName);
     }
 }

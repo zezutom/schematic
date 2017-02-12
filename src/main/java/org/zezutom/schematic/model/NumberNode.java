@@ -1,6 +1,6 @@
 package org.zezutom.schematic.model;
 
-import org.zezutom.schematic.service.generator.NumberGenerator;
+import org.zezutom.schematic.service.generator.json.NumberGenerator;
 
 public class NumberNode extends Node<Number, NumberGenerator> {
 
