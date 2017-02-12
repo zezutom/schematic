@@ -3,7 +3,7 @@ package org.zezutom.schematic.service.parser.json;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.zezutom.schematic.model.StringNode;
 import org.zezutom.schematic.model.json.properties.JsonStringProperty;
-import org.zezutom.schematic.service.generator.value.StringGenerator;
+import org.zezutom.schematic.service.generator.StringGenerator;
 
 import javax.validation.constraints.NotNull;
 
@@ -11,9 +11,11 @@ import javax.validation.constraints.NotNull;
  * Parses a 'string' type of node.
  * @see org.zezutom.schematic.model.json.JsonDataType
  */
-class JsonStringParser extends BaseJsonNodeParser<StringNode, JsonStringProperty> {
+class JsonStringParser extends BaseJsonNodeParser<StringNode, JsonStringProperty, StringGenerator> {
 
-    private final StringGenerator generator = new StringGenerator();
+    JsonStringParser() {
+        super(new StringGenerator());
+    }
 
     @Override
     StringNode getNode(String nodeName) {

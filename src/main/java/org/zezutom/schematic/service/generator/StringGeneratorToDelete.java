@@ -1,4 +1,4 @@
-package org.zezutom.schematic.service.generator.value;
+package org.zezutom.schematic.service.generator;
 
 import com.mifmif.common.regex.Generex;
 import org.zezutom.schematic.util.RandomUtil;

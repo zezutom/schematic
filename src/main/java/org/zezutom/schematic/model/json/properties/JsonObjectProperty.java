@@ -22,4 +22,17 @@ public enum JsonObjectProperty {
     public String getValue() {
         return value;
     }
+
+    public static boolean contains(String value) {
+        return get(value) != null;
+    }
+
+    public static JsonObjectProperty get(String value) {
+        for (JsonObjectProperty property : values()) {
+            if (property.getValue().equalsIgnoreCase(value)) {
+                return property;
+            }
+        }
+        return null;
+    }
 }

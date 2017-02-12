@@ -1,4 +1,4 @@
-package org.zezutom.schematic.service.generator.value;
+package org.zezutom.schematic.service.generator;
 
 import java.util.Arrays;
 import java.util.List;

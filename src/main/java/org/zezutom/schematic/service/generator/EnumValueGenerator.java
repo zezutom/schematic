@@ -1,4 +1,4 @@
-package org.zezutom.schematic.service.generator.value;
+package org.zezutom.schematic.service.generator;
 
 /**
  * Represents any kind of generator, where it makes sense to

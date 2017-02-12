@@ -2,11 +2,11 @@ package org.zezutom.schematic.service.parser.json;
 
 import org.junit.Test;
 import org.zezutom.schematic.model.NumberNode;
-import org.zezutom.schematic.service.generator.value.NumberGenerator;
+import org.zezutom.schematic.service.generator.NumberGenerator;
 
 import static org.junit.Assert.*;
 
-public class JsonNumberParserTest extends JsonLeafNodeParserTestCase<Number, NumberGenerator, NumberNode> {
+public class JsonNumberParserTest extends JsonNodeParserTestCase<Number, NumberGenerator, NumberNode> {
 
     @Override
     String getResourceDir() {

@@ -1,4 +1,4 @@
-package org.zezutom.schematic.service.generator.value;
+package org.zezutom.schematic.service.generator;
 
 /**
  * Generates a numeric value according to the provided schema constraints.

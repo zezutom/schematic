@@ -3,7 +3,7 @@ package org.zezutom.schematic.service.parser.json;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.zezutom.schematic.model.NumberNode;
 import org.zezutom.schematic.model.json.properties.JsonNumericProperty;
-import org.zezutom.schematic.service.generator.value.NumberGenerator;
+import org.zezutom.schematic.service.generator.NumberGenerator;
 
 import javax.validation.constraints.NotNull;
 
@@ -11,9 +11,13 @@ import javax.validation.constraints.NotNull;
  * Parses a 'number' type of node.
  * @see org.zezutom.schematic.model.json.JsonDataType
  */
-class JsonNumberParser extends BaseJsonNodeParser<NumberNode, JsonNumericProperty> {
+class JsonNumberParser extends BaseJsonNodeParser<NumberNode, JsonNumericProperty, NumberGenerator> {
 
     private final NumberGenerator generator = new NumberGenerator();
+
+    JsonNumberParser() {
+        super(new NumberGenerator());
+    }
 
     @Override
     NumberNode getNode(String nodeName) {

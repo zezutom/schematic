@@ -3,9 +3,9 @@ package org.zezutom.schematic.util;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
-import org.zezutom.schematic.service.generator.value.EnumValueGenerator;
-import org.zezutom.schematic.service.generator.value.NumberGeneratorToDelete;
-import org.zezutom.schematic.service.generator.value.StringGeneratorToDelete;
+import org.zezutom.schematic.service.generator.EnumValueGenerator;
+import org.zezutom.schematic.service.generator.NumberGeneratorToDelete;
+import org.zezutom.schematic.service.generator.StringGeneratorToDelete;
 
 import java.io.IOException;
 import java.util.Arrays;

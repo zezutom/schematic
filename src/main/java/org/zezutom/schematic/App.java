@@ -1,14 +1,8 @@
 package org.zezutom.schematic;
 
-import org.zezutom.schematic.model.Node;
-import org.zezutom.schematic.service.generator.model.ModelGenerator;
-import org.zezutom.schematic.service.generator.model.TreeModelGenerator;
-import org.zezutom.schematic.service.parser.json.JsonSchemaParser;
-
 import java.io.IOException;
 import java.util.logging.Logger;
 
-import static spark.Spark.get;
 import static spark.Spark.port;
 
 /**
@@ -20,10 +14,10 @@ public class App {
 
     private static final String ENDPOINT = "/api/v1/next";
 
-    private static Node parseSchema(String schemaPath) throws IOException {
-        System.out.println("Schema path: '" + schemaPath + "'");
-        return new JsonSchemaParser().parse(schemaPath);
-    }
+//    private static Node parseSchema(String schemaPath) throws IOException {
+//        System.out.println("Schema path: '" + schemaPath + "'");
+//        return new JsonSchemaParser().parse(schemaPath);
+//    }
 
     public static void main(String[] args) throws IOException {
 //        if (args.length == 0) {
@@ -37,18 +31,18 @@ public class App {
             LOGGER.warning("Schema doesn't exist!");
             return;
         }
-        // Load schema definition
-        Node tree = parseSchema(schema);
-
-        // Get hang of a model generator
-        ModelGenerator modelGenerator = new TreeModelGenerator(tree);
-
+//        // Load schema definition
+//        Node tree = parseSchema(schema);
+//
+//        // Get hang of a model generator
+//        ModelGenerator modelGenerator = new TreeModelGenerator(tree);
+//
         // Set server port
         Integer port = Integer.valueOf(System.getProperty("port", "8080"));
         port(port);
-
-        // Set the routes
-        get(ENDPOINT, (req, res) -> modelGenerator.next());
+//
+//        // Set the routes
+//        get(ENDPOINT, (req, res) -> modelGenerator.next());
 
         // Inform the user
         LOGGER.info(String.format("All done! Go to: http://localhost:%d%s", port, ENDPOINT));

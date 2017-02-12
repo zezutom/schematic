@@ -1,10 +1,10 @@
 package org.zezutom.schematic.service.parser.json;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.zezutom.schematic.model.json.ArrayNode;
+import org.zezutom.schematic.model.ArrayNode;
 import org.zezutom.schematic.model.json.JsonDataType;
 import org.zezutom.schematic.model.json.properties.JsonArrayProperty;
-import org.zezutom.schematic.service.generator.value.ArrayGenerator;
+import org.zezutom.schematic.service.generator.ArrayGenerator;
 import org.zezutom.schematic.util.JsonUtil;
 
 import javax.validation.constraints.NotNull;
@@ -14,9 +14,11 @@ import java.util.Iterator;
  * Parses an 'array' type of node.
  * @see org.zezutom.schematic.model.json.JsonDataType
  */
-class JsonArrayParser extends BaseJsonNodeParser<ArrayNode, JsonArrayProperty> {
+class JsonArrayParser extends BaseJsonNodeParser<ArrayNode, JsonArrayProperty, ArrayGenerator> {
 
-    private final ArrayGenerator generator = new ArrayGenerator();
+    JsonArrayParser() {
+        super(new ArrayGenerator());
+    }
 
     @Override
     boolean isProperty(String fieldName) {

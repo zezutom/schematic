@@ -1,8 +1,7 @@
-package org.zezutom.schematic.service.generator.value;
-
-import org.zezutom.schematic.model.json.JsonDataType;
+package org.zezutom.schematic.service.generator;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -13,27 +12,17 @@ public class EnumGenerator implements ValueGenerator<Object> {
 
     private final List<Object> items = new ArrayList<>();
 
-    private final JsonDataType dataType;
-
-    public EnumGenerator() {
-        this(null);
-    }
-
-    public EnumGenerator(JsonDataType dataType) {
-        this.dataType = dataType;
-    }
-
     @Override
     public Object next() {
         return null;
     }
 
     public void addItem(Object item) {
-        if (item == null) return;
+        // null values are accepted
         items.add(item);
     }
 
-    public JsonDataType getDataType() {
-        return dataType;
+    public List<Object> getItems() {
+        return Collections.unmodifiableList(items);
     }
 }

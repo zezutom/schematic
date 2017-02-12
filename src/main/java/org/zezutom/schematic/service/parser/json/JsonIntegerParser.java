@@ -3,7 +3,7 @@ package org.zezutom.schematic.service.parser.json;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.zezutom.schematic.model.IntegerNode;
 import org.zezutom.schematic.model.json.properties.JsonNumericProperty;
-import org.zezutom.schematic.service.generator.value.IntegerGenerator;
+import org.zezutom.schematic.service.generator.IntegerGenerator;
 
 import javax.validation.constraints.NotNull;
 
@@ -11,9 +11,11 @@ import javax.validation.constraints.NotNull;
  * Parses an 'integer' type of node.
  * @see org.zezutom.schematic.model.json.JsonDataType
  */
-class JsonIntegerParser extends BaseJsonNodeParser<IntegerNode, JsonNumericProperty> {
+class JsonIntegerParser extends BaseJsonNodeParser<IntegerNode, JsonNumericProperty, IntegerGenerator> {
 
-    private final IntegerGenerator generator = new IntegerGenerator();
+    JsonIntegerParser() {
+        super(new IntegerGenerator());
+    }
 
     @Override
     boolean isProperty(String fieldName) {

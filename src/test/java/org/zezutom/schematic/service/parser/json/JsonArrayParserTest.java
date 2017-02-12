@@ -1,9 +1,9 @@
 package org.zezutom.schematic.service.parser.json;
 
 import org.junit.Test;
-import org.zezutom.schematic.model.json.ArrayNode;
+import org.zezutom.schematic.model.ArrayNode;
 import org.zezutom.schematic.model.json.JsonDataType;
-import org.zezutom.schematic.service.generator.value.ArrayGenerator;
+import org.zezutom.schematic.service.generator.ArrayGenerator;
 
 import java.util.Arrays;
 import java.util.List;
@@ -11,7 +11,9 @@ import java.util.List;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-public class JsonArrayParserTest extends JsonLeafNodeParserTestCase<List<Object>, ArrayGenerator, ArrayNode> {
+public class JsonArrayParserTest extends JsonNodeParserTestCase<List<Object>, ArrayGenerator, ArrayNode> {
+
+    private final JsonArrayParser parser = new JsonArrayParser();
 
     @Override
     String getResourceDir() {

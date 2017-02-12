@@ -2,11 +2,11 @@ package org.zezutom.schematic.service.parser.json;
 
 import org.junit.Test;
 import org.zezutom.schematic.model.StringNode;
-import org.zezutom.schematic.service.generator.value.StringGenerator;
+import org.zezutom.schematic.service.generator.StringGenerator;
 
 import static org.junit.Assert.*;
 
-public class JsonStringParserTest extends JsonLeafNodeParserTestCase<String, StringGenerator, StringNode> {
+public class JsonStringParserTest extends JsonNodeParserTestCase<String, StringGenerator, StringNode> {
 
     @Override
     String getResourceDir() {

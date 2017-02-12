@@ -2,12 +2,12 @@ package org.zezutom.schematic.service.parser.json;
 
 import org.junit.Test;
 import org.zezutom.schematic.model.IntegerNode;
-import org.zezutom.schematic.service.generator.value.IntegerGenerator;
+import org.zezutom.schematic.service.generator.IntegerGenerator;
 
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
-public class JsonIntegerParserTest extends JsonLeafNodeParserTestCase<Integer, IntegerGenerator, IntegerNode> {
+public class JsonIntegerParserTest extends JsonNodeParserTestCase<Integer, IntegerGenerator, IntegerNode> {
 
     @Override
     String getResourceDir() {

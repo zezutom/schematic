@@ -5,8 +5,8 @@ import com.fasterxml.jackson.databind.node.JsonNodeType;
 import org.zezutom.schematic.model.json.JsonDataType;
 import org.zezutom.schematic.model.json.JsonSchemaAttribute;
 import org.zezutom.schematic.model.json.keywords.JsonSchemaKeyword;
-import org.zezutom.schematic.service.generator.value.NumberGeneratorToDelete;
-import org.zezutom.schematic.service.generator.value.StringGeneratorToDelete;
+import org.zezutom.schematic.service.generator.NumberGeneratorToDelete;
+import org.zezutom.schematic.service.generator.StringGeneratorToDelete;
 
 import java.util.Iterator;
 import java.util.Optional;
@@ -16,16 +16,25 @@ import java.util.Optional;
  */
 public class JsonUtil {
 
-    private JsonUtil() {}
-
-    public static JsonDataType getDataType(JsonNode node) {
-        String typeFieldName = JsonSchemaKeyword.TYPE.getValue();
-        if (node == null || !node.has(typeFieldName)) return null;
-        JsonNode typeNode = node.get(typeFieldName);
-        return (typeNode == null) ? null : JsonDataType.get(typeNode.textValue());
+    private JsonUtil() {
     }
 
-    public static NumberGeneratorToDelete createNumberGenerator(JsonNode node) {
+    public static JsonDataType getDataType(JsonNode node) {
+        if (node == null) return null;
+        String typeFieldName = JsonSchemaKeyword.TYPE.getValue();
+        JsonDataType dataType = null;
+        if (node.has(typeFieldName)) {
+            JsonNode typeNode = node.get(typeFieldName);
+            if (typeNode != null) {
+                dataType = JsonDataType.get(typeNode.textValue());
+            }
+        } else if (node.has(JsonDataType.ENUM.getValue())) {
+            dataType = JsonDataType.ENUM;
+        }
+        return dataType;
+    }
+
+    static NumberGeneratorToDelete createNumberGenerator(JsonNode node) {
         NumberGeneratorToDelete generator = new NumberGeneratorToDelete();
         if (isMinNode(node)) {
             JsonNode minNode = node.get(JsonSchemaAttribute.MIN.getValue());
@@ -44,7 +53,7 @@ public class JsonUtil {
         return generator;
     }
 
-    public static StringGeneratorToDelete createStringGenerator(JsonNode node) {
+    static StringGeneratorToDelete createStringGenerator(JsonNode node) {
         StringGeneratorToDelete generator = new StringGeneratorToDelete();
         if (isPatternNode(node)) {
             JsonNode patternNode = node.get(JsonSchemaAttribute.PATTERN.getValue());
@@ -68,25 +77,25 @@ public class JsonUtil {
         return generator;
     }
 
-    public static boolean isArray(JsonNode node) {
+    static boolean isArray(JsonNode node) {
         return JsonNodeType.ARRAY.equals(node.getNodeType());
     }
 
-    public static boolean isNumber(JsonNode node) {
+    static boolean isNumber(JsonNode node) {
         Optional<JsonNode> typeNode = getAny(node, JsonSchemaAttribute.TYPE);
         return typeNode.isPresent() && "number".equals(typeNode.get().textValue());
     }
 
-    public static boolean isBoolean(JsonNode node) {
+    static boolean isBoolean(JsonNode node) {
         Optional<JsonNode> typeNode = getAny(node, JsonSchemaAttribute.TYPE);
         return typeNode.isPresent() && "boolean".equals(typeNode.get().textValue());
     }
 
-    public static boolean hasAttribute(JsonNode node, JsonSchemaAttribute attribute) {
+    private static boolean hasAttribute(JsonNode node, JsonSchemaAttribute attribute) {
         return !(node == null || attribute == null) && node.has(attribute.getValue());
     }
 
-    public static Optional<JsonNode> getAny(JsonNode jsonNode, JsonSchemaAttribute... attributes) {
+    private static Optional<JsonNode> getAny(JsonNode jsonNode, JsonSchemaAttribute... attributes) {
         if (attributes == null) {
             return Optional.empty();
         }
