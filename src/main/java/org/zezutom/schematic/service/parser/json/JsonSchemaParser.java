@@ -3,7 +3,7 @@ package org.zezutom.schematic.service.parser.json;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.zezutom.schematic.model.Node;
+import org.zezutom.schematic.model.json.Node;
 import org.zezutom.schematic.service.parser.SchemaParser;
 
 import java.io.IOException;

@@ -1,15 +1,16 @@
 package org.zezutom.schematic.service.parser.json;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.zezutom.schematic.model.NumberNode;
-import org.zezutom.schematic.model.json.properties.JsonNumericProperty;
+import org.zezutom.schematic.model.json.NumberNode;
+import org.zezutom.schematic.model.json.schema.properties.JsonNumericProperty;
+import org.zezutom.schematic.model.json.schema.JsonDataType;
 import org.zezutom.schematic.service.generator.json.NumberGenerator;
 
 import javax.validation.constraints.NotNull;
 
 /**
  * Parses numeric nodes.
- * @see org.zezutom.schematic.model.json.JsonDataType
+ * @see JsonDataType
  */
 public class NumberParser extends BaseJsonNodeParser<Number, NumberNode, JsonNumericProperty, NumberGenerator> {
 

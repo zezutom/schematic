@@ -1,4 +1,4 @@
-package org.zezutom.schematic.model;
+package org.zezutom.schematic.model.json;
 
 import org.zezutom.schematic.service.generator.json.IntegerGenerator;
 

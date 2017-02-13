@@ -1,4 +1,4 @@
-package org.zezutom.schematic.model.json;
+package org.zezutom.schematic.model.json.schema;
 
 /**
  * Represents JSON schema meta fields (data type and value selection rules).

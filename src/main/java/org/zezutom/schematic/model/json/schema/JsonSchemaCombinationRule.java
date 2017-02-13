@@ -1,4 +1,4 @@
-package org.zezutom.schematic.model.json;
+package org.zezutom.schematic.model.json.schema;
 
 import org.zezutom.schematic.service.generator.ValueGenerator;
 

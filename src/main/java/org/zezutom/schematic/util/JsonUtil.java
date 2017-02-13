@@ -1,8 +1,8 @@
 package org.zezutom.schematic.util;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.zezutom.schematic.model.json.JsonDataType;
-import org.zezutom.schematic.model.json.JsonSchemaAttribute;
+import org.zezutom.schematic.model.json.schema.JsonDataType;
+import org.zezutom.schematic.model.json.schema.JsonSchemaAttribute;
 
 /**
  * Helps with JSON traversal / parsing and value interpretation.

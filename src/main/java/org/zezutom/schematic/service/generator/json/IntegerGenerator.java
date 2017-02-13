@@ -1,6 +1,6 @@
 package org.zezutom.schematic.service.generator.json;
 
-import org.zezutom.schematic.model.IntegerNode;
+import org.zezutom.schematic.model.json.IntegerNode;
 import org.zezutom.schematic.service.parser.json.IntegerParser;
 
 /**

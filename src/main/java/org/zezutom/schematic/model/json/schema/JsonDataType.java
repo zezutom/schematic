@@ -1,4 +1,4 @@
-package org.zezutom.schematic.model.json;
+package org.zezutom.schematic.model.json.schema;
 
 /**
  * Supported data types. Each data type is a value of the 'type' keyword.

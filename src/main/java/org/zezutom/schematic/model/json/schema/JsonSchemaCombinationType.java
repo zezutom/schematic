@@ -1,4 +1,4 @@
-package org.zezutom.schematic.model.json;
+package org.zezutom.schematic.model.json.schema;
 
 /**
  * Defines how two or more schemas can be combined together.

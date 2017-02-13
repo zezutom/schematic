@@ -1,12 +1,13 @@
 package org.zezutom.schematic.service.parser.json;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.zezutom.schematic.model.BooleanNode;
+import org.zezutom.schematic.model.json.BooleanNode;
+import org.zezutom.schematic.model.json.schema.JsonDataType;
 import org.zezutom.schematic.service.generator.json.BooleanGenerator;
 
 /**
  * Parses a 'boolean' type of node.
- * @see org.zezutom.schematic.model.json.JsonDataType
+ * @see JsonDataType
  */
 public class BooleanParser implements JsonNodeParser<BooleanNode> {
 

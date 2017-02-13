@@ -1,8 +1,8 @@
 package org.zezutom.schematic.service.parser.json;
 
 import org.junit.Test;
-import org.zezutom.schematic.model.ArrayNode;
-import org.zezutom.schematic.model.json.JsonDataType;
+import org.zezutom.schematic.model.json.ArrayNode;
+import org.zezutom.schematic.model.json.schema.JsonDataType;
 import org.zezutom.schematic.service.generator.json.ArrayGenerator;
 
 import java.util.Arrays;

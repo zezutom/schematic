@@ -2,8 +2,8 @@ package org.zezutom.schematic.service.parser.json;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.NullNode;
-import org.zezutom.schematic.model.EnumNode;
-import org.zezutom.schematic.model.json.JsonDataType;
+import org.zezutom.schematic.model.json.EnumNode;
+import org.zezutom.schematic.model.json.schema.JsonDataType;
 import org.zezutom.schematic.service.generator.json.EnumGenerator;
 
 import javax.validation.constraints.NotNull;
@@ -11,7 +11,7 @@ import java.util.Iterator;
 
 /**
  * Parses an 'enum' type of node.
- * @see org.zezutom.schematic.model.json.JsonDataType
+ * @see JsonDataType
  */
 public class EnumParser implements JsonNodeParser<EnumNode>  {
 

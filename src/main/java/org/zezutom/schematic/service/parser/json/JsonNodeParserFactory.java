@@ -1,8 +1,8 @@
 package org.zezutom.schematic.service.parser.json;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.zezutom.schematic.model.Node;
-import org.zezutom.schematic.model.json.JsonDataType;
+import org.zezutom.schematic.model.json.Node;
+import org.zezutom.schematic.model.json.schema.JsonDataType;
 import org.zezutom.schematic.util.JsonUtil;
 
 import java.util.EnumMap;

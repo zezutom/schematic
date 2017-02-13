@@ -1,8 +1,8 @@
 package org.zezutom.schematic.service.parser.json;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.zezutom.schematic.model.Node;
-import org.zezutom.schematic.model.json.JsonSchemaCombinationType;
+import org.zezutom.schematic.model.json.Node;
+import org.zezutom.schematic.model.json.schema.JsonSchemaCombinationType;
 import org.zezutom.schematic.service.generator.json.JsonSchemaGenerator;
 
 import javax.validation.constraints.NotNull;

@@ -1,6 +1,6 @@
-package org.zezutom.schematic.model.json;
+package org.zezutom.schematic.model.json.schema;
 
-import org.zezutom.schematic.model.json.properties.JsonStringProperty;
+import org.zezutom.schematic.model.json.schema.properties.JsonStringProperty;
 
 /**
  * Supported string formats.

@@ -1,0 +1,12 @@
+{
+  "type": "object",
+  "properties": {
+    "street_number": {
+      "type": "number",
+      "allOf": [
+        {"minimum": 1},
+        {"maximum": 999}
+      ]
+    }
+  }
+}

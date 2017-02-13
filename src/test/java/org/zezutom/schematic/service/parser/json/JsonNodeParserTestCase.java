@@ -1,8 +1,8 @@
 package org.zezutom.schematic.service.parser.json;
 
-import org.zezutom.schematic.model.Node;
-import org.zezutom.schematic.model.json.JsonSchemaCombinationRule;
-import org.zezutom.schematic.model.json.JsonSchemaCombinationType;
+import org.zezutom.schematic.model.json.Node;
+import org.zezutom.schematic.model.json.schema.JsonSchemaCombinationRule;
+import org.zezutom.schematic.model.json.schema.JsonSchemaCombinationType;
 import org.zezutom.schematic.service.generator.ValueGenerator;
 
 import javax.validation.constraints.NotNull;
@@ -29,33 +29,33 @@ abstract class JsonNodeParserTestCase<T, G extends ValueGenerator<T>, N extends 
         return getGenerator(getResourceDir(), fileName);
     }
 
-    void assertCombinationRule(
-            JsonSchemaCombinationRule<G> rule,
+    <V, VG extends ValueGenerator<V>>void assertCombinationRule(
+            JsonSchemaCombinationRule<VG> rule,
             JsonSchemaCombinationType expectedType
     ) {
         assertCombinationRule(rule, expectedType, null);
-        List<G> generators = rule.getGenerators();
+        List<VG> generators = rule.getGenerators();
         assertNotNull(generators);
         assertTrue(generators.size() == 2);
     }
 
     @SafeVarargs
-    final <V>void assertCombinationRule(
-            JsonSchemaCombinationRule<G> rule,
+    final <V, VG extends ValueGenerator<V>>void assertCombinationRule(
+            JsonSchemaCombinationRule<VG> rule,
             JsonSchemaCombinationType expectedType,
-            Function<G, V> valueExtractor,
+            Function<VG, V> valueExtractor,
             V... expectedValues) {
 
         assertNotNull(rule);
         assertTrue(expectedType.equals(rule.getType()));
 
         if (valueExtractor != null && expectedValues != null) {
-            List<G> generators = rule.getGenerators();
+            List<VG> generators = rule.getGenerators();
             assertNotNull(generators);
             assertTrue(generators.size() == expectedValues.length);
 
             int i = 0;
-            for (G generator : generators) {
+            for (VG generator : generators) {
                 assertEquals(expectedValues[i++], valueExtractor.apply(generator));
             }
         }

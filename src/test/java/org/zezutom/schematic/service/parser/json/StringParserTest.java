@@ -1,9 +1,9 @@
 package org.zezutom.schematic.service.parser.json;
 
 import org.junit.Test;
-import org.zezutom.schematic.model.StringNode;
-import org.zezutom.schematic.model.json.JsonSchemaCombinationRule;
-import org.zezutom.schematic.model.json.JsonSchemaCombinationType;
+import org.zezutom.schematic.model.json.StringNode;
+import org.zezutom.schematic.model.json.schema.JsonSchemaCombinationRule;
+import org.zezutom.schematic.model.json.schema.JsonSchemaCombinationType;
 import org.zezutom.schematic.service.generator.json.StringGenerator;
 
 import java.util.List;

@@ -1,15 +1,16 @@
 package org.zezutom.schematic.service.parser.json;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.zezutom.schematic.model.StringNode;
-import org.zezutom.schematic.model.json.properties.JsonStringProperty;
+import org.zezutom.schematic.model.json.StringNode;
+import org.zezutom.schematic.model.json.schema.properties.JsonStringProperty;
+import org.zezutom.schematic.model.json.schema.JsonDataType;
 import org.zezutom.schematic.service.generator.json.StringGenerator;
 
 import javax.validation.constraints.NotNull;
 
 /**
  * Parses a 'string' type of node.
- * @see org.zezutom.schematic.model.json.JsonDataType
+ * @see JsonDataType
  */
 public class StringParser extends BaseJsonNodeParser<String, StringNode, JsonStringProperty, StringGenerator> {
 

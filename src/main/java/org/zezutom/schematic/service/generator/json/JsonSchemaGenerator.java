@@ -1,7 +1,7 @@
 package org.zezutom.schematic.service.generator.json;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.zezutom.schematic.model.json.JsonSchemaCombinationType;
+import org.zezutom.schematic.model.json.schema.JsonSchemaCombinationType;
 import org.zezutom.schematic.service.generator.ValueGenerator;
 
 import java.util.List;

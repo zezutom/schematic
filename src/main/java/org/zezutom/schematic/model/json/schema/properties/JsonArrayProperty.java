@@ -1,6 +1,6 @@
-package org.zezutom.schematic.model.json.properties;
+package org.zezutom.schematic.model.json.schema.properties;
 
-import org.zezutom.schematic.model.json.JsonDataType;
+import org.zezutom.schematic.model.json.schema.JsonDataType;
 
 /**
  * Describes array properties.

@@ -1,7 +1,7 @@
 package org.zezutom.schematic.service.generator.json;
 
-import org.zezutom.schematic.model.ArrayNode;
-import org.zezutom.schematic.model.json.JsonDataType;
+import org.zezutom.schematic.model.json.ArrayNode;
+import org.zezutom.schematic.model.json.schema.JsonDataType;
 import org.zezutom.schematic.service.parser.json.ArrayParser;
 
 import java.util.ArrayList;
@@ -10,7 +10,7 @@ import java.util.List;
 
 /**
  * Generates a list of items, each item can be of a different data type.
- * @see org.zezutom.schematic.model.json.properties.JsonArrayProperty
+ * @see org.zezutom.schematic.model.json.schema.properties.JsonArrayProperty
  */
 public class ArrayGenerator extends BaseSchemaGenerator<List<Object>, ArrayNode, ArrayGenerator, ArrayParser> {
 

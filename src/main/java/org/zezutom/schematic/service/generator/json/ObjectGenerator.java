@@ -1,6 +1,6 @@
 package org.zezutom.schematic.service.generator.json;
 
-import org.zezutom.schematic.model.ObjectNode;
+import org.zezutom.schematic.model.json.ObjectNode;
 import org.zezutom.schematic.service.generator.ValueGenerator;
 import org.zezutom.schematic.service.parser.json.ObjectParser;
 
@@ -8,7 +8,7 @@ import java.util.*;
 
 /**
  * Generates an object according to the provided schema constraints.
- * @see org.zezutom.schematic.model.json.properties.JsonStringProperty
+ * @see org.zezutom.schematic.model.json.schema.properties.JsonStringProperty
  */
 public class ObjectGenerator extends BaseSchemaGenerator<Object, ObjectNode, ObjectGenerator, ObjectParser> {
 
@@ -36,6 +36,10 @@ public class ObjectGenerator extends BaseSchemaGenerator<Object, ObjectNode, Obj
 
     public Map<String, ValueGenerator> getPropertiesMap() {
         return Collections.unmodifiableMap(propertiesMap);
+    }
+
+    public ValueGenerator getProperty(String name) {
+        return propertiesMap.get(name);
     }
 
     public void addAdditionalGenerator(ValueGenerator generator) {

@@ -1,11 +1,11 @@
 package org.zezutom.schematic.service.generator.json;
 
-import org.zezutom.schematic.model.NumberNode;
+import org.zezutom.schematic.model.json.NumberNode;
 import org.zezutom.schematic.service.parser.json.NumberParser;
 
 /**
  * Generates a numeric value according to the provided schema constraints.
- * @see org.zezutom.schematic.model.json.properties.JsonNumericProperty
+ * @see org.zezutom.schematic.model.json.schema.properties.JsonNumericProperty
  */
 public class NumberGenerator extends BaseSchemaGenerator<Number, NumberNode, NumberGenerator, NumberParser> {
 

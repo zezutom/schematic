@@ -1,12 +1,13 @@
 package org.zezutom.schematic.service.parser.json;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.zezutom.schematic.model.NullNode;
+import org.zezutom.schematic.model.json.NullNode;
+import org.zezutom.schematic.model.json.schema.JsonDataType;
 import org.zezutom.schematic.service.generator.json.NullGenerator;
 
 /**
  * Parses a 'null' type of node.
- * @see org.zezutom.schematic.model.json.JsonDataType
+ * @see JsonDataType
  */
 public class NullParser implements JsonNodeParser<NullNode> {
 

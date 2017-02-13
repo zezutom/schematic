@@ -1,7 +1,7 @@
 package org.zezutom.schematic.service.parser.json;
 
 import org.junit.Test;
-import org.zezutom.schematic.model.IntegerNode;
+import org.zezutom.schematic.model.json.IntegerNode;
 import org.zezutom.schematic.service.generator.json.IntegerGenerator;
 
 import static org.junit.Assert.assertNull;

@@ -1,9 +1,9 @@
 package org.zezutom.schematic.service.parser.json;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.zezutom.schematic.model.ArrayNode;
-import org.zezutom.schematic.model.json.JsonDataType;
-import org.zezutom.schematic.model.json.properties.JsonArrayProperty;
+import org.zezutom.schematic.model.json.ArrayNode;
+import org.zezutom.schematic.model.json.schema.JsonDataType;
+import org.zezutom.schematic.model.json.schema.properties.JsonArrayProperty;
 import org.zezutom.schematic.service.generator.json.ArrayGenerator;
 import org.zezutom.schematic.util.JsonUtil;
 
@@ -13,7 +13,7 @@ import java.util.List;
 
 /**
  * Parses an 'array' type of node.
- * @see org.zezutom.schematic.model.json.JsonDataType
+ * @see JsonDataType
  */
 public class ArrayParser extends BaseJsonNodeParser<List<Object>, ArrayNode, JsonArrayProperty, ArrayGenerator> {
 

@@ -1,11 +1,11 @@
 package org.zezutom.schematic.service.generator.json;
 
-import org.zezutom.schematic.model.StringNode;
+import org.zezutom.schematic.model.json.StringNode;
 import org.zezutom.schematic.service.parser.json.StringParser;
 
 /**
  * Generates a string value according to the provided schema constraints.
- * @see org.zezutom.schematic.model.json.properties.JsonStringProperty
+ * @see org.zezutom.schematic.model.json.schema.properties.JsonStringProperty
  */
 public class StringGenerator extends BaseSchemaGenerator<String, StringNode, StringGenerator, StringParser> {
 

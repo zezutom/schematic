@@ -1,17 +1,16 @@
 package org.zezutom.schematic.service.parser.json;
 
 import org.junit.Test;
-import org.zezutom.schematic.model.ObjectNode;
+import org.zezutom.schematic.model.json.ObjectNode;
+import org.zezutom.schematic.model.json.schema.JsonSchemaCombinationRule;
+import org.zezutom.schematic.model.json.schema.JsonSchemaCombinationType;
+import org.zezutom.schematic.service.generator.ValueGenerator;
 import org.zezutom.schematic.service.generator.json.NumberGenerator;
 import org.zezutom.schematic.service.generator.json.ObjectGenerator;
 import org.zezutom.schematic.service.generator.json.StringGenerator;
-import org.zezutom.schematic.service.generator.ValueGenerator;
 
 import javax.validation.constraints.NotNull;
-import java.util.Arrays;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 import static org.junit.Assert.*;
 
@@ -76,6 +75,39 @@ public class ObjectParserTest extends JsonNodeParserTestCase<Object, ObjectGener
         assertTrue(requiredProperties.size() == 2);
         assertTrue(requiredProperties.containsAll(Arrays.asList("name", "email")));
 
+    }
+
+    @Test
+    public void oneOf() {
+        ObjectGenerator generator = getGenerator("one_of.json");
+        ValueGenerator propertyGenerator = generator.getProperty("ip");
+        assertNotNull(propertyGenerator);
+        assertTrue(propertyGenerator instanceof StringGenerator);
+
+        StringGenerator ipGenerator = (StringGenerator) propertyGenerator;
+        assertCombinationRule(
+                ipGenerator.getCombinationRule(),
+                JsonSchemaCombinationType.ONE_OF,
+                StringGenerator::getFormat,
+                "ipv4", "ipv6");
+    }
+
+    @Test
+    public void allOf() {
+        ObjectGenerator generator = getGenerator("all_of.json");
+        ValueGenerator propertyGenerator = generator.getProperty("street_number");
+        assertNotNull(propertyGenerator);
+        assertTrue(propertyGenerator instanceof NumberGenerator);
+
+        NumberGenerator streetNumberGenerator = (NumberGenerator) propertyGenerator;
+        JsonSchemaCombinationRule<NumberGenerator> rule = streetNumberGenerator.getCombinationRule();
+        assertCombinationRule(
+                rule,
+                JsonSchemaCombinationType.ALL_OF
+        );
+        List<NumberGenerator> generators = rule.getGenerators();
+        assertEquals(1, generators.get(0).getMinimum());
+        assertEquals(999, generators.get(1).getMaximum());
     }
 
     private<T extends ValueGenerator> void assertProperty(@NotNull Map<String, ValueGenerator> properties, String name, Class<T> expectedGeneratorClass) {

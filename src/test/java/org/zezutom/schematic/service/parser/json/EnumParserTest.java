@@ -1,7 +1,7 @@
 package org.zezutom.schematic.service.parser.json;
 
 import org.junit.Test;
-import org.zezutom.schematic.model.EnumNode;
+import org.zezutom.schematic.model.json.EnumNode;
 import org.zezutom.schematic.service.generator.json.EnumGenerator;
 
 import javax.validation.constraints.NotNull;

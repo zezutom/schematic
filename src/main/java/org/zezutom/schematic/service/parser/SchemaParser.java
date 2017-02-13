@@ -1,6 +1,6 @@
 package org.zezutom.schematic.service.parser;
 
-import org.zezutom.schematic.model.Node;
+import org.zezutom.schematic.model.json.Node;
 
 import java.io.IOException;
 import java.io.InputStream;
