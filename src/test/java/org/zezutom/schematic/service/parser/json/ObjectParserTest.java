@@ -4,6 +4,7 @@ import org.junit.Test;
 import org.zezutom.schematic.model.json.ObjectNode;
 import org.zezutom.schematic.model.json.schema.JsonSchemaCombinationRule;
 import org.zezutom.schematic.model.json.schema.JsonSchemaCombinationType;
+import org.zezutom.schematic.model.json.schema.JsonStringFormat;
 import org.zezutom.schematic.service.generator.ValueGenerator;
 import org.zezutom.schematic.service.generator.json.NumberGenerator;
 import org.zezutom.schematic.service.generator.json.ObjectGenerator;
@@ -89,7 +90,7 @@ public class ObjectParserTest extends JsonNodeParserTestCase<Object, ObjectGener
                 ipGenerator.getCombinationRule(),
                 JsonSchemaCombinationType.ONE_OF,
                 StringGenerator::getFormat,
-                "ipv4", "ipv6");
+                JsonStringFormat.IPV4, JsonStringFormat.IPV6);
     }
 
     @Test

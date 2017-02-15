@@ -40,7 +40,7 @@ abstract class JsonNodeParserTestCase<T, G extends ValueGenerator<T>, N extends 
     }
 
     @SafeVarargs
-    final <V, VG extends ValueGenerator<V>>void assertCombinationRule(
+    final <V, VG extends ValueGenerator>void assertCombinationRule(
             JsonSchemaCombinationRule<VG> rule,
             JsonSchemaCombinationType expectedType,
             Function<VG, V> valueExtractor,

@@ -1,7 +1,11 @@
 package org.zezutom.schematic.service.generator.json;
 
+import com.mifmif.common.regex.Generex;
+import fabricator.Fabricator;
 import org.zezutom.schematic.model.json.StringNode;
+import org.zezutom.schematic.model.json.schema.JsonStringFormat;
 import org.zezutom.schematic.service.parser.json.StringParser;
+import org.zezutom.schematic.util.RandomUtil;
 
 /**
  * Generates a string value according to the provided schema constraints.
@@ -9,7 +13,7 @@ import org.zezutom.schematic.service.parser.json.StringParser;
  */
 public class StringGenerator extends BaseSchemaGenerator<String, StringNode, StringGenerator, StringParser> {
 
-    private String format;
+    private JsonStringFormat format;
 
     private Integer maxLength;
 
@@ -21,7 +25,11 @@ public class StringGenerator extends BaseSchemaGenerator<String, StringNode, Str
         super(parser);
     }
 
-    public String getFormat() {
+    StringGenerator() {
+        this(null);
+    }
+
+    public JsonStringFormat getFormat() {
         return format;
     }
 
@@ -37,8 +45,13 @@ public class StringGenerator extends BaseSchemaGenerator<String, StringNode, Str
         return pattern;
     }
 
-    public void setFormat(String format) {
+    public void setFormat(JsonStringFormat format) {
         this.format = format;
+    }
+
+    public void setFormat(String format) {
+        if (format == null || format.isEmpty()) return;
+        this.format = JsonStringFormat.get(format);
     }
 
     public void setMaxLength(Integer maxLength) {
@@ -55,6 +68,36 @@ public class StringGenerator extends BaseSchemaGenerator<String, StringNode, Str
 
     @Override
     public String next() {
-        return null;
+        String value = null;
+        if (format != null) {
+            switch (format) {
+                case DATE_TIME:
+                    value = Fabricator.calendar().randomDate().asString();
+                    break;
+                case EMAIL:
+                    value = Fabricator.contact().eMail();
+                    break;
+                case HOSTNAME:
+                case URI:
+                    value = Fabricator.internet().urlBuilder().toString();
+                    break;
+                case IPV4:
+                    value = Fabricator.internet().ip();
+                    break;
+                case IPV6:
+                    value = Fabricator.internet().ipv6();
+                    break;
+                }
+        } else if (hasProperty(pattern)) {
+            value = new Generex(pattern).random();
+        } else {
+            value = RandomUtil.nextString(minLength, maxLength);
+        }
+        return value;
     }
+
+    private boolean hasProperty(String value) {
+        return value != null && !value.isEmpty();
+    }
+
 }

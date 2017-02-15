@@ -4,6 +4,7 @@ import org.junit.Test;
 import org.zezutom.schematic.model.json.StringNode;
 import org.zezutom.schematic.model.json.schema.JsonSchemaCombinationRule;
 import org.zezutom.schematic.model.json.schema.JsonSchemaCombinationType;
+import org.zezutom.schematic.model.json.schema.JsonStringFormat;
 import org.zezutom.schematic.service.generator.json.StringGenerator;
 
 import java.util.List;
@@ -35,31 +36,31 @@ public class StringParserTest extends JsonNodeParserTestCase<String, StringGener
     @Test
     public void dateTime() {
         StringGenerator generator = getGenerator("date_time.json");
-        assertEquals("date-time", generator.getFormat());
+        assertEquals(JsonStringFormat.DATE_TIME, generator.getFormat());
     }
 
     @Test
     public void email() {
         StringGenerator generator = getGenerator("email.json");
-        assertEquals("email", generator.getFormat());
+        assertEquals(JsonStringFormat.EMAIL, generator.getFormat());
     }
 
     @Test
     public void hostname() {
         StringGenerator generator = getGenerator("hostname.json");
-        assertEquals("hostname", generator.getFormat());
+        assertEquals(JsonStringFormat.HOSTNAME, generator.getFormat());
     }
 
     @Test
     public void ipv4() {
         StringGenerator generator = getGenerator("ipv4.json");
-        assertEquals("ipv4", generator.getFormat());
+        assertEquals(JsonStringFormat.IPV4, generator.getFormat());
     }
 
     @Test
     public void ipv6() {
         StringGenerator generator = getGenerator("ipv6.json");
-        assertEquals("ipv6", generator.getFormat());
+        assertEquals(JsonStringFormat.IPV6, generator.getFormat());
     }
 
     @Test
@@ -76,7 +77,7 @@ public class StringParserTest extends JsonNodeParserTestCase<String, StringGener
                 generator.getCombinationRule(),
                 JsonSchemaCombinationType.ONE_OF,
                 StringGenerator::getFormat,
-                "ipv4", "ipv6");
+                JsonStringFormat.IPV4, JsonStringFormat.IPV6);
     }
 
     @Test

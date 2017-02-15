@@ -23,4 +23,13 @@ public enum JsonStringFormat {
     public String getValue() {
         return value;
     }
+
+    public static JsonStringFormat get(String value) {
+        for (JsonStringFormat stringFormat : values()) {
+            if (stringFormat.getValue().equalsIgnoreCase(value)) {
+                return stringFormat;
+            }
+        }
+        return null;
+    }
 }
