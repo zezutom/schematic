@@ -2,6 +2,7 @@ package org.zezutom.schematic.service.generator.json;
 
 import org.zezutom.schematic.model.json.NumberNode;
 import org.zezutom.schematic.service.parser.json.NumberParser;
+import org.zezutom.schematic.util.RandomUtil;
 
 /**
  * Generates a numeric value according to the provided schema constraints.
@@ -9,19 +10,25 @@ import org.zezutom.schematic.service.parser.json.NumberParser;
  */
 public class NumberGenerator extends BaseSchemaGenerator<Number, NumberNode, NumberGenerator, NumberParser> {
 
+    private static final int MULTIPLIER_MIN = 1;
+
+    private static final int MULTIPLIER_MAX = 10;
+
     private Boolean exclusiveMaximum = false;
+
     private Boolean exclusiveMinimum = false;
+
     private Number minimum;
+
     private Number maximum;
+
     private Integer multipleOf;
 
+    NumberGenerator() {
+        super(null);
+    }
     public NumberGenerator(NumberParser parser) {
         super(parser);
-    }
-
-    @Override
-    public Number next() {
-        return null;
     }
 
     public Boolean getExclusiveMaximum() {
@@ -63,4 +70,30 @@ public class NumberGenerator extends BaseSchemaGenerator<Number, NumberNode, Num
     public void setMultipleOf(Integer multipleOf) {
         this.multipleOf = multipleOf;
     }
+
+    @Override
+    public Number next() {
+
+        Number result = null;
+
+        if (minimum != null && maximum != null) {
+            int minValue = minimum.intValue();
+            int maxValue = maximum.intValue();
+
+            if (maxValue > minValue) {
+                result = RandomUtil.nextInt(minValue, maxValue, exclusiveMinimum, exclusiveMaximum);
+            }
+        } else if (minimum != null) {
+            result = RandomUtil.nextMin(minimum.intValue(), exclusiveMinimum);
+        } else if (maximum != null) {
+            result = RandomUtil.nextMax(maximum.intValue(), exclusiveMaximum);
+        } else if (multipleOf != null) {
+            result = multipleOf * RandomUtil.nextInt(MULTIPLIER_MIN, MULTIPLIER_MAX);
+        } else {
+            result = RandomUtil.nextInt();
+        }
+
+        return result;
+    }
+
 }

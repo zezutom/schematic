@@ -1,6 +1,5 @@
 package org.zezutom.schematic.service.generator.json;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.zezutom.schematic.model.json.schema.JsonStringFormat;
 
@@ -10,21 +9,13 @@ import java.util.Date;
 
 import static org.junit.Assert.*;
 
-public class StringGeneratorTest {
+public class StringGeneratorTest extends ValueGeneratorTestCase<String, StringGenerator> {
 
     private static final String EXPECTED_DATE_FORMAT = "dd-mm-yyyy";
 
-    private StringGenerator generator;
-
-    @Before
-    public void before() {
-        generator = new StringGenerator();
-    }
-
-    @Test
-    public void basic() {
-        // Leave with default verification
-        getValue();
+    @Override
+    StringGenerator newInstance() {
+        return new StringGenerator();
     }
 
     @Test
@@ -59,12 +50,5 @@ public class StringGeneratorTest {
         } catch (ParseException e) {
             fail(String.format("Not a valid date!: '%s'", value));
         }
-    }
-
-    private String getValue() {
-        String value = generator.next();
-        assertNotNull(value);
-        assertFalse(value.isEmpty());
-        return value;
     }
 }

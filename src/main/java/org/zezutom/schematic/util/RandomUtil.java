@@ -16,6 +16,9 @@ public class RandomUtil {
 
     private static final int DEFAULT_STRING_LENGTH = 10;
 
+    private static final int DEFAULT_INT_MAX = 10000;
+
+
     private static final int MIN_STRING_LENGTH = 2;
 
     private RandomUtil() {}
@@ -24,9 +27,40 @@ public class RandomUtil {
         return ThreadLocalRandom.current().nextBoolean();
     }
 
-    private static int nextInt(Integer bound) {
-        ThreadLocalRandom random = ThreadLocalRandom.current();
-        return (bound == null) ? random.nextInt() : random.nextInt(bound);
+    /**
+     * Returns a random integer with a min value guarantee
+     * @param min           the minimum expected value
+     * @param exclusive     true, if the minimum value is inclusive, false otherwise
+     * @return  a random integer greater than (or gt or equal to, if inclusive) the expected minimum value
+     */
+    public static int nextMin(Integer min, Boolean exclusive) {
+        if (min == null) return nextInt();
+
+        return ThreadLocalRandom
+                .current()
+                .nextInt(Boolean.TRUE.equals(exclusive) ? min + 1 : min, DEFAULT_INT_MAX);
+    }
+
+    /**
+     * Returns a random integer with a max value guarantee
+     * @param max           the maximum expected value
+     * @param exclusive     true, if the maximum value is inclusive, false otherwise
+     * @return  a random integer less than (or gt or equal to, if inclusive) the expected maximum value
+     */
+    public static int nextMax(Integer max, Boolean exclusive) {
+        if (max == null) return nextInt();
+
+        return ThreadLocalRandom
+                .current()
+                .nextInt(Boolean.TRUE.equals(exclusive) ? max : max + 1);
+    }
+
+    /**
+     * Generates a random integer
+     * @return a random unbounded integer
+     */
+    public static int nextInt() {
+        return nextInt(null);
     }
 
     /**
@@ -35,7 +69,35 @@ public class RandomUtil {
      * @param max   max value or null if unbounded
      * @return  a random integer within the provided boundaries (inclusive)
      */
-    private static int nextInt(Integer min, Integer max) {
+    public static int nextInt(Integer min, Integer max) {
+        return nextInt(min, max, false, false);
+    }
+
+    /**
+     * Generates a random integer within a range
+     * @param min           min value or null if unbounded
+     * @param max           max value or null if unbounded
+     * @param exclusiveMin  true, if the min value should be exclusive
+     * @param exclusiveMax  true, if the max value should be exclusive
+     * @return  a random integer within the provided boundaries
+     */
+
+    public static int nextInt(Integer min, Integer max, Boolean exclusiveMin, Boolean exclusiveMax) {
+        if (min == null || max == null) return nextInt();
+
+        return ThreadLocalRandom
+                .current()
+                .nextInt(
+                        Boolean.TRUE.equals(exclusiveMin) ? min + 1 : min,
+                        Boolean.TRUE.equals(exclusiveMax) ? max : max + 1);
+    }
+
+    private static int nextInt(Integer bound) {
+        ThreadLocalRandom random = ThreadLocalRandom.current();
+        return (bound == null) ? random.nextInt() : random.nextInt(bound);
+    }
+
+    private static int stringLength(Integer min, Integer max) {
         if (min == null || min < ZERO) min = ZERO;
         if (max == null) max = ZERO;
 
@@ -53,7 +115,7 @@ public class RandomUtil {
      * @return a random string whose length is with the provided boundaries (inclusive)
      */
     public static String nextString(Integer min, Integer max) {
-        int length = nextInt(min, max);
+        int length = stringLength(min, max);
         if (length <= 0) length = DEFAULT_STRING_LENGTH;
         if (length < MIN_STRING_LENGTH) length = MIN_STRING_LENGTH;
 
