@@ -12,7 +12,9 @@ public class RandomUtil {
 
     private static final int ZERO = 0;
 
-    private static final int MULTIPLIER = 2;
+    private static final int MULTIPLIER_MIN = 1;
+
+    private static final int MULTIPLIER_MAX = 10;
 
     private static final int DEFAULT_STRING_LENGTH = 10;
 
@@ -69,7 +71,7 @@ public class RandomUtil {
      * @param max   max value or null if unbounded
      * @return  a random integer within the provided boundaries (inclusive)
      */
-    public static int nextInt(Integer min, Integer max) {
+    private static int nextInt(Integer min, Integer max) {
         return nextInt(min, max, false, false);
     }
 
@@ -92,7 +94,12 @@ public class RandomUtil {
                         Boolean.TRUE.equals(exclusiveMax) ? max : max + 1);
     }
 
-    private static int nextInt(Integer bound) {
+    public static int multipleOf(Integer multipleOf) {
+        if (multipleOf == null) return nextInt();
+        return multipleOf * RandomUtil.nextInt(MULTIPLIER_MIN, MULTIPLIER_MAX);
+    }
+
+    public static int nextInt(Integer bound) {
         ThreadLocalRandom random = ThreadLocalRandom.current();
         return (bound == null) ? random.nextInt() : random.nextInt(bound);
     }
@@ -104,7 +111,7 @@ public class RandomUtil {
         if (min == ZERO && max.equals(min)) return nextInt(DEFAULT_STRING_LENGTH);
 
         // If max wasn't provided or is invalid, set to a default value
-        if (max <= ZERO || min > max) max = min * MULTIPLIER;
+        if (max <= ZERO || min > max) max = min * (MULTIPLIER_MIN + 1);
         return ThreadLocalRandom.current().nextInt((max - min) + 1) + min;
     }
 

@@ -1,6 +1,7 @@
 package org.zezutom.schematic.service.generator.json;
 
 import org.zezutom.schematic.service.generator.ValueGenerator;
+import org.zezutom.schematic.util.RandomUtil;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -16,7 +17,8 @@ public class EnumGenerator implements ValueGenerator<Object> {
 
     @Override
     public Object next() {
-        return null;
+        if (items.isEmpty()) return null;
+        return items.get(RandomUtil.nextInt(items.size()));
     }
 
     public void addItem(Object item) {

@@ -10,10 +10,6 @@ import org.zezutom.schematic.util.RandomUtil;
  */
 public class NumberGenerator extends BaseSchemaGenerator<Number, NumberNode, NumberGenerator, NumberParser> {
 
-    private static final int MULTIPLIER_MIN = 1;
-
-    private static final int MULTIPLIER_MAX = 10;
-
     private Boolean exclusiveMaximum = false;
 
     private Boolean exclusiveMinimum = false;
@@ -88,7 +84,7 @@ public class NumberGenerator extends BaseSchemaGenerator<Number, NumberNode, Num
         } else if (maximum != null) {
             result = RandomUtil.nextMax(maximum.intValue(), exclusiveMaximum);
         } else if (multipleOf != null) {
-            result = multipleOf * RandomUtil.nextInt(MULTIPLIER_MIN, MULTIPLIER_MAX);
+            result = RandomUtil.multipleOf(multipleOf);
         } else {
             result = RandomUtil.nextInt();
         }
