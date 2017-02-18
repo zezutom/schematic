@@ -21,7 +21,7 @@ public class EnumGeneratorTest {
     }
 
     @Test
-    public void empty() {
+    public void isEmptyByDefault() {
         assertNull(generator.next());
     }
 

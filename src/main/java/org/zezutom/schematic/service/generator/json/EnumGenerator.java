@@ -8,7 +8,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Generates a fixed set of values according to the provided schema constraints.
+ * Picks a random value out of a defined list of values.
  *
  */
 public class EnumGenerator implements ValueGenerator<Object> {

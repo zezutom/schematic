@@ -10,8 +10,6 @@ public class RandomUtil {
 
     private static final String RAND_CHARS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 
-    private static final int ZERO = 0;
-
     private static final int MULTIPLIER_MIN = 1;
 
     private static final int MULTIPLIER_MAX = 10;
@@ -105,13 +103,13 @@ public class RandomUtil {
     }
 
     private static int stringLength(Integer min, Integer max) {
-        if (min == null || min < ZERO) min = ZERO;
-        if (max == null) max = ZERO;
+        if (!AppUtil.isValidMin(min)) min = AppUtil.ZERO;
+        if (max == null) max = AppUtil.ZERO;
 
-        if (min == ZERO && max.equals(min)) return nextInt(DEFAULT_STRING_LENGTH);
+        if (min == AppUtil.ZERO && max.equals(min)) return nextInt(DEFAULT_STRING_LENGTH);
 
         // If max wasn't provided or is invalid, set to a default value
-        if (max <= ZERO || min > max) max = min * (MULTIPLIER_MIN + 1);
+        if (!AppUtil.isValidRange(min, max)) max = min * (MULTIPLIER_MIN + 1);
         return ThreadLocalRandom.current().nextInt((max - min) + 1) + min;
     }
 

@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
  */
 public abstract class BaseSchemaGenerator<T, N extends Node<T, G>, G extends ValueGenerator<T>, P extends JsonNodeParser<N>> implements JsonSchemaGenerator<T> {
 
+    // Should this not be pushed to the ObjectGenerator only?
     private JsonSchemaCombinationRule<G> combinationRule;
 
     private final P parser;
@@ -43,5 +44,4 @@ public abstract class BaseSchemaGenerator<T, N extends Node<T, G>, G extends Val
         N node = parser.parse(jsonNode);
         return (node == null) ? null : node.getValueGenerator();
     }
-
 }

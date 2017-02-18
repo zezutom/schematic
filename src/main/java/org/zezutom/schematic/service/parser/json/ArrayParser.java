@@ -2,6 +2,7 @@ package org.zezutom.schematic.service.parser.json;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.zezutom.schematic.model.json.ArrayNode;
+import org.zezutom.schematic.model.json.Node;
 import org.zezutom.schematic.model.json.schema.JsonDataType;
 import org.zezutom.schematic.model.json.schema.properties.JsonArrayProperty;
 import org.zezutom.schematic.service.generator.json.ArrayGenerator;
@@ -60,10 +61,16 @@ public class ArrayParser extends BaseJsonNodeParser<List<Object>, ArrayNode, Jso
         }
     }
 
-    private void addItem(@NotNull ArrayGenerator generator, @NotNull JsonNode node) {
-        JsonDataType dataType = JsonUtil.getDataType(node);
+    private void addItem(@NotNull ArrayGenerator generator, @NotNull JsonNode jsonNode) {
+        JsonDataType dataType = JsonUtil.getDataType(jsonNode);
         if (dataType != null) {
-            generator.addItem(dataType);
+            JsonNodeParser parser = JsonNodeParserFactory.newInstance(jsonNode);
+            if (parser != null) {
+                Node node = parser.parse(jsonNode);
+                if (node != null) {
+                    generator.addItem(node.getValueGenerator());
+                }
+            }
         }
     }
 

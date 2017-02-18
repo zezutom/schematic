@@ -2,18 +2,17 @@ package org.zezutom.schematic.service.parser.json;
 
 import org.junit.Test;
 import org.zezutom.schematic.model.json.ArrayNode;
-import org.zezutom.schematic.model.json.schema.JsonDataType;
+import org.zezutom.schematic.service.generator.ValueGenerator;
 import org.zezutom.schematic.service.generator.json.ArrayGenerator;
+import org.zezutom.schematic.service.generator.json.NumberGenerator;
+import org.zezutom.schematic.service.generator.json.StringGenerator;
 
-import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 public class ArrayParserTest extends JsonNodeParserTestCase<List<Object>, ArrayGenerator, ArrayNode> {
-
-    private final ArrayParser parser = new ArrayParser();
 
     @Override
     String getResourceDir() {
@@ -22,17 +21,29 @@ public class ArrayParserTest extends JsonNodeParserTestCase<List<Object>, ArrayG
 
     @Test
     public void basic() {
-        assertItems("basic.json");
+        assertTrue(getItems("basic.json").isEmpty());
     }
 
     @Test
     public void items() {
-        assertItems("items.json", JsonDataType.NUMBER);
+        assertTrue(getItems("items.json")
+                .stream()
+                .filter(x -> x instanceof NumberGenerator)
+                .count() == 1);
     }
 
     @Test
     public void tuple() {
-        assertItems("tuple.json", JsonDataType.NUMBER, JsonDataType.STRING);
+        List<ValueGenerator> generators = getItems("tuple.json");
+        assertTrue(generators
+                .stream()
+                .filter(x -> x instanceof NumberGenerator)
+                .count() == 1);
+        assertTrue(generators
+                .stream()
+                .filter(x -> x instanceof StringGenerator)
+                .count() == 3);
+
     }
 
     @Test
@@ -54,15 +65,10 @@ public class ArrayParserTest extends JsonNodeParserTestCase<List<Object>, ArrayG
         assertTrue(generator.getMaxItems() == 3);
     }
 
-    private void assertItems(String fileName, JsonDataType... expectedTypes) {
+    private List<ValueGenerator> getItems(String fileName) {
         ArrayGenerator generator = getGenerator(fileName);
-        List<JsonDataType> items = generator.getItems();
+        List<ValueGenerator> items = generator.getItems();
         assertNotNull(items);
-        if (expectedTypes != null) {
-            assertTrue(items.size() == expectedTypes.length);
-            assertTrue(items.containsAll(Arrays.asList(expectedTypes)));
-        } else {
-            assertTrue(items.isEmpty());
-        }
+        return items;
     }
 }
