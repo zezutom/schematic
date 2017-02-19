@@ -1,6 +1,9 @@
-package org.zezutom.schematic.service.parser.json;
+package org.zezutom.schematic.service.parser.json.node;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Service;
 import org.zezutom.schematic.model.json.StringNode;
 import org.zezutom.schematic.model.json.schema.properties.JsonStringProperty;
 import org.zezutom.schematic.model.json.schema.JsonDataType;
@@ -12,11 +15,13 @@ import javax.validation.constraints.NotNull;
  * Parses a 'string' type of node.
  * @see JsonDataType
  */
+@Service
+@Scope("prototype")
 public class StringParser extends BaseJsonNodeParser<String, StringNode, JsonStringProperty, StringGenerator> {
 
-    @Override
-    StringGenerator newGenerator() {
-        return new StringGenerator(this);
+    @Autowired
+    public StringParser(StringGenerator generator) {
+        super(generator);
     }
 
     @Override

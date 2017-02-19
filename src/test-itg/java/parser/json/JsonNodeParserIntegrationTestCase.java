@@ -1,9 +1,11 @@
-package org.zezutom.schematic.service.parser.json;
+package parser.json;
 
+import org.junit.Assert;
 import org.zezutom.schematic.model.json.Node;
 import org.zezutom.schematic.model.json.schema.JsonSchemaCombinationRule;
 import org.zezutom.schematic.model.json.schema.JsonSchemaCombinationType;
 import org.zezutom.schematic.service.generator.ValueGenerator;
+import org.zezutom.schematic.service.parser.json.JsonSchemaParser;
 
 import javax.validation.constraints.NotNull;
 import java.io.File;
@@ -12,16 +14,15 @@ import java.io.InputStream;
 import java.util.List;
 import java.util.function.Function;
 
-import static org.junit.Assert.*;
-
 /**
  * Allows to test parsing of primitive data types.
  */
-abstract class JsonNodeParserTestCase<T, G extends ValueGenerator<T>, N extends Node<T, G>> {
+abstract class JsonNodeParserIntegrationTestCase<T, G extends ValueGenerator<T>, N extends Node<T, G>> {
 
     private static final String JSON_RESOURCE_PATH = "json" + File.separator + "%s" + File.separator + "%s";
 
-    private final JsonSchemaParser parser = new JsonSchemaParser();
+    // TODO This needs to be loaded via Spring
+    private final JsonSchemaParser parser = new JsonSchemaParser(null);
 
     abstract String getResourceDir();
 
@@ -35,8 +36,8 @@ abstract class JsonNodeParserTestCase<T, G extends ValueGenerator<T>, N extends 
     ) {
         assertCombinationRule(rule, expectedType, null);
         List<VG> generators = rule.getGenerators();
-        assertNotNull(generators);
-        assertTrue(generators.size() == 2);
+        Assert.assertNotNull(generators);
+        Assert.assertTrue(generators.size() == 2);
     }
 
     @SafeVarargs
@@ -46,27 +47,27 @@ abstract class JsonNodeParserTestCase<T, G extends ValueGenerator<T>, N extends 
             Function<VG, V> valueExtractor,
             V... expectedValues) {
 
-        assertNotNull(rule);
-        assertTrue(expectedType.equals(rule.getType()));
+        Assert.assertNotNull(rule);
+        Assert.assertTrue(expectedType.equals(rule.getType()));
 
         if (valueExtractor != null && expectedValues != null) {
             List<VG> generators = rule.getGenerators();
-            assertNotNull(generators);
-            assertTrue(generators.size() == expectedValues.length);
+            Assert.assertNotNull(generators);
+            Assert.assertTrue(generators.size() == expectedValues.length);
 
             int i = 0;
             for (VG generator : generators) {
-                assertEquals(expectedValues[i++], valueExtractor.apply(generator));
+                Assert.assertEquals(expectedValues[i++], valueExtractor.apply(generator));
             }
         }
     }
 
     private @NotNull G getGenerator(String dir, String fileName) {
         N node = loadSchema(dir, fileName);
-        assertNotNull(node);
+        Assert.assertNotNull(node);
 
         G generator = node.getValueGenerator();
-        assertNotNull(generator);
+        Assert.assertNotNull(generator);
 
         return generator;
     }
@@ -78,7 +79,7 @@ abstract class JsonNodeParserTestCase<T, G extends ValueGenerator<T>, N extends 
                     .getResourceAsStream(String.format(JSON_RESOURCE_PATH, dir == null ? "" : dir, fileName));
             return parser.parse(inputStream);
         } catch (IOException e) {
-            fail(String.format("Unexpected exception: %s", e));
+            Assert.fail(String.format("Unexpected exception: %s", e));
             return null;
         }
     }

@@ -1,11 +1,14 @@
-package org.zezutom.schematic.service.parser.json;
+package org.zezutom.schematic.service.parser.json.node;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.zezutom.schematic.model.json.ArrayNode;
 import org.zezutom.schematic.model.json.Node;
 import org.zezutom.schematic.model.json.schema.JsonDataType;
 import org.zezutom.schematic.model.json.schema.properties.JsonArrayProperty;
+import org.zezutom.schematic.service.PrototypedService;
 import org.zezutom.schematic.service.generator.json.ArrayGenerator;
+import org.zezutom.schematic.service.parser.json.JsonNodeParser;
 import org.zezutom.schematic.util.JsonUtil;
 
 import javax.validation.constraints.NotNull;
@@ -16,11 +19,15 @@ import java.util.List;
  * Parses an 'array' type of node.
  * @see JsonDataType
  */
+@PrototypedService
 public class ArrayParser extends BaseJsonNodeParser<List<Object>, ArrayNode, JsonArrayProperty, ArrayGenerator> {
 
-    @Override
-    ArrayGenerator newGenerator() {
-        return new ArrayGenerator(this);
+    private final JsonNodeParserFactory parserFactory;
+
+    @Autowired
+    public ArrayParser(ArrayGenerator generator, JsonNodeParserFactory parserFactory) {
+        super(generator);
+        this.parserFactory = parserFactory;
     }
 
     @Override
@@ -64,7 +71,7 @@ public class ArrayParser extends BaseJsonNodeParser<List<Object>, ArrayNode, Jso
     private void addItem(@NotNull ArrayGenerator generator, @NotNull JsonNode jsonNode) {
         JsonDataType dataType = JsonUtil.getDataType(jsonNode);
         if (dataType != null) {
-            JsonNodeParser parser = JsonNodeParserFactory.newInstance(jsonNode);
+            JsonNodeParser parser = parserFactory.getInstance(jsonNode);
             if (parser != null) {
                 Node node = parser.parse(jsonNode);
                 if (node != null) {

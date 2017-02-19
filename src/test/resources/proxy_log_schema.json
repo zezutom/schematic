@@ -4,10 +4,7 @@
     "timestamp": {"type": "number"},
     "ip": {
       "type": "string",
-      "oneOf": [
-        {"pattern": "([0-9]{1,3}\\.){3}[0-9]{1,3}"},      /* IPv4 */
-        {"pattern": "([A-F0-9]{1,4}:){7}[A-F0-9]{1,4}"}   /* IPv6 */
-      ]
+      "format": "ipv4"
     },
     "user_agent": {
       "type": "string",
@@ -22,7 +19,7 @@
     "authenticated": {"type": "boolean"},
     "url": {
       "type": "string",
-      "pattern": "https://(acme|acme-store)\\.(com|org)"
+      "format": "hostname"
     },
     "res_status": {
       "type": "number",

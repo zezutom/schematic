@@ -1,10 +1,13 @@
-package org.zezutom.schematic.service.parser.json;
+package org.zezutom.schematic.service.parser.json.node;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.NullNode;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.zezutom.schematic.model.json.EnumNode;
 import org.zezutom.schematic.model.json.schema.JsonDataType;
+import org.zezutom.schematic.service.PrototypedService;
 import org.zezutom.schematic.service.generator.json.EnumGenerator;
+import org.zezutom.schematic.service.parser.json.JsonNodeParser;
 
 import javax.validation.constraints.NotNull;
 import java.util.Iterator;
@@ -13,9 +16,15 @@ import java.util.Iterator;
  * Parses an 'enum' type of node.
  * @see JsonDataType
  */
-public class EnumParser implements JsonNodeParser<EnumNode>  {
+@PrototypedService
+public class EnumParser implements JsonNodeParser<EnumNode> {
 
-    private final EnumGenerator generator = new EnumGenerator();
+    private final EnumGenerator generator;
+
+    @Autowired
+    public EnumParser(EnumGenerator generator) {
+        this.generator = generator;
+    }
 
     @Override
     public EnumNode parse(String nodeName, @NotNull JsonNode node) {

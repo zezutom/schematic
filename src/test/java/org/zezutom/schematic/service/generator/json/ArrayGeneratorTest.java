@@ -1,8 +1,8 @@
 package org.zezutom.schematic.service.generator.json;
 
 import org.junit.Test;
+import org.zezutom.schematic.TestUtil;
 import org.zezutom.schematic.service.generator.ValueGenerator;
-import org.zezutom.schematic.service.parser.json.ArrayParser;
 
 import java.util.Arrays;
 import java.util.List;
@@ -10,14 +10,12 @@ import java.util.Objects;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 public class ArrayGeneratorTest extends ValueGeneratorTestCase<List<Object>, ArrayGenerator> {
 
     @Override
     ArrayGenerator newInstance() {
-        return new ArrayGenerator(new ArrayParser());
+        return new ArrayGenerator();
     }
 
     @Test
@@ -37,7 +35,7 @@ public class ArrayGeneratorTest extends ValueGeneratorTestCase<List<Object>, Arr
 
         generator.setMinItems(min);
         generator.setMaxItems(max);
-        generator.addItem(mockGenerator(StringGenerator.class, "test"));
+        generator.addItem(TestUtil.mockGenerator(StringGenerator.class, "test"));
 
         List<Object> values = generator.next();
         assertNotNull(values);
@@ -47,19 +45,13 @@ public class ArrayGeneratorTest extends ValueGeneratorTestCase<List<Object>, Arr
 
     @Test
     public void nextWithAdditionalItemsAllowed() {
-        generator.addItem(mockGenerator(StringGenerator.class, "test"));
-        generator.addItem(mockGenerator(StringGenerator.class, "test01"));
-        generator.addItem(mockGenerator(NumberGenerator.class, 10));
+        generator.addItem(TestUtil.mockGenerator(StringGenerator.class, "test"));
+        generator.addItem(TestUtil.mockGenerator(StringGenerator.class, "test01"));
+        generator.addItem(TestUtil.mockGenerator(NumberGenerator.class, 10));
         generator.setAdditionalItems(true);
         List<Object> values = generator.next();
         assertNotNull(values);
         assertTrue(values.size() > 1);
-    }
-
-    private <T, G extends ValueGenerator<T>> G mockGenerator(Class<G> generatorClass, T value) {
-        G generator = mock(generatorClass);
-        when(generator.next()).thenReturn(value);
-        return generator;
     }
 
     private<T> void assertGeneratedValue(List<Object> values, Class<T> valueClass, T expectedValue, int expectedCount) {
@@ -72,8 +64,8 @@ public class ArrayGeneratorTest extends ValueGeneratorTestCase<List<Object>, Arr
     }
 
     private void assertGeneratedValues(boolean unique) {
-        StringGenerator stringGenerator = mockGenerator(StringGenerator.class, "test");
-        IntegerGenerator integerGenerator = mockGenerator(IntegerGenerator.class, 10);
+        StringGenerator stringGenerator = TestUtil.mockGenerator(StringGenerator.class, "test");
+        IntegerGenerator integerGenerator = TestUtil.mockGenerator(IntegerGenerator.class, 10);
 
         // Add each of the generators multiple times
         List<ValueGenerator> generators = Arrays.asList(

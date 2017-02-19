@@ -1,9 +1,11 @@
-package org.zezutom.schematic.service.parser.json;
+package org.zezutom.schematic.service.parser.json.node;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.zezutom.schematic.model.json.IntegerNode;
-import org.zezutom.schematic.model.json.schema.properties.JsonNumericProperty;
 import org.zezutom.schematic.model.json.schema.JsonDataType;
+import org.zezutom.schematic.model.json.schema.properties.JsonNumericProperty;
+import org.zezutom.schematic.service.PrototypedService;
 import org.zezutom.schematic.service.generator.json.IntegerGenerator;
 
 import javax.validation.constraints.NotNull;
@@ -12,11 +14,12 @@ import javax.validation.constraints.NotNull;
  * Parses an 'integer' type of node.
  * @see JsonDataType
  */
+@PrototypedService
 public class IntegerParser extends BaseJsonNodeParser<Integer, IntegerNode, JsonNumericProperty, IntegerGenerator> {
 
-    @Override
-    IntegerGenerator newGenerator() {
-        return new IntegerGenerator(this);
+    @Autowired
+    public IntegerParser(IntegerGenerator generator) {
+        super(generator);
     }
 
     @Override

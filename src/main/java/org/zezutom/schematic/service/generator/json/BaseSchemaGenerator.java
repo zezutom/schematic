@@ -19,9 +19,9 @@ public abstract class BaseSchemaGenerator<T, N extends Node<T, G>, G extends Val
     // Should this not be pushed to the ObjectGenerator only?
     private JsonSchemaCombinationRule<G> combinationRule;
 
-    private final P parser;
+    private P parser;
 
-    BaseSchemaGenerator(P parser) {
+    public void setParser(P parser) {
         this.parser = parser;
     }
 
@@ -41,6 +41,8 @@ public abstract class BaseSchemaGenerator<T, N extends Node<T, G>, G extends Val
     }
 
     private G getGenerator(JsonNode jsonNode) {
+        if (parser == null) return null;
+
         N node = parser.parse(jsonNode);
         return (node == null) ? null : node.getValueGenerator();
     }

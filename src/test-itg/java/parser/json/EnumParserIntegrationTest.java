@@ -1,5 +1,6 @@
-package org.zezutom.schematic.service.parser.json;
+package parser.json;
 
+import org.junit.Assert;
 import org.junit.Test;
 import org.zezutom.schematic.model.json.EnumNode;
 import org.zezutom.schematic.service.generator.json.EnumGenerator;
@@ -8,10 +9,7 @@ import javax.validation.constraints.NotNull;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-
-public class EnumParserTest extends JsonNodeParserTestCase<Object, EnumGenerator, EnumNode> {
+public class EnumParserIntegrationTest extends JsonNodeParserIntegrationTestCase<Object, EnumGenerator, EnumNode> {
 
     @Override
     String getResourceDir() {
@@ -32,7 +30,7 @@ public class EnumParserTest extends JsonNodeParserTestCase<Object, EnumGenerator
 
     private void assertItems(@NotNull EnumGenerator generator, Object... expectedValues) {
         List<Object> items = generator.getItems();
-        assertNotNull(items);
-        assertTrue(items.containsAll(Arrays.asList(expectedValues)));
+        Assert.assertNotNull(items);
+        Assert.assertTrue(items.containsAll(Arrays.asList(expectedValues)));
     }
 }

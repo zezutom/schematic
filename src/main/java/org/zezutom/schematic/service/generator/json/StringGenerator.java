@@ -4,13 +4,15 @@ import com.mifmif.common.regex.Generex;
 import fabricator.Fabricator;
 import org.zezutom.schematic.model.json.StringNode;
 import org.zezutom.schematic.model.json.schema.JsonStringFormat;
-import org.zezutom.schematic.service.parser.json.StringParser;
+import org.zezutom.schematic.service.PrototypedService;
+import org.zezutom.schematic.service.parser.json.node.StringParser;
 import org.zezutom.schematic.util.RandomUtil;
 
 /**
  * Generates a string value according to the provided schema constraints.
  * @see org.zezutom.schematic.model.json.schema.properties.JsonStringProperty
  */
+@PrototypedService
 public class StringGenerator extends BaseSchemaGenerator<String, StringNode, StringGenerator, StringParser> {
 
     private JsonStringFormat format;
@@ -20,14 +22,6 @@ public class StringGenerator extends BaseSchemaGenerator<String, StringNode, Str
     private Integer minLength;
 
     private String pattern;
-
-    public StringGenerator(StringParser parser) {
-        super(parser);
-    }
-
-    StringGenerator() {
-        this(null);
-    }
 
     public JsonStringFormat getFormat() {
         return format;

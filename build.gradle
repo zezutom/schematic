@@ -1,9 +1,19 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.5.1.RELEASE")
+    }
+}
+
 plugins {
     id 'jacoco'
     id 'com.github.kt3k.coveralls' version '2.6.3'
 }
 
 apply plugin: 'java'
+apply plugin: 'org.springframework.boot'
 
 jacocoTestReport {
     reports {
@@ -15,34 +25,64 @@ jacocoTestReport {
 group 'org.zezutom'
 version '0.1.0'
 
-
 task wrapper(type: Wrapper) {
     gradleVersion = '3.3'
-}
-
-// Create a single JAR with all dependencies
-// Credit: https://www.mkyong.com/gradle/gradle-create-a-jar-file-with-dependencies/
-task fatJar(type: Jar) {
-    manifest {
-        attributes("Main-Class": "org.zezutom.schematic.App")
-    }
-    baseName = project.name + '-all'
-    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
-    with jar
 }
 
 repositories {
     jcenter()
 }
 
+sourceSets {
+    // Credit: https://www.petrikainulainen.net/programming/gradle/getting-started-with-gradle-integration-testing/
+    integrationTest {
+        java {
+            /**
+             * Use the same classpath as is used for unit tests, including resources.
+             */
+            compileClasspath += main.output + test.output
+            runtimeClasspath += main.output + test.output
+            srcDir file('src/test-itg/java')
+        }
+        resources.srcDir file('src/test-itg/resources')
+    }
+}
+
+/**
+ * Get the same dependencies as they are used for unit tests.
+ */
+configurations {
+    integrationTestCompile.extendsFrom testCompile
+    integrationTestRuntime.extendsFrom testRuntime
+}
+
 dependencies {
-    compile 'com.fasterxml.jackson.core:jackson-databind:2.8.6'
+    compile("org.springframework.boot:spring-boot-starter-web") {
+        exclude module: "spring-boot-starter-tomcat"
+    }
+    compile("org.springframework.boot:spring-boot-starter-jetty")
     compile 'com.github.mifmif:generex:1.0.2'
-    compile 'com.sparkjava:spark-core:2.5.4'
     compile 'javax.validation:validation-api:1.1.0.Final'
     compile 'com.github.azakordonets:fabricator_2.10:2.1.3'
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-all:1.8.4'
 }
 
-build.dependsOn fatJar
+/**
+ * Ensure integration tests look up sources from the right place and output to the standard classpath.
+ */
+task integrationTest(type: Test) {
+    testClassesDir = sourceSets.integrationTest.output.classesDir
+    classpath = sourceSets.integrationTest.runtimeClasspath
+}
+
+// Make integration tests a mandatory validation check
+check.dependsOn integrationTest
+
+// Running integration tests only makes sense if there are no failing unit tests
+integrationTest.mustRunAfter test
+
+// Ensure there is a separation between integration and unit tests on a report level
+tasks.withType(Test) {
+    reports.html.destination = file("${reporting.baseDir}/${name}")
+}

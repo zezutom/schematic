@@ -1,26 +1,36 @@
-package org.zezutom.schematic.service.parser.json;
+package org.zezutom.schematic.service.parser.json.node;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Service;
 import org.zezutom.schematic.model.json.Node;
 import org.zezutom.schematic.model.json.ObjectNode;
 import org.zezutom.schematic.model.json.schema.JsonDataType;
 import org.zezutom.schematic.model.json.schema.properties.JsonObjectProperty;
 import org.zezutom.schematic.service.generator.ValueGenerator;
 import org.zezutom.schematic.service.generator.json.ObjectGenerator;
+import org.zezutom.schematic.service.parser.json.JsonNodeParser;
 import org.zezutom.schematic.util.JsonUtil;
 
 import javax.validation.constraints.NotNull;
 import java.util.Iterator;
+import java.util.Map;
 
 /**
  * Parses an 'object' type of node.
  * @see JsonDataType
  */
-public class ObjectParser extends BaseJsonNodeParser<Object, ObjectNode, JsonObjectProperty, ObjectGenerator> {
+@Service
+@Scope("prototype")
+public class ObjectParser extends BaseJsonNodeParser<Map<String, Object>, ObjectNode, JsonObjectProperty, ObjectGenerator> {
 
-    @Override
-    ObjectGenerator newGenerator() {
-        return new ObjectGenerator(this);
+    private final JsonNodeParserFactory parserFactory;
+
+    @Autowired
+    public ObjectParser(ObjectGenerator generator, JsonNodeParserFactory parserFactory) {
+        super(generator);
+        this.parserFactory = parserFactory;
     }
 
     @Override
@@ -49,7 +59,7 @@ public class ObjectParser extends BaseJsonNodeParser<Object, ObjectNode, JsonObj
                 } else {
                     JsonDataType dataType = JsonUtil.getDataType(jsonNode);
                     if (dataType != null) {
-                        JsonNodeParser parser = JsonNodeParserFactory.newInstance(jsonNode);
+                        JsonNodeParser parser = parserFactory.getInstance(jsonNode);
                         if (parser != null) {
                             Node node = parser.parse(jsonNode);
                             if (node != null) {
@@ -85,7 +95,7 @@ public class ObjectParser extends BaseJsonNodeParser<Object, ObjectNode, JsonObj
     private ValueGenerator resolveGenerator(JsonNode jsonNode) {
         if (jsonNode == null) return null;
 
-        JsonNodeParser parser = JsonNodeParserFactory.newInstance(jsonNode);
+        JsonNodeParser parser = parserFactory.getInstance(jsonNode);
         Node node = null;
         if (parser != null) {
             node = parser.parse(jsonNode);

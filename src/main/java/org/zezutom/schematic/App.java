@@ -1,50 +1,60 @@
 package org.zezutom.schematic;
 
-import java.io.IOException;
-import java.util.logging.Logger;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
+import org.springframework.core.io.Resource;
+import org.zezutom.schematic.model.json.Node;
+import org.zezutom.schematic.model.json.schema.JsonDataType;
+import org.zezutom.schematic.service.parser.json.JsonNodeParser;
+import org.zezutom.schematic.service.parser.json.JsonSchemaParser;
+import org.zezutom.schematic.service.parser.json.node.*;
 
-import static spark.Spark.port;
+import java.io.IOException;
+import java.util.EnumMap;
+import java.util.Map;
 
 /**
  * Starts an embedded web container and provides access to API.
  */
+@SpringBootApplication
 public class App {
 
-    private static final Logger LOGGER = Logger.getLogger("Schematic Web App");
+    @Value("${schema.path}")
+    private String schemaPath;
 
-    private static final String ENDPOINT = "/api/v1/next";
+    @Value("classpath:schema/sample_schema.json")
+    private Resource defaultSchema;
 
-//    private static Node parseSchema(String schemaPath) throws IOException {
-//        System.out.println("Schema path: '" + schemaPath + "'");
-//        return new JsonSchemaParser().parse(schemaPath);
-//    }
+    @Bean
+    public JsonNodeParserFactory jsonNodeParserFactory() {
+        Map<JsonDataType, Class<? extends JsonNodeParser>> nodeParserMap = new EnumMap<>(JsonDataType.class);
+        nodeParserMap.put(JsonDataType.ARRAY, ArrayParser.class);
+        nodeParserMap.put(JsonDataType.BOOLEAN, BooleanParser.class);
+        nodeParserMap.put(JsonDataType.ENUM, EnumParser.class);
+        nodeParserMap.put(JsonDataType.INTEGER, IntegerParser.class);
+        nodeParserMap.put(JsonDataType.NULL, NullParser.class);
+        nodeParserMap.put(JsonDataType.NUMBER, NumberParser.class);
+        nodeParserMap.put(JsonDataType.OBJECT, ObjectParser.class);
+        nodeParserMap.put(JsonDataType.STRING, StringParser.class);
+        return new JsonNodeParserFactory(nodeParserMap);
+    }
 
-    public static void main(String[] args) throws IOException {
-//        if (args.length == 0) {
-//            LOGGER.warning("usage: -Dport=[PORT_NUMBER] -Dschema=[PATH_TO_SCHEMA_FILE]");
-//            return;
-//        }
-        String schema = System.getProperty("schema");
-        String portDef = System.getProperty("port");
-        System.out.println(String.format("schema: %s, port: %s", schema, portDef));
-        if (schema == null) {
-            LOGGER.warning("Schema doesn't exist!");
-            return;
-        }
-//        // Load schema definition
-//        Node tree = parseSchema(schema);
-//
-//        // Get hang of a model generator
-//        ModelGenerator modelGenerator = new TreeModelGenerator(tree);
-//
-        // Set server port
-        Integer port = Integer.valueOf(System.getProperty("port", "8080"));
-        port(port);
-//
-//        // Set the routes
-//        get(ENDPOINT, (req, res) -> modelGenerator.next());
+    @Bean
+    public JsonSchemaParser jsonSchemaParser() {
+        return new JsonSchemaParser(jsonNodeParserFactory());
+    }
 
-        // Inform the user
-        LOGGER.info(String.format("All done! Go to: http://localhost:%d%s", port, ENDPOINT));
+    @Bean
+    public Node parseRootNode() throws IOException {
+        JsonSchemaParser schemaParser = jsonSchemaParser();
+        return (schemaPath.isEmpty()) ?
+                schemaParser.parse(defaultSchema.getInputStream()) :
+                schemaParser.parse(schemaPath);
+    }
+
+    public static void main(String[] args) {
+        SpringApplication.run(App.class);
     }
 }

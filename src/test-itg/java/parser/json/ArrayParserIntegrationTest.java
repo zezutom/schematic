@@ -1,5 +1,6 @@
-package org.zezutom.schematic.service.parser.json;
+package parser.json;
 
+import org.junit.Assert;
 import org.junit.Test;
 import org.zezutom.schematic.model.json.ArrayNode;
 import org.zezutom.schematic.service.generator.ValueGenerator;
@@ -9,10 +10,7 @@ import org.zezutom.schematic.service.generator.json.StringGenerator;
 
 import java.util.List;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-
-public class ArrayParserTest extends JsonNodeParserTestCase<List<Object>, ArrayGenerator, ArrayNode> {
+public class ArrayParserIntegrationTest extends JsonNodeParserIntegrationTestCase<List<Object>, ArrayGenerator, ArrayNode> {
 
     @Override
     String getResourceDir() {
@@ -21,12 +19,12 @@ public class ArrayParserTest extends JsonNodeParserTestCase<List<Object>, ArrayG
 
     @Test
     public void basic() {
-        assertTrue(getItems("basic.json").isEmpty());
+        Assert.assertTrue(getItems("basic.json").isEmpty());
     }
 
     @Test
     public void items() {
-        assertTrue(getItems("items.json")
+        Assert.assertTrue(getItems("items.json")
                 .stream()
                 .filter(x -> x instanceof NumberGenerator)
                 .count() == 1);
@@ -35,11 +33,11 @@ public class ArrayParserTest extends JsonNodeParserTestCase<List<Object>, ArrayG
     @Test
     public void tuple() {
         List<ValueGenerator> generators = getItems("tuple.json");
-        assertTrue(generators
+        Assert.assertTrue(generators
                 .stream()
                 .filter(x -> x instanceof NumberGenerator)
                 .count() == 1);
-        assertTrue(generators
+        Assert.assertTrue(generators
                 .stream()
                 .filter(x -> x instanceof StringGenerator)
                 .count() == 3);
@@ -49,26 +47,26 @@ public class ArrayParserTest extends JsonNodeParserTestCase<List<Object>, ArrayG
     @Test
     public void additionalItems() {
         ArrayGenerator generator = getGenerator("additional_items.json");
-        assertTrue(generator.getAdditionalItems());
+        Assert.assertTrue(generator.getAdditionalItems());
     }
 
     @Test
     public void uniqueItems() {
         ArrayGenerator generator = getGenerator("unique_items.json");
-        assertTrue(generator.getUniqueItems());
+        Assert.assertTrue(generator.getUniqueItems());
     }
 
     @Test
     public void minMaxItems() {
         ArrayGenerator generator = getGenerator("min_max_items.json");
-        assertTrue(generator.getMinItems() == 2);
-        assertTrue(generator.getMaxItems() == 3);
+        Assert.assertTrue(generator.getMinItems() == 2);
+        Assert.assertTrue(generator.getMaxItems() == 3);
     }
 
     private List<ValueGenerator> getItems(String fileName) {
         ArrayGenerator generator = getGenerator(fileName);
         List<ValueGenerator> items = generator.getItems();
-        assertNotNull(items);
+        Assert.assertNotNull(items);
         return items;
     }
 }

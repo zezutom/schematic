@@ -1,13 +1,15 @@
 package org.zezutom.schematic.service.generator.json;
 
 import org.zezutom.schematic.model.json.NumberNode;
-import org.zezutom.schematic.service.parser.json.NumberParser;
+import org.zezutom.schematic.service.PrototypedService;
+import org.zezutom.schematic.service.parser.json.node.NumberParser;
 import org.zezutom.schematic.util.RandomUtil;
 
 /**
  * Generates a numeric value according to the provided schema constraints.
  * @see org.zezutom.schematic.model.json.schema.properties.JsonNumericProperty
  */
+@PrototypedService
 public class NumberGenerator extends BaseSchemaGenerator<Number, NumberNode, NumberGenerator, NumberParser> {
 
     private Boolean exclusiveMaximum = false;
@@ -19,13 +21,6 @@ public class NumberGenerator extends BaseSchemaGenerator<Number, NumberNode, Num
     private Number maximum;
 
     private Integer multipleOf;
-
-    NumberGenerator() {
-        super(null);
-    }
-    public NumberGenerator(NumberParser parser) {
-        super(parser);
-    }
 
     public Boolean getExclusiveMaximum() {
         return exclusiveMaximum;

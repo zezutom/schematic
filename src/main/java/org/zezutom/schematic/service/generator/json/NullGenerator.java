@@ -1,15 +1,13 @@
 package org.zezutom.schematic.service.generator.json;
 
 import org.zezutom.schematic.model.json.NullNode;
-import org.zezutom.schematic.service.parser.json.NullParser;
+import org.zezutom.schematic.service.PrototypedService;
+import org.zezutom.schematic.service.parser.json.node.NullParser;
 
 import javax.lang.model.type.NullType;
 
+@PrototypedService
 public class NullGenerator extends BaseSchemaGenerator<NullType, NullNode, NullGenerator, NullParser> {
-
-    public NullGenerator(NullParser parser) {
-        super(parser);
-    }
 
     @Override
     public NullType next() {

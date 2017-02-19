@@ -1,8 +1,9 @@
 package org.zezutom.schematic.service.generator.json;
 
 import org.zezutom.schematic.model.json.ArrayNode;
+import org.zezutom.schematic.service.PrototypedService;
 import org.zezutom.schematic.service.generator.ValueGenerator;
-import org.zezutom.schematic.service.parser.json.ArrayParser;
+import org.zezutom.schematic.service.parser.json.node.ArrayParser;
 import org.zezutom.schematic.util.AppUtil;
 import org.zezutom.schematic.util.RandomUtil;
 
@@ -15,6 +16,7 @@ import java.util.stream.Collectors;
  * Generates a value according to the selected schema picked at random.
  * @see org.zezutom.schematic.model.json.schema.properties.JsonArrayProperty
  */
+@PrototypedService
 public class ArrayGenerator extends BaseSchemaGenerator<List<Object> , ArrayNode, ArrayGenerator, ArrayParser> {
 
     private final List<ValueGenerator> items = new ArrayList<>();
@@ -26,10 +28,6 @@ public class ArrayGenerator extends BaseSchemaGenerator<List<Object> , ArrayNode
     private Integer minItems;
 
     private Integer maxItems;
-
-    public ArrayGenerator(ArrayParser parser) {
-        super(parser);
-    }
 
     public void addItem(ValueGenerator item) {
         if (item == null) return;

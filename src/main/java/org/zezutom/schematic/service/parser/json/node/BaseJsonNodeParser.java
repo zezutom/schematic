@@ -1,9 +1,10 @@
-package org.zezutom.schematic.service.parser.json;
+package org.zezutom.schematic.service.parser.json.node;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.zezutom.schematic.model.json.Node;
 import org.zezutom.schematic.model.json.schema.JsonSchemaCombinationType;
 import org.zezutom.schematic.service.generator.json.JsonSchemaGenerator;
+import org.zezutom.schematic.service.parser.json.JsonNodeParser;
 
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
@@ -23,12 +24,14 @@ public abstract class BaseJsonNodeParser<T, N extends Node<T, G>, P, G extends J
 
     abstract N getNode(String nodeName, G generator);
 
-    abstract G newGenerator();
+    private final G generator;
+
+    BaseJsonNodeParser(G generator) {
+        this.generator = generator;
+    }
 
     @Override
     public N parse(String nodeName, JsonNode node) {
-
-        G generator = newGenerator();
 
         // Iterate over node's properties
         Iterator<String> fieldNameIterator = node.fieldNames();

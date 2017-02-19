@@ -1,10 +1,10 @@
-package org.zezutom.schematic.service.parser.json;
+package parser.json;
 
 import org.junit.Test;
 import org.zezutom.schematic.model.json.BooleanNode;
 import org.zezutom.schematic.service.generator.json.BooleanGenerator;
 
-public class BooleanParserTest extends JsonNodeParserTestCase<Boolean, BooleanGenerator, BooleanNode> {
+public class BooleanParserIntegrationTest extends JsonNodeParserIntegrationTestCase<Boolean, BooleanGenerator, BooleanNode> {
 
     @Override
     String getResourceDir() {

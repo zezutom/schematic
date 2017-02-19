@@ -1,6 +1,9 @@
-package org.zezutom.schematic.service.parser.json;
+package org.zezutom.schematic.service.parser.json.node;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Service;
 import org.zezutom.schematic.model.json.NumberNode;
 import org.zezutom.schematic.model.json.schema.properties.JsonNumericProperty;
 import org.zezutom.schematic.model.json.schema.JsonDataType;
@@ -12,11 +15,13 @@ import javax.validation.constraints.NotNull;
  * Parses numeric nodes.
  * @see JsonDataType
  */
+@Service
+@Scope("prototype")
 public class NumberParser extends BaseJsonNodeParser<Number, NumberNode, JsonNumericProperty, NumberGenerator> {
 
-    @Override
-    NumberGenerator newGenerator() {
-        return new NumberGenerator(this);
+    @Autowired
+    public NumberParser(NumberGenerator generator) {
+        super(generator);
     }
 
     @Override

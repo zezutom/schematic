@@ -1,4 +1,4 @@
-package org.zezutom.schematic.service.parser.json;
+package parser.json;
 
 import org.junit.Test;
 import org.zezutom.schematic.model.json.NullNode;
@@ -6,7 +6,7 @@ import org.zezutom.schematic.service.generator.json.NullGenerator;
 
 import javax.lang.model.type.NullType;
 
-public class NullParserTest extends JsonNodeParserTestCase<NullType, NullGenerator, NullNode> {
+public class NullParserIntegrationTest extends JsonNodeParserIntegrationTestCase<NullType, NullGenerator, NullNode> {
 
     @Override
     String getResourceDir() {
