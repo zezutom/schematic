@@ -1,0 +1,7 @@
+{
+  "type": "integer",
+  "allOf": [
+    {"minimum": 2},
+    {"maximum": 3}
+  ]
+}

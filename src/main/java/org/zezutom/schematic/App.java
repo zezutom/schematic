@@ -28,7 +28,7 @@ public class App {
     private Resource defaultSchema;
 
     @Bean
-    public JsonNodeParserFactory jsonNodeParserFactory() {
+    public static JsonNodeParserFactory jsonNodeParserFactory() {
         Map<JsonDataType, Class<? extends JsonNodeParser>> nodeParserMap = new EnumMap<>(JsonDataType.class);
         nodeParserMap.put(JsonDataType.ARRAY, ArrayParser.class);
         nodeParserMap.put(JsonDataType.BOOLEAN, BooleanParser.class);
