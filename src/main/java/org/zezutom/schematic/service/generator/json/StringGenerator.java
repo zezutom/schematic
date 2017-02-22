@@ -2,9 +2,11 @@ package org.zezutom.schematic.service.generator.json;
 
 import com.mifmif.common.regex.Generex;
 import fabricator.Fabricator;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.zezutom.schematic.model.json.StringNode;
 import org.zezutom.schematic.model.json.schema.JsonStringFormat;
 import org.zezutom.schematic.service.PrototypedService;
+import org.zezutom.schematic.service.parser.json.node.JsonNodeParserFactory;
 import org.zezutom.schematic.service.parser.json.node.StringParser;
 import org.zezutom.schematic.util.RandomUtil;
 
@@ -22,6 +24,11 @@ public class StringGenerator extends BaseSchemaGenerator<String, StringNode, Str
     private Integer minLength;
 
     private String pattern;
+
+    @Autowired
+    public StringGenerator(JsonNodeParserFactory parserFactory) {
+        super(parserFactory);
+    }
 
     public JsonStringFormat getFormat() {
         return format;

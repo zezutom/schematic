@@ -3,6 +3,7 @@ package org.zezutom.schematic.util;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.zezutom.schematic.model.json.schema.JsonDataType;
 import org.zezutom.schematic.model.json.schema.JsonSchemaAttribute;
+import org.zezutom.schematic.model.json.schema.properties.JsonStringProperty;
 
 /**
  * Helps with JSON traversal / parsing and value interpretation.
@@ -23,6 +24,9 @@ public class JsonUtil {
             }
         } else if (node.has(JsonDataType.ENUM.getValue())) {
             dataType = JsonDataType.ENUM;
+        } else if (node.has(JsonStringProperty.FORMAT.getValue()) ||
+                node.has(JsonStringProperty.PATTERN.getValue())) {
+            dataType = JsonDataType.STRING;
         }
         return dataType;
     }

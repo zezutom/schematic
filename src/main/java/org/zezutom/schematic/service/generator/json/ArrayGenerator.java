@@ -1,9 +1,11 @@
 package org.zezutom.schematic.service.generator.json;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.zezutom.schematic.model.json.ArrayNode;
 import org.zezutom.schematic.service.PrototypedService;
 import org.zezutom.schematic.service.generator.ValueGenerator;
 import org.zezutom.schematic.service.parser.json.node.ArrayParser;
+import org.zezutom.schematic.service.parser.json.node.JsonNodeParserFactory;
 import org.zezutom.schematic.util.AppUtil;
 import org.zezutom.schematic.util.RandomUtil;
 
@@ -28,6 +30,11 @@ public class ArrayGenerator extends BaseSchemaGenerator<List<Object> , ArrayNode
     private Integer minItems;
 
     private Integer maxItems;
+
+    @Autowired
+    public ArrayGenerator(JsonNodeParserFactory parserFactory) {
+        super(parserFactory);
+    }
 
     public void addItem(ValueGenerator item) {
         if (item == null) return;

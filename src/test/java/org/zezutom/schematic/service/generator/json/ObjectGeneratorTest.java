@@ -12,7 +12,7 @@ public class ObjectGeneratorTest extends ValueGeneratorTestCase<Map<String, Obje
 
     @Override
     ObjectGenerator newInstance() {
-        return new ObjectGenerator();
+        return new ObjectGenerator(TestUtil.mockParserFactory());
     }
 
     @Test

@@ -1,6 +1,7 @@
 package org.zezutom.schematic.service.generator.json;
 
 import org.junit.Test;
+import org.zezutom.schematic.TestUtil;
 
 import static org.junit.Assert.assertTrue;
 
@@ -8,7 +9,7 @@ public class NumberGeneratorTest extends ValueGeneratorTestCase<Number, NumberGe
 
     @Override
     NumberGenerator newInstance() {
-        return new NumberGenerator();
+        return new NumberGenerator(TestUtil.mockParserFactory());
     }
 
     @Test

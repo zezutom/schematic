@@ -15,7 +15,7 @@ public class ArrayGeneratorTest extends ValueGeneratorTestCase<List<Object>, Arr
 
     @Override
     ArrayGenerator newInstance() {
-        return new ArrayGenerator();
+        return new ArrayGenerator(TestUtil.mockParserFactory());
     }
 
     @Test

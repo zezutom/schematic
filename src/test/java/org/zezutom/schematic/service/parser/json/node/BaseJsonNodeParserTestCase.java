@@ -1,4 +1,4 @@
-package org.zezutom.schematic.service.generator.json.parser.json.node;
+package org.zezutom.schematic.service.parser.json.node;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;

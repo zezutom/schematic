@@ -1,6 +1,7 @@
 package org.zezutom.schematic.service.generator.json;
 
 import org.junit.Test;
+import org.zezutom.schematic.TestUtil;
 import org.zezutom.schematic.model.json.schema.JsonStringFormat;
 
 import java.text.ParseException;
@@ -15,7 +16,7 @@ public class StringGeneratorTest extends ValueGeneratorTestCase<String, StringGe
 
     @Override
     StringGenerator newInstance() {
-        return new StringGenerator();
+        return new StringGenerator(TestUtil.mockParserFactory());
     }
 
     @Test

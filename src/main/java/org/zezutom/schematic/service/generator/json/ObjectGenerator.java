@@ -1,8 +1,10 @@
 package org.zezutom.schematic.service.generator.json;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.zezutom.schematic.model.json.ObjectNode;
 import org.zezutom.schematic.service.PrototypedService;
 import org.zezutom.schematic.service.generator.ValueGenerator;
+import org.zezutom.schematic.service.parser.json.node.JsonNodeParserFactory;
 import org.zezutom.schematic.service.parser.json.node.ObjectParser;
 
 import java.util.*;
@@ -26,6 +28,11 @@ public class ObjectGenerator extends BaseSchemaGenerator<Map<String, Object>, Ob
 
     // Additional properties are allowed by default
     private boolean additionalPropertiesAllowed = true;
+
+    @Autowired
+    public ObjectGenerator(JsonNodeParserFactory parserFactory) {
+        super(parserFactory);
+    }
 
     public void addProperty(String name, ValueGenerator generator) {
         if (isInvalidProperty(name) || generator == null) return;

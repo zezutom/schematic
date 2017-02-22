@@ -42,7 +42,7 @@ public class App {
     }
 
     @Bean
-    public JsonSchemaParser jsonSchemaParser() {
+    public static JsonSchemaParser jsonSchemaParser() {
         return new JsonSchemaParser(jsonNodeParserFactory());
     }
 

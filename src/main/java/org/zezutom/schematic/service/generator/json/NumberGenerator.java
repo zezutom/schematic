@@ -1,7 +1,9 @@
 package org.zezutom.schematic.service.generator.json;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.zezutom.schematic.model.json.NumberNode;
 import org.zezutom.schematic.service.PrototypedService;
+import org.zezutom.schematic.service.parser.json.node.JsonNodeParserFactory;
 import org.zezutom.schematic.service.parser.json.node.NumberParser;
 import org.zezutom.schematic.util.RandomUtil;
 
@@ -21,6 +23,11 @@ public class NumberGenerator extends BaseSchemaGenerator<Number, NumberNode, Num
     private Number maximum;
 
     private Integer multipleOf;
+
+    @Autowired
+    public NumberGenerator(JsonNodeParserFactory parserFactory) {
+        super(parserFactory);
+    }
 
     public Boolean getExclusiveMaximum() {
         return exclusiveMaximum;

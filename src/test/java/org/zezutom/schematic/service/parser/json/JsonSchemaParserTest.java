@@ -1,4 +1,4 @@
-package org.zezutom.schematic.service.generator.json.parser.json;
+package org.zezutom.schematic.service.parser.json;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -28,7 +28,7 @@ public class JsonSchemaParserTest {
 
     @Before
     public void before() {
-        StringParser stringParser = new StringParser(new StringGenerator());
+        StringParser stringParser = new StringParser(new StringGenerator(TestUtil.mockParserFactory()));
 
         ApplicationContext mockContext = mock(ApplicationContext.class);
         when(mockContext.getBean(StringParser.class)).thenReturn(stringParser);

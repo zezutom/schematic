@@ -1,10 +1,10 @@
-package org.zezutom.schematic.service.generator.json.parser.json.node;
+package org.zezutom.schematic.service.parser.json.node;
 
 import org.junit.Test;
+import org.zezutom.schematic.TestUtil;
 import org.zezutom.schematic.model.json.IntegerNode;
 import org.zezutom.schematic.model.json.schema.JsonSchemaCombinationType;
 import org.zezutom.schematic.service.generator.json.IntegerGenerator;
-import org.zezutom.schematic.service.parser.json.node.IntegerParser;
 
 import static org.junit.Assert.assertTrue;
 
@@ -12,7 +12,7 @@ public class IntegerParserTest extends BaseJsonNodeParserTestCase<Integer, Integ
 
     @Override
     IntegerGenerator createGenerator() {
-        return new IntegerGenerator();
+        return new IntegerGenerator(TestUtil.mockParserFactory());
     }
 
     @Override

@@ -30,12 +30,12 @@ public class JsonNodeParserFactory {
         this.context = context;
     }
 
-    public<T extends Node> JsonNodeParser<T> getInstance(JsonNode jsonNode) {
+    public<T extends Node, P extends JsonNodeParser<T>> P getInstance(JsonNode jsonNode) {
         JsonDataType dataType = JsonUtil.getDataType(jsonNode);
         if (dataType == null) return null;
 
         Class<? extends JsonNodeParser> parserClass = nodeParserMap.get(dataType);
-        return (parserClass == null) ? null : context.getBean(parserClass);
+        return (parserClass == null) ? null : (P) context.getBean(parserClass);
     }
 
 }

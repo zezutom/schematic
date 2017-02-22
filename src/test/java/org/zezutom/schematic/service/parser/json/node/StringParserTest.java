@@ -1,11 +1,11 @@
-package org.zezutom.schematic.service.generator.json.parser.json.node;
+package org.zezutom.schematic.service.parser.json.node;
 
 import org.junit.Test;
+import org.zezutom.schematic.TestUtil;
 import org.zezutom.schematic.model.json.StringNode;
 import org.zezutom.schematic.model.json.schema.JsonSchemaCombinationType;
 import org.zezutom.schematic.model.json.schema.JsonStringFormat;
 import org.zezutom.schematic.service.generator.json.StringGenerator;
-import org.zezutom.schematic.service.parser.json.node.StringParser;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -14,7 +14,7 @@ public class StringParserTest extends BaseJsonNodeParserTestCase<String, StringG
 
     @Override
     StringGenerator createGenerator() {
-        return new StringGenerator();
+        return new StringGenerator(TestUtil.mockParserFactory());
     }
 
     @Override

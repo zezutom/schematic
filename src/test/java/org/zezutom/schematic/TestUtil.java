@@ -1,6 +1,9 @@
 package org.zezutom.schematic;
 
+import org.springframework.context.ApplicationContext;
 import org.zezutom.schematic.service.generator.ValueGenerator;
+import org.zezutom.schematic.service.generator.json.*;
+import org.zezutom.schematic.service.parser.json.node.*;
 
 import java.io.File;
 import java.io.InputStream;
@@ -35,6 +38,23 @@ public class TestUtil {
                 .getClassLoader()
                 .getResource(getResourceFile(dir, fileName));
         return (resource == null) ? null : resource.getFile();
+    }
+
+    public static JsonNodeParserFactory mockParserFactory() {
+        JsonNodeParserFactory parserFactory = App.jsonNodeParserFactory();
+
+        ApplicationContext context = mock(ApplicationContext.class);
+        when(context.getBean(ArrayParser.class)).thenReturn(new ArrayParser(new ArrayGenerator(parserFactory), parserFactory));
+        when(context.getBean(BooleanParser.class)).thenReturn(new BooleanParser(new BooleanGenerator()));
+        when(context.getBean(EnumParser.class)).thenReturn(new EnumParser(new EnumGenerator()));
+        when(context.getBean(IntegerParser.class)).thenReturn(new IntegerParser(new IntegerGenerator(parserFactory)));
+        when(context.getBean(NullParser.class)).thenReturn(new NullParser(new NullGenerator()));
+        when(context.getBean(NumberParser.class)).thenReturn(new NumberParser(new NumberGenerator(parserFactory)));
+        when(context.getBean(ObjectParser.class)).thenReturn(new ObjectParser(new ObjectGenerator(parserFactory), parserFactory));
+        when(context.getBean(StringParser.class)).thenReturn(new StringParser(new StringGenerator(parserFactory)));
+
+        parserFactory.setContext(context);
+        return parserFactory;
     }
 
     private static String getResourceFile(String dir, String fileName) {
