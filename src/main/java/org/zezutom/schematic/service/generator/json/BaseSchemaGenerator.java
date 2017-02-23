@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 /**
  * Base for generated values driven by a JSON schema.
  */
-abstract class BaseSchemaGenerator<T, N extends Node<T, G>, G extends ValueGenerator<T>, P extends JsonNodeParser<N>> implements JsonSchemaGenerator<T> {
+abstract class BaseSchemaGenerator<T, N extends Node<T, G>, G extends ValueGenerator<T>, P extends JsonNodeParser<N>> implements JsonSchemaGenerator<T, G> {
 
     // Should this not be pushed to the ObjectGenerator only?
     private JsonSchemaCombinationRule<G> combinationRule;
@@ -37,6 +37,7 @@ abstract class BaseSchemaGenerator<T, N extends Node<T, G>, G extends ValueGener
         combinationRule = new JsonSchemaCombinationRule<>(combinationType, generators);
     }
 
+    @Override
     public JsonSchemaCombinationRule<G> getCombinationRule() {
         return combinationRule;
     }

@@ -44,14 +44,14 @@ public class TestUtil {
         JsonNodeParserFactory parserFactory = App.jsonNodeParserFactory();
 
         ApplicationContext context = mock(ApplicationContext.class);
-        when(context.getBean(ArrayParser.class)).thenReturn(new ArrayParser(new ArrayGenerator(parserFactory), parserFactory));
-        when(context.getBean(BooleanParser.class)).thenReturn(new BooleanParser(new BooleanGenerator()));
-        when(context.getBean(EnumParser.class)).thenReturn(new EnumParser(new EnumGenerator()));
-        when(context.getBean(IntegerParser.class)).thenReturn(new IntegerParser(new IntegerGenerator(parserFactory)));
-        when(context.getBean(NullParser.class)).thenReturn(new NullParser(new NullGenerator()));
-        when(context.getBean(NumberParser.class)).thenReturn(new NumberParser(new NumberGenerator(parserFactory)));
-        when(context.getBean(ObjectParser.class)).thenReturn(new ObjectParser(new ObjectGenerator(parserFactory), parserFactory));
-        when(context.getBean(StringParser.class)).thenReturn(new StringParser(new StringGenerator(parserFactory)));
+        when(context.getBean(ArrayParser.class)).thenAnswer(invocation -> new ArrayParser(new ArrayGenerator(parserFactory), parserFactory));
+        when(context.getBean(BooleanParser.class)).thenAnswer(invocation -> new BooleanParser(new BooleanGenerator()));
+        when(context.getBean(EnumParser.class)).thenAnswer(invocation -> new EnumParser(new EnumGenerator()));
+        when(context.getBean(IntegerParser.class)).thenAnswer(invocation -> new IntegerParser(new IntegerGenerator(parserFactory)));
+        when(context.getBean(NullParser.class)).thenAnswer(invocation -> new NullParser(new NullGenerator()));
+        when(context.getBean(NumberParser.class)).thenAnswer(invocation -> new NumberParser(new NumberGenerator(parserFactory)));
+        when(context.getBean(ObjectParser.class)).thenAnswer(invocation -> new ObjectParser(new ObjectGenerator(parserFactory), parserFactory));
+        when(context.getBean(StringParser.class)).thenAnswer(invocation -> new StringParser(new StringGenerator(parserFactory)));
 
         parserFactory.setContext(context);
         return parserFactory;

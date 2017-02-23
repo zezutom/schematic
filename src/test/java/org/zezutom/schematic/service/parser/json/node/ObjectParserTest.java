@@ -5,7 +5,9 @@ import org.zezutom.schematic.TestUtil;
 import org.zezutom.schematic.model.json.ObjectNode;
 import org.zezutom.schematic.model.json.schema.JsonSchemaCombinationRule;
 import org.zezutom.schematic.model.json.schema.JsonSchemaCombinationType;
+import org.zezutom.schematic.model.json.schema.JsonStringFormat;
 import org.zezutom.schematic.service.generator.ValueGenerator;
+import org.zezutom.schematic.service.generator.json.JsonSchemaGenerator;
 import org.zezutom.schematic.service.generator.json.NumberGenerator;
 import org.zezutom.schematic.service.generator.json.ObjectGenerator;
 import org.zezutom.schematic.service.generator.json.StringGenerator;
@@ -81,22 +83,47 @@ public class ObjectParserTest extends BaseJsonNodeParserTestCase<Map<String, Obj
     @Test
     public void parseOneOf() {
         parse("one_of.json");
-        assertProperty("ip", StringGenerator.class);
-        StringGenerator ipGenerator = (StringGenerator) generator.getProperty("ip");
 
-        JsonSchemaCombinationRule<StringGenerator> combinationRule = ipGenerator.getCombinationRule();
-        assertNotNull(combinationRule);
-        assertTrue(JsonSchemaCombinationType.ONE_OF.equals(combinationRule.getType()));
+        JsonSchemaCombinationRule<StringGenerator> combinationRule = getCombinationRule(
+                "one_of.json", "ip", StringGenerator.class, JsonSchemaCombinationType.ONE_OF);
 
         List<StringGenerator> generators = combinationRule.getGenerators();
         assertNotNull(generators);
         assertTrue(generators.size() == 2);
+        assertTrue(JsonStringFormat.IPV4.equals(generators.get(0).getFormat()));
+        assertTrue(JsonStringFormat.IPV6.equals(generators.get(1).getFormat()));
     }
 
     @Test
     public void parseAllOf() {
-        parse("all_of.json");
-        assertProperty("street_number", NumberGenerator.class);
+        JsonSchemaCombinationRule<NumberGenerator> combinationRule = getCombinationRule(
+                "all_of.json", "street_number", NumberGenerator.class, JsonSchemaCombinationType.ALL_OF);
+        List<NumberGenerator> generators = combinationRule.getGenerators();
+        assertNotNull(generators);
+        assertTrue(generators.size() == 2);
+
+        Number min = generators.get(0).getMinimum();
+        assertNotNull(min);
+        assertTrue(min.intValue() == 1);
+
+        Number max = generators.get(1).getMaximum();
+        assertNotNull(max);
+        assertTrue(max.intValue() == 999);
+    }
+
+    private <T extends JsonSchemaGenerator> JsonSchemaCombinationRule<T> getCombinationRule(
+            String fileName, String propertyName, Class<T> generatorClass, JsonSchemaCombinationType expectedType) {
+        parse(fileName);
+        assertProperty(propertyName, generatorClass);
+        T propertyGenerator = (T) generator.getProperty(propertyName);
+        assertNotNull(propertyGenerator);
+        assertProperty(propertyName, generatorClass);
+
+        JsonSchemaCombinationRule<T> combinationRule = propertyGenerator.getCombinationRule();
+        assertNotNull(combinationRule);
+        assertTrue(expectedType.equals(combinationRule.getType()));
+
+        return combinationRule;
     }
 
     private <T extends ValueGenerator>void assertProperty(String name, Class<T> expectedClass) {

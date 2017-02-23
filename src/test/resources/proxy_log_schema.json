@@ -22,7 +22,6 @@
       "format": "hostname"
     },
     "res_status": {
-      "type": "number",
       "enum": [200, 302, 404, 500, 502, 503]
     },
     "res_size": {"type": "number", "minimum": 10}

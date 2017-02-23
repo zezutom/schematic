@@ -1,5 +1,6 @@
 package org.zezutom.schematic;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -42,13 +43,14 @@ public class App {
     }
 
     @Bean
-    public static JsonSchemaParser jsonSchemaParser() {
-        return new JsonSchemaParser(jsonNodeParserFactory());
+    @Autowired
+    public static JsonSchemaParser jsonSchemaParser(JsonNodeParserFactory parserFactory) {
+        return new JsonSchemaParser(parserFactory);
     }
 
     @Bean
-    public Node parseRootNode() throws IOException {
-        JsonSchemaParser schemaParser = jsonSchemaParser();
+    @Autowired
+    public Node parseRootNode(JsonSchemaParser schemaParser) throws IOException {
         return (schemaPath.isEmpty()) ?
                 schemaParser.parse(defaultSchema.getInputStream()) :
                 schemaParser.parse(schemaPath);

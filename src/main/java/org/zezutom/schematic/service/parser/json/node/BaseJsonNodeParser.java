@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * Serves as a template for parsing a JSON node.
  */
-public abstract class BaseJsonNodeParser<T, N extends Node<T, G>, P, G extends JsonSchemaGenerator<T>> implements JsonNodeParser<N> {
+public abstract class BaseJsonNodeParser<T, N extends Node<T, G>, P, G extends JsonSchemaGenerator<T, G>> implements JsonNodeParser<N> {
 
     abstract boolean isProperty(String fieldName);
 
