@@ -14,7 +14,7 @@ public enum JsonStringFormat {
     IPV6("ipv6"),
     URI("uri");
 
-    private String value;
+    private final String value;
 
     JsonStringFormat(String value) {
         this.value = value;

@@ -10,12 +10,21 @@ import org.zezutom.schematic.service.parser.json.node.JsonNodeParserFactory;
 import org.zezutom.schematic.service.parser.json.node.StringParser;
 import org.zezutom.schematic.util.RandomUtil;
 
+import java.util.ArrayList;
+import java.util.EnumMap;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Supplier;
+
 /**
  * Generates a string value according to the provided schema constraints.
  * @see org.zezutom.schematic.model.json.schema.properties.JsonStringProperty
  */
 @PrototypedService
 public class StringGenerator extends BaseSchemaGenerator<String, StringNode, StringGenerator, StringParser> {
+
+    // Contains pre-generated values
+    private static final Map<JsonStringFormat, List<String>> valueMap = new EnumMap<>(JsonStringFormat.class);
 
     private JsonStringFormat format;
 
@@ -69,26 +78,16 @@ public class StringGenerator extends BaseSchemaGenerator<String, StringNode, Str
 
     @Override
     public String next() {
-        String value = null;
+        String value;
         if (format != null) {
-            switch (format) {
-                case DATE_TIME:
-                    value = Fabricator.calendar().randomDate().asString();
-                    break;
-                case EMAIL:
-                    value = Fabricator.contact().eMail();
-                    break;
-                case HOSTNAME:
-                case URI:
-                    value = Fabricator.internet().urlBuilder().toString();
-                    break;
-                case IPV4:
-                    value = Fabricator.internet().ip();
-                    break;
-                case IPV6:
-                    value = Fabricator.internet().ipv6();
-                    break;
-                }
+
+            List<String> preLoadedValues = valueMap.get(format);
+            if (preLoadedValues != null) {
+                int randomIndex = RandomUtil.nextInt(preLoadedValues.size());
+                value = preLoadedValues.get(randomIndex);
+            } else {
+                value = getValueSupplier(format).get();
+            }
         } else if (hasProperty(pattern)) {
             value = new Generex(pattern).random();
         } else {
@@ -99,6 +98,50 @@ public class StringGenerator extends BaseSchemaGenerator<String, StringNode, Str
 
     private boolean hasProperty(String value) {
         return value != null && !value.isEmpty();
+    }
+
+    public static void preLoad(int volume, List<JsonStringFormat> formats) {
+
+        if (volume <= 0 || formats == null) return;
+
+        for (JsonStringFormat format : formats) {
+            Supplier<String> supplier = getValueSupplier(format);
+
+            List<String> values = new ArrayList<>();
+            for (int i = 0; i < volume; i++) {
+                values.add(supplier.get());
+            }
+            valueMap.put(format, values);
+        }
+    }
+
+    private static Supplier<String> getValueSupplier(JsonStringFormat format) {
+        if (format == null) return RandomUtil::nextStringFromUUID;
+
+        Supplier<String> supplier;
+
+        switch (format) {
+            case DATE_TIME:
+                supplier = () -> Fabricator.calendar().randomDate().asString();
+                break;
+            case EMAIL:
+                supplier = () -> Fabricator.contact().eMail();
+                break;
+            case HOSTNAME:
+            case URI:
+                supplier = () -> Fabricator.internet().urlBuilder().toString();
+                break;
+            case IPV4:
+                supplier = () -> Fabricator.internet().ip();
+                break;
+            case IPV6:
+                supplier = () -> Fabricator.internet().ipv6();
+                break;
+            default:
+                supplier = RandomUtil::nextStringFromUUID;
+        }
+
+        return supplier;
     }
 
 }

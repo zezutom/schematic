@@ -23,12 +23,12 @@ public class AppController {
         this.node = node;
     }
 
-    @RequestMapping("/next")
+    @RequestMapping("/item")
     public Object next() {
         return node.getValue();
     }
 
-    @RequestMapping("/next/{count}")
+    @RequestMapping("/items/{count}")
     public Object next(@PathVariable Integer count) {
         if (count == null) count = 1;
         List<Object> values = new ArrayList<>();

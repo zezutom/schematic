@@ -1,6 +1,7 @@
 package org.zezutom.schematic.util;
 
 import java.util.Random;
+import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
@@ -130,6 +131,10 @@ public class RandomUtil {
             sb.append(RAND_CHARS.charAt(random.nextInt(RAND_CHARS.length())));
         }
         return sb.toString();
+    }
+
+    public static String nextStringFromUUID() {
+        return UUID.randomUUID().toString();
     }
 
 }
