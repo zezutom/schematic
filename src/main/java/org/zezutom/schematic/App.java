@@ -15,7 +15,10 @@ import org.zezutom.schematic.service.parser.json.JsonSchemaParser;
 import org.zezutom.schematic.service.parser.json.node.*;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.Arrays;
+import java.util.EnumMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -74,8 +77,8 @@ public class App {
                     .map(String::trim)
                     .filter(x -> !x.isEmpty())
                     .map(String::toLowerCase)
+                    .filter(JsonStringFormat::contains)
                     .map(JsonStringFormat::get)
-                    .filter(Objects::nonNull)
                     .collect(Collectors.toList());
             StringGenerator.preLoad(preloadVolume, formats);
         }

@@ -13,8 +13,7 @@ import java.util.Arrays;
  */
 public class JsonUtil {
 
-    private JsonUtil() {
-    }
+    private JsonUtil() {}
 
     public static JsonDataType getDataType(JsonNode jsonNode) {
         if (jsonNode == null) return null;

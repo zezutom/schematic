@@ -1,31 +1,29 @@
 package org.zezutom.schematic.model.json.schema;
 
+import org.zezutom.schematic.model.EnumWithCustomValue;
+
 /**
  * Defines how two or more schemas can be combined together.
  */
-public enum JsonSchemaCombinationType {
+public enum JsonSchemaCombinationType implements EnumWithCustomValue {
     ALL_OF("allOf"), ONE_OF("oneOf"), NOT("not");
 
-    private String value;
+    private final String value;
 
     JsonSchemaCombinationType(String value) {
         this.value = value;
     }
 
+    @Override
     public String getValue() {
         return value;
     }
 
     public static boolean contains(String value) {
-        return get(value) != null;
+        return EnumWithCustomValue.contains(value, values());
     }
 
     public static JsonSchemaCombinationType get(String value) {
-        for (JsonSchemaCombinationType type : values()) {
-            if (type.getValue().equalsIgnoreCase(value)) {
-                return type;
-            }
-        }
-        return null;
+        return EnumWithCustomValue.get(value, values());
     }
 }

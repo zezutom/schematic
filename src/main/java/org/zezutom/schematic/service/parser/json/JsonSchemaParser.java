@@ -40,7 +40,7 @@ public class JsonSchemaParser implements SchemaParser {
         return objectMapper.readTree(inputStream);
     }
 
-    private <T extends Node> T parse(JsonNode rootNode) {
+    <T extends Node> T parse(JsonNode rootNode) {
         JsonNodeParser<T> parser = parserFactory.getInstance(rootNode);
         return parser == null ? null : parser.parse(rootNode);
     }

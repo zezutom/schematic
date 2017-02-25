@@ -20,5 +20,4 @@ public class AppUtil {
     public static boolean isValidRange(Integer min, Integer max) {
         return isValidMin(min) && (max != null && max > min);
     }
-
 }

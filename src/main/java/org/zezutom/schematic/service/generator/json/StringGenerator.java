@@ -4,6 +4,7 @@ import com.mifmif.common.regex.Generex;
 import fabricator.Fabricator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.zezutom.schematic.model.json.StringNode;
+import org.zezutom.schematic.model.json.schema.properties.JsonStringProperty;
 import org.zezutom.schematic.model.json.schema.JsonStringFormat;
 import org.zezutom.schematic.service.PrototypedService;
 import org.zezutom.schematic.service.parser.json.node.JsonNodeParserFactory;
@@ -18,7 +19,7 @@ import java.util.function.Supplier;
 
 /**
  * Generates a string value according to the provided schema constraints.
- * @see org.zezutom.schematic.model.json.schema.properties.JsonStringProperty
+ * @see JsonStringProperty
  */
 @PrototypedService
 public class StringGenerator extends BaseSchemaGenerator<String, StringNode, StringGenerator, StringParser> {

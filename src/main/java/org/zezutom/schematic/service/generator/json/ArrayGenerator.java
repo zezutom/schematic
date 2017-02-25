@@ -2,6 +2,7 @@ package org.zezutom.schematic.service.generator.json;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.zezutom.schematic.model.json.ArrayNode;
+import org.zezutom.schematic.model.json.schema.properties.JsonArrayProperty;
 import org.zezutom.schematic.service.PrototypedService;
 import org.zezutom.schematic.service.generator.ValueGenerator;
 import org.zezutom.schematic.service.parser.json.node.ArrayParser;
@@ -16,7 +17,7 @@ import java.util.stream.Collectors;
 
 /**
  * Generates a value according to the selected schema picked at random.
- * @see org.zezutom.schematic.model.json.schema.properties.JsonArrayProperty
+ * @see JsonArrayProperty
  */
 @PrototypedService
 public class ArrayGenerator extends BaseSchemaGenerator<List<Object> , ArrayNode, ArrayGenerator, ArrayParser> {

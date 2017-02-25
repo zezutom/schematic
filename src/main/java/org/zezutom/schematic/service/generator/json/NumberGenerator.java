@@ -2,6 +2,7 @@ package org.zezutom.schematic.service.generator.json;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.zezutom.schematic.model.json.NumberNode;
+import org.zezutom.schematic.model.json.schema.properties.JsonNumericProperty;
 import org.zezutom.schematic.service.PrototypedService;
 import org.zezutom.schematic.service.parser.json.node.JsonNodeParserFactory;
 import org.zezutom.schematic.service.parser.json.node.NumberParser;
@@ -9,7 +10,7 @@ import org.zezutom.schematic.util.RandomUtil;
 
 /**
  * Generates a numeric value according to the provided schema constraints.
- * @see org.zezutom.schematic.model.json.schema.properties.JsonNumericProperty
+ * @see JsonNumericProperty
  */
 @PrototypedService
 public class NumberGenerator extends BaseSchemaGenerator<Number, NumberNode, NumberGenerator, NumberParser> {

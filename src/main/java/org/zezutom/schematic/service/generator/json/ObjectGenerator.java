@@ -2,6 +2,7 @@ package org.zezutom.schematic.service.generator.json;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.zezutom.schematic.model.json.ObjectNode;
+import org.zezutom.schematic.model.json.schema.properties.JsonStringProperty;
 import org.zezutom.schematic.service.PrototypedService;
 import org.zezutom.schematic.service.generator.ValueGenerator;
 import org.zezutom.schematic.service.parser.json.node.JsonNodeParserFactory;
@@ -11,7 +12,7 @@ import java.util.*;
 
 /**
  * Generates an object according to the provided schema constraints.
- * @see org.zezutom.schematic.model.json.schema.properties.JsonStringProperty
+ * @see JsonStringProperty
  */
 @PrototypedService
 public class ObjectGenerator extends BaseSchemaGenerator<Map<String, Object>, ObjectNode, ObjectGenerator, ObjectParser> {

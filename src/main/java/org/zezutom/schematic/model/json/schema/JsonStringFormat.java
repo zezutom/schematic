@@ -1,12 +1,13 @@
 package org.zezutom.schematic.model.json.schema;
 
+import org.zezutom.schematic.model.EnumWithCustomValue;
 import org.zezutom.schematic.model.json.schema.properties.JsonStringProperty;
 
 /**
  * Supported string formats.
  * @see JsonStringProperty
  */
-public enum JsonStringFormat {
+public enum JsonStringFormat implements EnumWithCustomValue {
     DATE_TIME("date-time"),
     EMAIL("email"),
     HOSTNAME("hostname"),
@@ -20,16 +21,17 @@ public enum JsonStringFormat {
         this.value = value;
     }
 
+    @Override
     public String getValue() {
         return value;
     }
 
     public static JsonStringFormat get(String value) {
-        for (JsonStringFormat stringFormat : values()) {
-            if (stringFormat.getValue().equalsIgnoreCase(value)) {
-                return stringFormat;
-            }
-        }
-        return null;
+        return EnumWithCustomValue.get(value, values());
     }
+
+    public static boolean contains(String value) {
+        return EnumWithCustomValue.contains(value, values());
+    }
+
 }

@@ -19,7 +19,6 @@ public class RandomUtil {
 
     private static final int DEFAULT_INT_MAX = 10000;
 
-
     private static final int MIN_STRING_LENGTH = 2;
 
     private RandomUtil() {}
