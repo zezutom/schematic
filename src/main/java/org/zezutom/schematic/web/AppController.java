@@ -16,6 +16,8 @@ import java.util.List;
 @RequestMapping("/api/v1")
 public class AppController {
 
+    static final int DEFAULT_COUNT = 1;
+
     private final Node node;
 
     @Autowired
@@ -24,13 +26,13 @@ public class AppController {
     }
 
     @RequestMapping("/item")
-    public Object next() {
+    public Object item() {
         return node.getValue();
     }
 
-    @RequestMapping("/items/{count}")
-    public Object next(@PathVariable Integer count) {
-        if (count == null) count = 1;
+    @RequestMapping(value = {"/items", "/items/{count}"})
+    public List<Object> items(@PathVariable(required = false) Integer count) {
+        if (count == null) count = DEFAULT_COUNT;
         List<Object> values = new ArrayList<>();
         for (int i = 0; i < count; i++) {
             values.add(node.getValue());
