@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import org.springframework.context.ApplicationContext;
 import org.zezutom.schematic.model.json.schema.JsonDataType;
 import org.zezutom.schematic.model.json.schema.JsonSchemaAttribute;
+import org.zezutom.schematic.service.DataService;
 import org.zezutom.schematic.service.generator.ValueGenerator;
 import org.zezutom.schematic.service.generator.json.*;
 import org.zezutom.schematic.service.parser.json.node.*;
@@ -54,7 +55,7 @@ public class TestUtil {
         when(context.getBean(NullParser.class)).thenAnswer(invocation -> new NullParser(new NullGenerator()));
         when(context.getBean(NumberParser.class)).thenAnswer(invocation -> new NumberParser(new NumberGenerator(parserFactory)));
         when(context.getBean(ObjectParser.class)).thenAnswer(invocation -> new ObjectParser(new ObjectGenerator(parserFactory), parserFactory));
-        when(context.getBean(StringParser.class)).thenAnswer(invocation -> new StringParser(new StringGenerator(parserFactory)));
+        when(context.getBean(StringParser.class)).thenAnswer(invocation -> new StringParser(new StringGenerator(parserFactory, mock(DataService.class))));
 
         parserFactory.setContext(context);
         return parserFactory;

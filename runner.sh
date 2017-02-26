@@ -34,6 +34,6 @@ fi
 if [ -z ${CONFIG_FILE+x} ]; then
     java -jar ${JAR} org.zezutom.schematic.App
 else
-    java -jar ${JAR} -Dspring.config.location=${CONFIG_FILE} org.zezutom.schematic.App
+    java -Dspring.config.location=${CONFIG_FILE} -jar ${JAR} org.zezutom.schematic.App
 fi
 

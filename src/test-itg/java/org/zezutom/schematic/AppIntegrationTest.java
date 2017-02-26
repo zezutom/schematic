@@ -7,7 +7,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.zezutom.schematic.model.json.Node;
 import org.zezutom.schematic.model.json.schema.JsonDataType;
-import org.zezutom.schematic.service.generator.json.StringGenerator;
 import org.zezutom.schematic.service.parser.json.JsonNodeParser;
 import org.zezutom.schematic.service.parser.json.JsonSchemaParser;
 import org.zezutom.schematic.service.parser.json.node.JsonNodeParserFactory;
@@ -25,9 +24,6 @@ public class AppIntegrationTest {
 
     @Autowired
     private JsonSchemaParser jsonSchemaParser;
-
-    @Autowired
-    private StringGenerator stringGenerator;
 
     @Autowired
     private Node rootNode;
@@ -51,11 +47,5 @@ public class AppIntegrationTest {
         assertNotNull(rootNode);
         assertNotNull(rootNode.getValueGenerator());
         assertNotNull(rootNode.getValue());
-    }
-
-    @Test
-    public void stringGenerator() {
-        assertNotNull(stringGenerator);
-        assertNotNull(stringGenerator.next());
     }
 }

@@ -5,16 +5,18 @@ import org.zezutom.schematic.TestUtil;
 import org.zezutom.schematic.model.json.StringNode;
 import org.zezutom.schematic.model.json.schema.JsonSchemaCombinationType;
 import org.zezutom.schematic.model.json.schema.JsonStringFormat;
+import org.zezutom.schematic.service.DataService;
 import org.zezutom.schematic.service.generator.json.StringGenerator;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
 
 public class StringParserTest extends BaseJsonNodeParserTestCase<String, StringGenerator, StringNode, StringParser> {
 
     @Override
     StringGenerator createGenerator() {
-        return new StringGenerator(TestUtil.mockParserFactory());
+        return new StringGenerator(TestUtil.mockParserFactory(), mock(DataService.class));
     }
 
     @Override

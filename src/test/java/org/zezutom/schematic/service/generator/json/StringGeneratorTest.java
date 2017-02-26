@@ -3,10 +3,10 @@ package org.zezutom.schematic.service.generator.json;
 import org.junit.Test;
 import org.zezutom.schematic.TestUtil;
 import org.zezutom.schematic.model.json.schema.JsonStringFormat;
+import org.zezutom.schematic.service.DataService;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 
@@ -16,15 +16,11 @@ public class StringGeneratorTest extends ValueGeneratorTestCase<String, StringGe
 
     private static final String EXPECTED_DATE_FORMAT = "dd-mm-yyyy";
 
-    @Override
-    StringGenerator newInstance() {
-        return new StringGenerator(TestUtil.mockParserFactory());
-    }
+    private final DataService dataService = new DataService();
 
     @Override
-    public void before() {
-        super.before();
-        StringGenerator.clearPreLoadedValues();
+    StringGenerator newInstance() {
+        return new StringGenerator(TestUtil.mockParserFactory(), dataService);
     }
 
     @Test
@@ -109,54 +105,11 @@ public class StringGeneratorTest extends ValueGeneratorTestCase<String, StringGe
         assertFalse(generator.hasProperty(""));
     }
 
-    @Test
-    public void preLoad() {
-        StringGenerator.preLoad(10, Arrays.asList(JsonStringFormat.values()));
-        for (JsonStringFormat format : JsonStringFormat.values()) {
-            assertNotNull(StringGenerator.getValueMap().get(format));
-        }
-    }
-
-    @Test
-    public void preLoadOnZeroVolumeHasNoEffect() {
-        StringGenerator.preLoad(0, Collections.singletonList(JsonStringFormat.EMAIL));
-        assertTrue(StringGenerator.getValueMap().isEmpty());
-    }
-
-    @Test
-    public void preLoadOnNegativeVolumeHasNoEffect() {
-        StringGenerator.preLoad(-1, Collections.singletonList(JsonStringFormat.EMAIL));
-        assertTrue(StringGenerator.getValueMap().isEmpty());
-    }
-
-    @Test
-    public void preLoadOnNullFormatListHasNoEffect() {
-        StringGenerator.preLoad(10, null);
-        assertTrue(StringGenerator.getValueMap().isEmpty());
-    }
-
-    @Test
-    public void preLoadOnZeroVolumeAndNullFormatListHasNoEffect() {
-        StringGenerator.preLoad(0, null);
-        assertTrue(StringGenerator.getValueMap().isEmpty());
-    }
-
-    @Test
-    public void preLoadOnNegativeVolumeAndNullFormatListHasNoEffect() {
-        StringGenerator.preLoad(-1, null);
-        assertTrue(StringGenerator.getValueMap().isEmpty());
-    }
-
-    @Test
-    public void preLoadOnNullFormatHasNoEffect() {
-        StringGenerator.preLoad(10, Collections.singletonList(null));
-        assertTrue(StringGenerator.getValueMap().isEmpty());
-    }
 
     @Test
     public void nextWithPreLoadedValues() {
         JsonStringFormat preLoadedFormat = JsonStringFormat.EMAIL;
-        StringGenerator.preLoad(10, Collections.singletonList(preLoadedFormat));
+        dataService.preLoad(10, Collections.singletonList(preLoadedFormat));
         generator.setFormat(preLoadedFormat);
         assertNotNull(getValue());
     }

@@ -7,6 +7,7 @@ import org.springframework.context.ApplicationContext;
 import org.zezutom.schematic.App;
 import org.zezutom.schematic.TestUtil;
 import org.zezutom.schematic.model.json.StringNode;
+import org.zezutom.schematic.service.DataService;
 import org.zezutom.schematic.service.generator.json.StringGenerator;
 import org.zezutom.schematic.service.parser.json.node.JsonNodeParserFactory;
 import org.zezutom.schematic.service.parser.json.node.StringParser;
@@ -28,7 +29,7 @@ public class JsonSchemaParserTest {
 
     @Before
     public void before() {
-        StringParser stringParser = new StringParser(new StringGenerator(TestUtil.mockParserFactory()));
+        StringParser stringParser = new StringParser(new StringGenerator(TestUtil.mockParserFactory(), mock(DataService.class)));
 
         ApplicationContext mockContext = mock(ApplicationContext.class);
         when(mockContext.getBean(StringParser.class)).thenReturn(stringParser);

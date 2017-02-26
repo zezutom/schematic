@@ -1,28 +1,17 @@
 package org.zezutom.schematic;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.zezutom.schematic.model.json.schema.JsonDataType;
-import org.zezutom.schematic.service.generator.json.StringGenerator;
 import org.zezutom.schematic.service.parser.json.JsonNodeParser;
 import org.zezutom.schematic.service.parser.json.JsonSchemaParser;
 import org.zezutom.schematic.service.parser.json.node.*;
 
 import java.util.Map;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertSame;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 
 public class AppTest {
-
-    private App app;
-
-    @Before
-    public void before() {
-        app = new App();
-    }
 
     @Test
     public void jsonNodeParserFactoryIsFullyInitialised() {
@@ -47,12 +36,5 @@ public class AppTest {
         JsonSchemaParser parser = App.jsonSchemaParser(factory);
         assertNotNull(parser);
         assertSame(factory, parser.getParserFactory());
-    }
-
-    @Test
-    public void stringGeneratorIsFullyInitialised() {
-        JsonNodeParserFactory factory = mock(JsonNodeParserFactory.class);
-        StringGenerator generator = app.stringGenerator(factory);
-        assertSame(factory, generator.getParserFactory());
     }
 }

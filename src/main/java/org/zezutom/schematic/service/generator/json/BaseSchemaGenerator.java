@@ -7,9 +7,12 @@ import org.zezutom.schematic.model.json.schema.JsonSchemaCombinationType;
 import org.zezutom.schematic.service.generator.ValueGenerator;
 import org.zezutom.schematic.service.parser.json.JsonNodeParser;
 import org.zezutom.schematic.service.parser.json.node.JsonNodeParserFactory;
+import org.zezutom.schematic.util.RandomUtil;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Objects;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 /**
@@ -17,7 +20,7 @@ import java.util.stream.Collectors;
  */
 abstract class BaseSchemaGenerator<T, N extends Node<T, G>, G extends ValueGenerator<T>, P extends JsonNodeParser<N>> implements JsonSchemaGenerator<T, G> {
 
-    private JsonSchemaCombinationRule<G> combinationRule;
+    JsonSchemaCombinationRule<G> combinationRule;
 
     private final JsonNodeParserFactory parserFactory;
 
@@ -45,6 +48,18 @@ abstract class BaseSchemaGenerator<T, N extends Node<T, G>, G extends ValueGener
     @Override
     public JsonSchemaCombinationRule<G> getCombinationRule() {
         return combinationRule;
+    }
+
+    T getCombinationValue(@NotNull Supplier<T> defaultGenerator) {
+        if (combinationRule == null) return defaultGenerator.get();
+
+        List<G> generators = combinationRule.getGenerators();
+        if (generators == null || generators.isEmpty()) return defaultGenerator.get();
+
+        int index = RandomUtil.nextInt(generators.size());
+        G randomGenerator = generators.get(index);
+
+        return (randomGenerator == null) ? defaultGenerator.get() : randomGenerator.next();
     }
 
     private G getGenerator(JsonNode jsonNode) {

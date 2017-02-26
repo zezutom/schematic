@@ -9,7 +9,7 @@ import org.springframework.core.io.Resource;
 import org.zezutom.schematic.model.json.Node;
 import org.zezutom.schematic.model.json.schema.JsonDataType;
 import org.zezutom.schematic.model.json.schema.JsonStringFormat;
-import org.zezutom.schematic.service.generator.json.StringGenerator;
+import org.zezutom.schematic.service.DataService;
 import org.zezutom.schematic.service.parser.json.JsonNodeParser;
 import org.zezutom.schematic.service.parser.json.JsonSchemaParser;
 import org.zezutom.schematic.service.parser.json.node.*;
@@ -66,11 +66,11 @@ public class App {
     }
 
     @Bean
-    @Autowired
-    public StringGenerator stringGenerator(JsonNodeParserFactory parserFactory) {
-        StringGenerator generator = new StringGenerator(parserFactory);
+    public DataService dataService() {
 
-        if (preloadVolume != null && preloadVolume > 0 && !(preloadTypes == null || preloadTypes.isEmpty())) {
+        DataService dataService;
+
+        if (isValidPreloadVolume() && isValidPreloadTypes()) {
             if (preloadVolume > MAX_PRELOAD_VOLUME) preloadVolume = MAX_PRELOAD_VOLUME;
 
             List<JsonStringFormat> formats = Arrays.stream(preloadTypes.split(","))
@@ -80,9 +80,20 @@ public class App {
                     .filter(JsonStringFormat::contains)
                     .map(JsonStringFormat::get)
                     .collect(Collectors.toList());
-            StringGenerator.preLoad(preloadVolume, formats);
+
+            dataService = new DataService(preloadVolume, formats);
+        } else {
+            dataService = new DataService();
         }
-        return generator;
+        return dataService;
+    }
+
+    private boolean isValidPreloadVolume() {
+        return preloadVolume != null && preloadVolume > 0;
+    }
+
+    private boolean isValidPreloadTypes() {
+        return !(preloadTypes == null || preloadTypes.isEmpty());
     }
 
     @Bean

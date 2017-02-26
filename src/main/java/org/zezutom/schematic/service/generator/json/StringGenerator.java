@@ -1,19 +1,18 @@
 package org.zezutom.schematic.service.generator.json;
 
 import com.mifmif.common.regex.Generex;
-import fabricator.Fabricator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.zezutom.schematic.model.json.StringNode;
 import org.zezutom.schematic.model.json.schema.JsonStringFormat;
 import org.zezutom.schematic.model.json.schema.properties.JsonStringProperty;
+import org.zezutom.schematic.service.DataService;
 import org.zezutom.schematic.service.PrototypedService;
 import org.zezutom.schematic.service.parser.json.node.JsonNodeParserFactory;
 import org.zezutom.schematic.service.parser.json.node.StringParser;
+import org.zezutom.schematic.util.AppUtil;
 import org.zezutom.schematic.util.RandomUtil;
 
-import javax.validation.constraints.NotNull;
-import java.util.*;
-import java.util.function.Supplier;
+import java.util.List;
 
 /**
  * Generates a string value according to the provided schema constraints.
@@ -21,9 +20,6 @@ import java.util.function.Supplier;
  */
 @PrototypedService
 public class StringGenerator extends BaseSchemaGenerator<String, StringNode, StringGenerator, StringParser> {
-
-    // Contains pre-generated values
-    private static final Map<JsonStringFormat, List<String>> valueMap = new EnumMap<>(JsonStringFormat.class);
 
     private JsonStringFormat format;
 
@@ -33,13 +29,12 @@ public class StringGenerator extends BaseSchemaGenerator<String, StringNode, Str
 
     private String pattern;
 
-    @Autowired
-    public StringGenerator(JsonNodeParserFactory parserFactory) {
-        super(parserFactory);
-    }
+    private DataService dataService;
 
-    static Map<JsonStringFormat, List<String>> getValueMap() {
-        return Collections.unmodifiableMap(valueMap);
+    @Autowired
+    public StringGenerator(JsonNodeParserFactory parserFactory, DataService dataService) {
+        super(parserFactory);
+        this.dataService = dataService;
     }
 
     public JsonStringFormat getFormat() {
@@ -84,15 +79,17 @@ public class StringGenerator extends BaseSchemaGenerator<String, StringNode, Str
         String value;
         if (format != null) {
 
-            List<String> preLoadedValues = valueMap.get(format);
+            List<String> preLoadedValues = dataService.get(format);
             if (preLoadedValues != null) {
                 int randomIndex = RandomUtil.nextInt(preLoadedValues.size());
                 value = preLoadedValues.get(randomIndex);
             } else {
-                value = getValueSupplier(format).get();
+                value = AppUtil.getValueSupplier(format).get();
             }
         } else if (hasProperty(pattern)) {
             value = new Generex(pattern).random();
+        } else if (combinationRule != null) {
+           value = getCombinationValue(() -> RandomUtil.nextString(minLength, maxLength));
         } else {
             value = RandomUtil.nextString(minLength, maxLength);
         }
@@ -102,51 +99,4 @@ public class StringGenerator extends BaseSchemaGenerator<String, StringNode, Str
     boolean hasProperty(String value) {
         return value != null && !value.isEmpty();
     }
-
-    public static void preLoad(int volume, List<JsonStringFormat> formats) {
-
-        if (volume <= 0 || formats == null) return;
-
-        formats.stream().filter(Objects::nonNull).forEach(format -> {
-            Supplier<String> supplier = getValueSupplier(format);
-
-            List<String> values = new ArrayList<>();
-            for (int i = 0; i < volume; i++) {
-                values.add(supplier.get());
-            }
-            valueMap.put(format, values);
-        });
-    }
-
-    static void clearPreLoadedValues() {
-        valueMap.clear();
-    }
-    private static Supplier<String> getValueSupplier(@NotNull JsonStringFormat format) {
-
-        Supplier<String> supplier;
-
-        switch (format) {
-            case DATE_TIME:
-                supplier = () -> Fabricator.calendar().randomDate().asString();
-                break;
-            case EMAIL:
-                supplier = () -> Fabricator.contact().eMail();
-                break;
-            case HOSTNAME:
-            case URI:
-                supplier = () -> Fabricator.internet().urlBuilder().toString();
-                break;
-            case IPV4:
-                supplier = () -> Fabricator.internet().ip();
-                break;
-            case IPV6:
-                supplier = () -> Fabricator.internet().ipv6();
-                break;
-            default:
-                supplier = RandomUtil::nextStringFromUUID;
-        }
-
-        return supplier;
-    }
-
 }
