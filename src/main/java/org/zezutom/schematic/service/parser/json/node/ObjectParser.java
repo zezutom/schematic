@@ -76,12 +76,8 @@ public class ObjectParser extends BaseJsonNodeParser<Map<String, Object>, Object
                 generator.setMax(jsonNode.intValue());
                 break;
             case REQUIRED:
-                if (jsonNode.isArray()) {
-                    for (JsonNode requiredNode : jsonNode) {
-                        if (requiredNode.isTextual()) {
-                            generator.addRequiredProperty(requiredNode.textValue());
-                        }
-                    }
+                for (JsonNode requiredNode : jsonNode) {
+                    generator.addRequiredProperty(requiredNode.textValue());
                 }
                 break;
         }
@@ -92,7 +88,7 @@ public class ObjectParser extends BaseJsonNodeParser<Map<String, Object>, Object
         return new ObjectNode(nodeName, generator);
     }
 
-    private ValueGenerator resolveGenerator(JsonNode jsonNode) {
+    ValueGenerator resolveGenerator(JsonNode jsonNode) {
         if (jsonNode == null) return null;
 
         JsonNodeParser parser = parserFactory.getInstance(jsonNode);

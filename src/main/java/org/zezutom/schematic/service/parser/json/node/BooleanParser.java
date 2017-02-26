@@ -23,12 +23,13 @@ public class BooleanParser implements JsonNodeParser<BooleanNode> {
     }
 
     @Override
-    public BooleanNode parse(String nodeName, JsonNode node) {
+    public BooleanNode parse(String nodeName, JsonNode jsonNode) {
+        if (jsonNode == null) return null;
         return new BooleanNode(nodeName, generator);
     }
 
     @Override
-    public BooleanNode parse(JsonNode node) {
-        return parse(null, node);
+    public BooleanNode parse(JsonNode jsonNode) {
+        return parse(null, jsonNode);
     }
 }

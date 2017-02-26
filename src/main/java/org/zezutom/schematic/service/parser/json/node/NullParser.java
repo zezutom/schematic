@@ -23,12 +23,13 @@ public class NullParser implements JsonNodeParser<NullNode> {
     }
 
     @Override
-    public NullNode parse(String nodeName, JsonNode node) {
+    public NullNode parse(String nodeName, JsonNode jsonNode) {
+        if (jsonNode == null) return null;
         return new NullNode(nodeName, generator);
     }
 
     @Override
-    public NullNode parse(JsonNode node) {
-        return parse(null, node);
+    public NullNode parse(JsonNode jsonNode) {
+        return parse(null, jsonNode);
     }
 }

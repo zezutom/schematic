@@ -3,6 +3,7 @@ package org.zezutom.schematic.service.parser.json.node;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
+import org.junit.Test;
 import org.zezutom.schematic.TestUtil;
 import org.zezutom.schematic.model.json.Node;
 import org.zezutom.schematic.model.json.schema.JsonSchemaCombinationRule;
@@ -18,7 +19,7 @@ public abstract class BaseJsonNodeParserTestCase<T, G extends ValueGenerator<T>,
 
     G generator;
 
-    private P parser;
+    P parser;
 
     abstract G createGenerator();
 
@@ -30,6 +31,11 @@ public abstract class BaseJsonNodeParserTestCase<T, G extends ValueGenerator<T>,
     public void before() {
         generator = createGenerator();
         parser = createParser(generator);
+    }
+
+    @Test
+    public void parseNullNodeReturnsNull() {
+        assertNull(parser.parse(null));
     }
 
     void parse(String fileName) {

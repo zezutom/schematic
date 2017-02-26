@@ -1,5 +1,6 @@
 package org.zezutom.schematic.service.parser.json.node;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import org.junit.Test;
 import org.zezutom.schematic.TestUtil;
 import org.zezutom.schematic.model.json.ObjectNode;
@@ -18,6 +19,7 @@ import java.util.Map;
 import java.util.Set;
 
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.mock;
 
 public class ObjectParserTest extends BaseJsonNodeParserTestCase<Map<String, Object>, ObjectGenerator, ObjectNode, ObjectParser> {
 
@@ -109,6 +111,17 @@ public class ObjectParserTest extends BaseJsonNodeParserTestCase<Map<String, Obj
         Number max = generators.get(1).getMaximum();
         assertNotNull(max);
         assertTrue(max.intValue() == 999);
+    }
+
+    @Test
+    public void resolveGeneratorOnNullInputReturnsNull() {
+        assertNull(parser.resolveGenerator(null));
+    }
+
+    @Test
+    public void resolveGeneratorOnUnsupportedTypeReturnsNull() {
+        JsonNode jsonNode = mock(JsonNode.class);
+        assertNull(parser.resolveGenerator(jsonNode));
     }
 
     private <T extends JsonSchemaGenerator> JsonSchemaCombinationRule<T> getCombinationRule(

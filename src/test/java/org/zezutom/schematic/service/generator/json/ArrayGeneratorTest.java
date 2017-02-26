@@ -8,8 +8,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
 
 public class ArrayGeneratorTest extends ValueGeneratorTestCase<List<Object>, ArrayGenerator> {
 
@@ -52,6 +54,19 @@ public class ArrayGeneratorTest extends ValueGeneratorTestCase<List<Object>, Arr
         List<Object> values = generator.next();
         assertNotNull(values);
         assertTrue(values.size() > 1);
+    }
+
+    @Test
+    public void addItem() {
+        StringGenerator item = mock(StringGenerator.class);
+        generator.addItem(item);
+        assertTrue(generator.getItems().contains(item));
+    }
+
+    @Test
+    public void addItemOnNullInputHasNoEffect() {
+        generator.addItem(null);
+        assertFalse(generator.getItems().contains(null));
     }
 
     private<T> void assertGeneratedValue(List<Object> values, Class<T> valueClass, T expectedValue, int expectedCount) {

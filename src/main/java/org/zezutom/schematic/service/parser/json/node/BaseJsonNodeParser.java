@@ -31,19 +31,19 @@ public abstract class BaseJsonNodeParser<T, N extends Node<T, G>, P, G extends J
     }
 
     @Override
-    public N parse(String nodeName, JsonNode node) {
-
+    public N parse(String nodeName, JsonNode jsonNode) {
+        if (jsonNode == null) return null;
         // Iterate over node's properties
-        Iterator<String> fieldNameIterator = node.fieldNames();
+        Iterator<String> fieldNameIterator = jsonNode.fieldNames();
         while (fieldNameIterator.hasNext()) {
             String fieldName = fieldNameIterator.next();
             if (isProperty(fieldName)) {
                 P property = getProperty(fieldName);
-                JsonNode propertyNode = node.get(fieldName);
+                JsonNode propertyNode = jsonNode.get(fieldName);
                 if (property == null || propertyNode == null) continue;
                 parseProperty(generator, property, propertyNode);
             } else if (isCombinationType(fieldName)) {
-                JsonNode combinationNode = node.get(fieldName);
+                JsonNode combinationNode = jsonNode.get(fieldName);
                 if (combinationNode != null && combinationNode.isArray()) {
                     JsonSchemaCombinationType type = JsonSchemaCombinationType.get(fieldName);
                     List<JsonNode> combinationNodes = new ArrayList<>();
@@ -59,8 +59,8 @@ public abstract class BaseJsonNodeParser<T, N extends Node<T, G>, P, G extends J
     }
 
     @Override
-    public N parse(JsonNode node) {
-        return parse(null, node);
+    public N parse(JsonNode jsonNode) {
+        return parse(null, jsonNode);
     }
 
     private boolean isCombinationType(String fieldName) {

@@ -4,17 +4,15 @@ import com.mifmif.common.regex.Generex;
 import fabricator.Fabricator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.zezutom.schematic.model.json.StringNode;
-import org.zezutom.schematic.model.json.schema.properties.JsonStringProperty;
 import org.zezutom.schematic.model.json.schema.JsonStringFormat;
+import org.zezutom.schematic.model.json.schema.properties.JsonStringProperty;
 import org.zezutom.schematic.service.PrototypedService;
 import org.zezutom.schematic.service.parser.json.node.JsonNodeParserFactory;
 import org.zezutom.schematic.service.parser.json.node.StringParser;
 import org.zezutom.schematic.util.RandomUtil;
 
-import java.util.ArrayList;
-import java.util.EnumMap;
-import java.util.List;
-import java.util.Map;
+import javax.validation.constraints.NotNull;
+import java.util.*;
 import java.util.function.Supplier;
 
 /**
@@ -38,6 +36,10 @@ public class StringGenerator extends BaseSchemaGenerator<String, StringNode, Str
     @Autowired
     public StringGenerator(JsonNodeParserFactory parserFactory) {
         super(parserFactory);
+    }
+
+    static Map<JsonStringFormat, List<String>> getValueMap() {
+        return Collections.unmodifiableMap(valueMap);
     }
 
     public JsonStringFormat getFormat() {
@@ -97,7 +99,7 @@ public class StringGenerator extends BaseSchemaGenerator<String, StringNode, Str
         return value;
     }
 
-    private boolean hasProperty(String value) {
+    boolean hasProperty(String value) {
         return value != null && !value.isEmpty();
     }
 
@@ -105,7 +107,7 @@ public class StringGenerator extends BaseSchemaGenerator<String, StringNode, Str
 
         if (volume <= 0 || formats == null) return;
 
-        for (JsonStringFormat format : formats) {
+        formats.stream().filter(Objects::nonNull).forEach(format -> {
             Supplier<String> supplier = getValueSupplier(format);
 
             List<String> values = new ArrayList<>();
@@ -113,11 +115,13 @@ public class StringGenerator extends BaseSchemaGenerator<String, StringNode, Str
                 values.add(supplier.get());
             }
             valueMap.put(format, values);
-        }
+        });
     }
 
-    private static Supplier<String> getValueSupplier(JsonStringFormat format) {
-        if (format == null) return RandomUtil::nextStringFromUUID;
+    static void clearPreLoadedValues() {
+        valueMap.clear();
+    }
+    private static Supplier<String> getValueSupplier(@NotNull JsonStringFormat format) {
 
         Supplier<String> supplier;
 

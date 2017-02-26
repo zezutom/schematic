@@ -24,6 +24,10 @@ public class JsonSchemaParser implements SchemaParser {
         this.parserFactory = parserFactory;
     }
 
+    public JsonNodeParserFactory getParserFactory() {
+        return parserFactory;
+    }
+
     @Override
     public <T extends Node> T parse(String schemaPath) throws IOException {
         return parse(Files.newInputStream(Paths.get(schemaPath)));

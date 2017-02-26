@@ -9,6 +9,7 @@ import org.zezutom.schematic.model.json.schema.JsonDataType;
 import org.zezutom.schematic.service.parser.json.JsonNodeParser;
 import org.zezutom.schematic.util.JsonUtil;
 
+import java.util.Collections;
 import java.util.Map;
 
 /**
@@ -23,6 +24,10 @@ public class JsonNodeParserFactory {
 
     public JsonNodeParserFactory(Map<JsonDataType, Class<? extends JsonNodeParser>> nodeParserMap) {
         this.nodeParserMap = nodeParserMap;
+    }
+
+    public Map<JsonDataType, Class<? extends JsonNodeParser>> getNodeParserMap() {
+        return Collections.unmodifiableMap(nodeParserMap);
     }
 
     @Autowired

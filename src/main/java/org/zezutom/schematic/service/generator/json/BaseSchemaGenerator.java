@@ -26,6 +26,10 @@ abstract class BaseSchemaGenerator<T, N extends Node<T, G>, G extends ValueGener
         this.parserFactory = parserFactory;
     }
 
+    public JsonNodeParserFactory getParserFactory() {
+        return parserFactory;
+    }
+
     @Override
     public void combine(JsonSchemaCombinationType combinationType, List<JsonNode> nodes) {
         if (combinationType == null || nodes == null || nodes.isEmpty()) return;

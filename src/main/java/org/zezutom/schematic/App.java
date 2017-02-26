@@ -87,7 +87,7 @@ public class App {
 
     @Bean
     @Autowired
-    public Node parseRootNode(JsonSchemaParser schemaParser) throws IOException {
+    public Node rootNode(JsonSchemaParser schemaParser) throws IOException {
         return (schemaPath.isEmpty()) ?
                 schemaParser.parse(defaultSchema.getInputStream()) :
                 schemaParser.parse(schemaPath);

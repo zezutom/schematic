@@ -71,6 +71,12 @@ public class ArrayParserTest extends BaseJsonNodeParserTestCase<List<Object>, Ar
         assertTrue(generator.getUniqueItems());
     }
 
+    @Test
+    public void parseAdditionalItemsFlag() {
+        parse("additional_items.json");
+        assertTrue(generator.getAdditionalItems());
+    }
+
     private<T extends ValueGenerator> void assertItems(Class<T> expectedClass, int expectedCount) {
         List<ValueGenerator> items = generator.getItems();
         assertNotNull(items);

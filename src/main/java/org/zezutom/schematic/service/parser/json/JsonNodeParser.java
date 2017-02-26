@@ -10,7 +10,7 @@ import org.zezutom.schematic.model.json.schema.JsonDataType;
  */
 public interface JsonNodeParser<T extends Node> {
 
-    T parse(JsonNode node);
+    T parse(JsonNode jsonNode);
 
-    T parse(String name, JsonNode node);
+    T parse(String name, JsonNode jsonNode);
 }

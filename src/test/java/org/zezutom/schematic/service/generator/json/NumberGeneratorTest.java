@@ -3,6 +3,7 @@ package org.zezutom.schematic.service.generator.json;
 import org.junit.Test;
 import org.zezutom.schematic.TestUtil;
 
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 public class NumberGeneratorTest extends ValueGeneratorTestCase<Number, NumberGenerator> {
@@ -40,6 +41,25 @@ public class NumberGeneratorTest extends ValueGeneratorTestCase<Number, NumberGe
         generator.setMaximum(max);
         generator.setExclusiveMaximum(true);
         assertTrue(getValue().intValue() < max);
+    }
+
+    @Test
+    public void minMax() {
+        int min = 1;
+        int max = 3;
+        generator.setMinimum(min);
+        generator.setMaximum(max);
+        int value = getValue().intValue();
+        assertTrue(value >= min && value <= max);
+    }
+
+    @Test
+    public void minMaxInvalidRange() {
+        int min = 3;
+        int max = 1;
+        generator.setMinimum(min);
+        generator.setMaximum(max);
+        assertNull(generator.next());
     }
 
     @Test

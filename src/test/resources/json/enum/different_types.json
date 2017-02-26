@@ -1,1 +1,1 @@
-{ "enum": ["red", "amber", "green", null, 42] }
+{ "enum": ["red", "amber", "green", null, 42, 10.5, true] }

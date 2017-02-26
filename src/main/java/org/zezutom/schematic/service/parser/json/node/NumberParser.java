@@ -40,22 +40,22 @@ public class NumberParser extends BaseJsonNodeParser<Number, NumberNode, JsonNum
     }
 
     @Override
-    void parseProperty(@NotNull NumberGenerator generator, @NotNull JsonNumericProperty property, @NotNull JsonNode node) {
+    void parseProperty(@NotNull NumberGenerator generator, @NotNull JsonNumericProperty property, @NotNull JsonNode jsonNode) {
         switch (property) {
             case EXCLUSIVE_MAXIMUM:
-                generator.setExclusiveMaximum(node.booleanValue());
+                generator.setExclusiveMaximum(jsonNode.booleanValue());
                 break;
             case EXCLUSIVE_MINIMUM:
-                generator.setExclusiveMinimum(node.booleanValue());
+                generator.setExclusiveMinimum(jsonNode.booleanValue());
                 break;
             case MINIMUM:
-                generator.setMinimum(node.numberValue());
+                generator.setMinimum(jsonNode.numberValue());
                 break;
             case MAXIMUM:
-                generator.setMaximum(node.numberValue());
+                generator.setMaximum(jsonNode.numberValue());
                 break;
             case MULTIPLE_OF:
-                generator.setMultipleOf(node.intValue());
+                generator.setMultipleOf(jsonNode.intValue());
                 break;
         }
     }
