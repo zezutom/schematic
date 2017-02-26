@@ -111,9 +111,7 @@ public class ArrayGenerator extends BaseSchemaGenerator<List<Object> , ArrayNode
     private void addRandomValues(List<Object> values, int threshold) {
         for (int i = 0; i < threshold; i++) {
             ValueGenerator generator = items.get(RandomUtil.nextInt(items.size()));
-            if (generator != null) {
-                values.add(generator.next());
-            }
+            values.add(generator.next());
         }
     }
 

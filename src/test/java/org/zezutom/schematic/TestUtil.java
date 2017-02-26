@@ -1,6 +1,9 @@
 package org.zezutom.schematic;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import org.springframework.context.ApplicationContext;
+import org.zezutom.schematic.model.json.schema.JsonDataType;
+import org.zezutom.schematic.model.json.schema.JsonSchemaAttribute;
 import org.zezutom.schematic.service.generator.ValueGenerator;
 import org.zezutom.schematic.service.generator.json.*;
 import org.zezutom.schematic.service.parser.json.node.*;
@@ -55,6 +58,18 @@ public class TestUtil {
 
         parserFactory.setContext(context);
         return parserFactory;
+    }
+
+    public static JsonNode getJsonNode(JsonDataType dataType) {
+        JsonNode jsonNode = mock(JsonNode.class);
+        String typeFieldName = JsonSchemaAttribute.TYPE.getValue();
+        when(jsonNode.has(typeFieldName)).thenReturn(true);
+
+        JsonNode typeNode = mock(JsonNode.class);
+        when(typeNode.textValue()).thenReturn(dataType.getValue());
+        when(jsonNode.get(typeFieldName)).thenReturn(typeNode);
+
+        return jsonNode;
     }
 
     private static String getResourceFile(String dir, String fileName) {

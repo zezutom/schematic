@@ -12,7 +12,7 @@ import java.util.List;
  */
 public interface JsonSchemaGenerator<T, G extends ValueGenerator<T>> extends ValueGenerator<T> {
 
-    void combine(JsonSchemaCombinationType rule, List<JsonNode> nodes);
+    void combine(JsonSchemaCombinationType type, List<JsonNode> jsonNodes);
 
     JsonSchemaCombinationRule<G> getCombinationRule();
 }

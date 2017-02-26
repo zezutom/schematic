@@ -17,7 +17,6 @@ import java.util.stream.Collectors;
  */
 abstract class BaseSchemaGenerator<T, N extends Node<T, G>, G extends ValueGenerator<T>, P extends JsonNodeParser<N>> implements JsonSchemaGenerator<T, G> {
 
-    // Should this not be pushed to the ObjectGenerator only?
     private JsonSchemaCombinationRule<G> combinationRule;
 
     private final JsonNodeParserFactory parserFactory;
@@ -31,14 +30,16 @@ abstract class BaseSchemaGenerator<T, N extends Node<T, G>, G extends ValueGener
     }
 
     @Override
-    public void combine(JsonSchemaCombinationType combinationType, List<JsonNode> nodes) {
-        if (combinationType == null || nodes == null || nodes.isEmpty()) return;
-        List<G> generators = nodes
+    public void combine(JsonSchemaCombinationType type, List<JsonNode> jsonNodes) {
+        if (type == null || jsonNodes == null || jsonNodes.isEmpty()) return;
+        List<G> generators = jsonNodes
                                 .stream()
                                 .map(this::getGenerator)
                                 .filter(Objects::nonNull)
                                 .collect(Collectors.toList());
-        combinationRule = new JsonSchemaCombinationRule<>(combinationType, generators);
+        if (!generators.isEmpty()) {
+            combinationRule = new JsonSchemaCombinationRule<>(type, generators);
+        }
     }
 
     @Override

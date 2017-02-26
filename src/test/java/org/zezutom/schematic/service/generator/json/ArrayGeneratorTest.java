@@ -7,11 +7,13 @@ import org.zezutom.schematic.service.generator.ValueGenerator;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class ArrayGeneratorTest extends ValueGeneratorTestCase<List<Object>, ArrayGenerator> {
 
@@ -67,6 +69,120 @@ public class ArrayGeneratorTest extends ValueGeneratorTestCase<List<Object>, Arr
     public void addItemOnNullInputHasNoEffect() {
         generator.addItem(null);
         assertFalse(generator.getItems().contains(null));
+    }
+
+    @Test
+    public void nextWithinRangeAdheresToBoundaries() {
+        generator.addItem(mockGenerator(StringGenerator.class, "a"));
+        generator.addItem(mockGenerator(StringGenerator.class, "b"));
+
+        int min = 1, max = 3;
+        generator.setMinItems(min);
+        generator.setMaxItems(max);
+
+        int valuesSize = getValidValues().size();
+        assertTrue(valuesSize >= min && valuesSize <= max);
+
+    }
+
+    @Test
+    public void nextWithinRangeAdheresToMinNumberOfValues() {
+        // There is a single value producer
+        generator.addItem(mockGenerator(StringGenerator.class, "test"));
+
+        // However, at least three values are expected
+        int min = 3, max = 5;
+        generator.setMinItems(min);
+        generator.setMaxItems(max);
+        assertValueCount(min);
+    }
+
+    @Test
+    public void nextWithinRangeAdheresToMaxNumberOfValues() {
+
+        // There are three value producers
+        generator.addItem(mockGenerator(StringGenerator.class, "test"));
+        generator.addItem(mockGenerator(IntegerGenerator.class, 10));
+        generator.addItem(mockGenerator(BooleanGenerator.class, true));
+
+        // However, at most two values are expected
+        int min = 1, max = 2;
+        generator.setMinItems(min);
+        generator.setMaxItems(max);
+
+        assertValueCount(max);
+    }
+
+    @Test
+    public void nextGeneratesAtLeastMinNumberOfValues() {
+        // There is a single value producer
+        generator.addItem(mockGenerator(StringGenerator.class, "test"));
+
+        // However, at least three values are expected
+        int min = 3;
+        generator.setMinItems(min);
+        assertValueCount(min);
+    }
+
+    @Test
+    public void nextDoesNotAddAdditionalValuesWhenMinThresholdIsMet() {
+        // There is are three value producers
+        generator.addItem(mockGenerator(StringGenerator.class, "a"));
+        generator.addItem(mockGenerator(StringGenerator.class, "b"));
+        generator.addItem(mockGenerator(StringGenerator.class, "c"));
+
+        // Also, there is an expectation for at most one value to be generated
+        generator.setMinItems(1);
+
+        // Since the number of generators exceeds the required min, there should be no change
+        assertValueCount(generator.getItems().size());
+    }
+
+    @Test
+    public void nextAdheresToMaxNumberOfValues() {
+        // There are three value producers
+        generator.addItem(mockGenerator(StringGenerator.class, "test"));
+        generator.addItem(mockGenerator(IntegerGenerator.class, 10));
+        generator.addItem(mockGenerator(BooleanGenerator.class, true));
+
+        // However, at most two values are expected
+        int max = 2;
+        generator.setMaxItems(max);
+
+        assertValueCount(max);
+    }
+
+    @Test
+    public void nextDoesNotReduceNumberOfValuesWhenMaxThresholdIsMet() {
+        // There are two value producers
+        generator.addItem(mockGenerator(StringGenerator.class, "test"));
+        generator.addItem(mockGenerator(IntegerGenerator.class, 10));
+
+        // Also, there is requirement not to exceed three values
+        generator.setMaxItems(3);
+
+        // Since the number of generators is less than the required max, there should be no change
+        assertNotNull(generator.getItems().size());
+    }
+
+    private void assertValueCount(int expectedCount) {
+        List<Object> values = getValidValues();
+        assertTrue(values.size() == expectedCount);
+    }
+
+    private List<Object> getValidValues() {
+        return generator
+                .next()
+                .stream()
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
+    }
+
+    private <T, G extends ValueGenerator<T>> G mockGenerator(Class<G> generatorClass, T value) {
+        G mock = mock(generatorClass);
+        when(mock.next()).thenReturn(value);
+
+        return mock;
     }
 
     private<T> void assertGeneratedValue(List<Object> values, Class<T> valueClass, T expectedValue, int expectedCount) {
