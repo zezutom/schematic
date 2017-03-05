@@ -27,6 +27,11 @@ public class NumberParserTest extends BaseJsonNodeParserTestCase<Number, NumberG
     }
 
     @Test
+    public void basic() {
+        parse("basic.json");
+    }
+
+    @Test
     public void parseRange() {
         parse("min_max.json");
         assertRange();

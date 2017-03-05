@@ -1,9 +1,9 @@
 package org.zezutom.schematic.util;
 
 import org.junit.Test;
+import org.zezutom.schematic.model.json.schema.JsonStringFormat;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class AppUtilTest {
 
@@ -65,5 +65,14 @@ public class AppUtilTest {
     @Test
     public void isValidRangeWithMinGreaterThanMaxIsInvalid() {
         assertFalse(AppUtil.isValidRange(10, AppUtil.ZERO));
+    }
+
+    @Test
+    public void getValueSupplier() {
+        for (JsonStringFormat format : JsonStringFormat.values()) {
+            assertNotNull(AppUtil.getValueSupplier(format));
+        }
+        // A default supplier should kick in
+        assertNotNull(AppUtil.getValueSupplier(null));
     }
 }

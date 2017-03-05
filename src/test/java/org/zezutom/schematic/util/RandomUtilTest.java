@@ -71,8 +71,67 @@ public class RandomUtilTest {
     }
 
     @Test
+    public void nextIntWithNullBound() {
+        assertVariety(() -> RandomUtil.nextInt(null));
+    }
+
+    @Test
+    public void nextIntWithInvalidBound() {
+        assertVariety(() -> RandomUtil.nextInt(-10));
+    }
+
+    @Test
     public void nextString() {
         assertVariety(() -> RandomUtil.nextString(0, 10));
+    }
+
+    @Test
+    public void nextStringWithNullRange() {
+        String value = RandomUtil.nextString(null, null);
+        assertNotNull(value);
+        assertTrue(value.length() >= RandomUtil.MIN_STRING_LENGTH);
+        assertTrue(value.length() <= RandomUtil.MAX_STRING_LENGTH);
+        assertVariety(() -> RandomUtil.nextString(null, null));
+    }
+
+    @Test
+    public void nextStringWithNullMin() {
+        Integer maxLength = 10;
+        String value = RandomUtil.nextString(null, maxLength);
+        assertNotNull(value);
+        assertTrue(value.length() >= RandomUtil.MIN_STRING_LENGTH);
+        assertTrue(value.length() <= maxLength);
+        assertVariety(() -> RandomUtil.nextString(null, maxLength));
+    }
+
+    @Test
+    public void nextStringWithNullMax() {
+        Integer minLength = 10;
+        String value = RandomUtil.nextString(minLength, null);
+        assertNotNull(value);
+        assertTrue(value.length() >= minLength);
+        assertTrue(value.length() <= RandomUtil.MAX_STRING_LENGTH);
+        assertVariety(() -> RandomUtil.nextString(minLength, null));
+    }
+
+    @Test
+    public void nextStringWithInvalidMin() {
+        Integer invalidMinLength = -10;
+        String value = RandomUtil.nextString(invalidMinLength, null);
+        assertNotNull(value);
+        assertTrue(value.length() >= RandomUtil.MIN_STRING_LENGTH);
+        assertTrue(value.length() <= RandomUtil.MAX_STRING_LENGTH);
+        assertVariety(() -> RandomUtil.nextString(invalidMinLength, null));
+    }
+
+    @Test
+    public void nextStringWithInvalidMax() {
+        Integer invalidMaxLength = Integer.MAX_VALUE;
+        String value = RandomUtil.nextString(null, invalidMaxLength);
+        assertNotNull(value);
+        assertTrue(value.length() >= RandomUtil.MIN_STRING_LENGTH);
+        assertTrue(value.length() <= RandomUtil.MAX_STRING_LENGTH);
+        assertVariety(() -> RandomUtil.nextString(null, invalidMaxLength));
     }
 
     @Test

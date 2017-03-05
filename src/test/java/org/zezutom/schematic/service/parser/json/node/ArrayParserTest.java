@@ -5,6 +5,7 @@ import org.zezutom.schematic.TestUtil;
 import org.zezutom.schematic.model.json.ArrayNode;
 import org.zezutom.schematic.service.generator.ValueGenerator;
 import org.zezutom.schematic.service.generator.json.ArrayGenerator;
+import org.zezutom.schematic.service.generator.json.EnumGenerator;
 import org.zezutom.schematic.service.generator.json.NumberGenerator;
 import org.zezutom.schematic.service.generator.json.StringGenerator;
 
@@ -33,8 +34,14 @@ public class ArrayParserTest extends BaseJsonNodeParserTestCase<List<Object>, Ar
     }
 
     @Test
-    public void parse() {
+    public void basic() {
         parse("basic.json");
+    }
+
+
+    @Test
+    public void range() {
+        parse("min_max_items.json");
     }
 
     @Test
@@ -55,14 +62,15 @@ public class ArrayParserTest extends BaseJsonNodeParserTestCase<List<Object>, Ar
     public void parseMixedSchemas() {
         parse("tuple.json");
         assertItems(NumberGenerator.class, 1);
-        assertItems(StringGenerator.class, 3);
+        assertItems(StringGenerator.class, 1);
+        assertItems(EnumGenerator.class, 2);
     }
 
     @Test
     public void parseArrayLength() {
         parse("min_max_items.json");
         assertTrue(generator.getMinItems() == 2);
-        assertTrue(generator.getMaxItems() == 3);
+        assertTrue(generator.getMaxItems() == 10);
     }
 
     @Test

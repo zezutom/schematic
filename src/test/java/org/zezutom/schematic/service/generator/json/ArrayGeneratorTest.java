@@ -86,34 +86,6 @@ public class ArrayGeneratorTest extends ValueGeneratorTestCase<List<Object>, Arr
     }
 
     @Test
-    public void nextWithinRangeAdheresToMinNumberOfValues() {
-        // There is a single value producer
-        generator.addItem(mockGenerator(StringGenerator.class, "test"));
-
-        // However, at least three values are expected
-        int min = 3, max = 5;
-        generator.setMinItems(min);
-        generator.setMaxItems(max);
-        assertValueCount(min);
-    }
-
-    @Test
-    public void nextWithinRangeAdheresToMaxNumberOfValues() {
-
-        // There are three value producers
-        generator.addItem(mockGenerator(StringGenerator.class, "test"));
-        generator.addItem(mockGenerator(IntegerGenerator.class, 10));
-        generator.addItem(mockGenerator(BooleanGenerator.class, true));
-
-        // However, at most two values are expected
-        int min = 1, max = 2;
-        generator.setMinItems(min);
-        generator.setMaxItems(max);
-
-        assertValueCount(max);
-    }
-
-    @Test
     public void nextGeneratesAtLeastMinNumberOfValues() {
         // There is a single value producer
         generator.addItem(mockGenerator(StringGenerator.class, "test"));

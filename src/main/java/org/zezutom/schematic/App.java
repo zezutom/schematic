@@ -27,22 +27,16 @@ import java.util.stream.Collectors;
 @SpringBootApplication
 public class App {
 
-    /**
-     * The maximum number of pre-generated values. Anything beyond this threshold is deemed to have
-     * severe impact on application startup time.
-     */
-    private static final int MAX_PRELOAD_VOLUME = 10000;
-
     @Value("${schema.path}")
     private String schemaPath;
 
     @Value("classpath:schema/sample_schema.json")
     private Resource defaultSchema;
 
-    @Value("${preload.volume}")
+    @Value("${preload.volume:0}")
     private Integer preloadVolume;
 
-    @Value(("${preload.types}"))
+    @Value(("${preload.types:}"))
     private String preloadTypes;
 
     @Bean
@@ -70,9 +64,9 @@ public class App {
 
         DataService dataService;
 
-        if (isValidPreloadVolume() && isValidPreloadTypes()) {
-            if (preloadVolume > MAX_PRELOAD_VOLUME) preloadVolume = MAX_PRELOAD_VOLUME;
-
+        if (preloadTypes == null || preloadTypes.isEmpty()) {
+            dataService = new DataService();
+        } else {
             List<JsonStringFormat> formats = Arrays.stream(preloadTypes.split(","))
                     .map(String::trim)
                     .filter(x -> !x.isEmpty())
@@ -81,19 +75,10 @@ public class App {
                     .map(JsonStringFormat::get)
                     .collect(Collectors.toList());
 
+
             dataService = new DataService(preloadVolume, formats);
-        } else {
-            dataService = new DataService();
         }
         return dataService;
-    }
-
-    private boolean isValidPreloadVolume() {
-        return preloadVolume != null && preloadVolume > 0;
-    }
-
-    private boolean isValidPreloadTypes() {
-        return !(preloadTypes == null || preloadTypes.isEmpty());
     }
 
     @Bean

@@ -1,9 +1,9 @@
 {
   "type": "object",
   "properties": {
-    "number":      { "type": "number" },
-    "street_name": { "type": "string" },
-    "street_type": { "type": "string",
+    "number":      { "type": "number", "minimum": 0, "maximum": 100 },
+    "street_name": { "type": "string", "pattern":"[A-Z][a-z]+ (Rd\\.|St\\.)" },
+    "street_type": {
       "enum": ["Street", "Avenue", "Boulevard"]
     }
   }

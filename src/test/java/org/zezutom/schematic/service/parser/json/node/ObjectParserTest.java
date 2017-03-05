@@ -8,10 +8,7 @@ import org.zezutom.schematic.model.json.schema.JsonSchemaCombinationRule;
 import org.zezutom.schematic.model.json.schema.JsonSchemaCombinationType;
 import org.zezutom.schematic.model.json.schema.JsonStringFormat;
 import org.zezutom.schematic.service.generator.ValueGenerator;
-import org.zezutom.schematic.service.generator.json.JsonSchemaGenerator;
-import org.zezutom.schematic.service.generator.json.NumberGenerator;
-import org.zezutom.schematic.service.generator.json.ObjectGenerator;
-import org.zezutom.schematic.service.generator.json.StringGenerator;
+import org.zezutom.schematic.service.generator.json.*;
 
 import java.util.Arrays;
 import java.util.List;
@@ -50,7 +47,7 @@ public class ObjectParserTest extends BaseJsonNodeParserTestCase<Map<String, Obj
         parse("properties.json");
         assertProperty("number", NumberGenerator.class);
         assertProperty("street_name", StringGenerator.class);
-        assertProperty("street_type", StringGenerator.class);
+        assertProperty("street_type", EnumGenerator.class);
     }
 
     @Test

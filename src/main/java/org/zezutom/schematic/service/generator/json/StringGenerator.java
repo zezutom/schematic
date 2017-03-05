@@ -80,7 +80,7 @@ public class StringGenerator extends BaseSchemaGenerator<String, StringNode, Str
         if (format != null) {
 
             List<String> preLoadedValues = dataService.get(format);
-            if (preLoadedValues != null) {
+            if (preLoadedValues != null && !preLoadedValues.isEmpty()) {
                 int randomIndex = RandomUtil.nextInt(preLoadedValues.size());
                 value = preLoadedValues.get(randomIndex);
             } else {
@@ -90,8 +90,14 @@ public class StringGenerator extends BaseSchemaGenerator<String, StringNode, Str
             value = new Generex(pattern).random();
         } else if (combinationRule != null) {
            value = getCombinationValue(() -> RandomUtil.nextString(minLength, maxLength));
-        } else {
+        } else if (AppUtil.isValidRange(minLength, maxLength)) {
             value = RandomUtil.nextString(minLength, maxLength);
+        } else if (AppUtil.isValidMin(minLength)) {
+            value = RandomUtil.nextStringWithMinLength(minLength);
+        } else if (AppUtil.isValidMax(maxLength)) {
+            value = RandomUtil.nextStringWithMaxLength(maxLength);
+        } else {
+            value = RandomUtil.nextStringFromUUID();
         }
         return value;
     }

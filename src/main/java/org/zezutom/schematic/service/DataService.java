@@ -13,6 +13,12 @@ import java.util.function.Supplier;
 @Service
 public class DataService {
 
+    /**
+     * The maximum number of pre-generated values. Anything beyond this threshold is deemed to have
+     * severe impact on application startup time.
+     */
+    private static final int MAX_PRELOAD_VOLUME = 10000;
+
     private final Map<JsonStringFormat, List<String>> valueMap = new EnumMap<>(JsonStringFormat.class);
 
     public DataService() {
@@ -34,11 +40,13 @@ public class DataService {
 
         if (volume <= 0 || formats == null) return;
 
+        final int limit = (volume > MAX_PRELOAD_VOLUME) ? MAX_PRELOAD_VOLUME : volume;
+
         formats.stream().filter(Objects::nonNull).forEach(format -> {
             Supplier<String> supplier = AppUtil.getValueSupplier(format);
 
             List<String> values = new ArrayList<>();
-            for (int i = 0; i < volume; i++) {
+            for (int i = 0; i < limit; i++) {
                 values.add(supplier.get());
             }
             valueMap.put(format, values);

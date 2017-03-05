@@ -87,10 +87,11 @@ public class ArrayGenerator extends BaseSchemaGenerator<List<Object> , ArrayNode
         }
 
         if (AppUtil.isValidRange(minItems, maxItems)) {
-            if (values.size() < minItems) {
-                addRandomValues(values);
-            } else if (values.size() > maxItems) {
-                values = trimValues(values);
+            int itemCount = RandomUtil.nextInt(minItems, maxItems);
+            if (values.size() < itemCount) {
+                addRandomValues(values, itemCount - values.size());
+            } else {
+                values = getRandomValues(values, itemCount);
             }
         } else if (AppUtil.isValidMin(minItems) && values.size() < minItems) {
             addRandomValues(values);
@@ -115,6 +116,14 @@ public class ArrayGenerator extends BaseSchemaGenerator<List<Object> , ArrayNode
         }
     }
 
+    private List<Object> getRandomValues(List<Object> values, int count) {
+        List<Object> randomValues = new ArrayList<>();
+
+        while (randomValues.size() <= count) {
+            randomValues.add(values.get(RandomUtil.nextInt(values.size())));
+        }
+        return randomValues;
+    }
 
     private List<Object> trimValues(List<Object> values) {
         return values.subList(0, maxItems);

@@ -1,11 +1,11 @@
 package org.zezutom.schematic.service;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.zezutom.schematic.model.json.schema.JsonStringFormat;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -14,14 +14,13 @@ public class DataServiceTest {
 
     private DataService dataService;
 
-    @Before
-    public void before() {
-        dataService = new DataService();
+    private void newInstance(Integer volume, List<JsonStringFormat> formats) {
+        dataService = new DataService(volume, formats);
     }
 
     @Test
     public void preLoad() {
-        dataService.preLoad(10, Arrays.asList(JsonStringFormat.values()));
+        newInstance(10, Arrays.asList(JsonStringFormat.values()));
         for (JsonStringFormat format : JsonStringFormat.values()) {
             assertNotNull(dataService.getValueMap().get(format));
         }
@@ -29,37 +28,37 @@ public class DataServiceTest {
 
     @Test
     public void preLoadOnZeroVolumeHasNoEffect() {
-        dataService.preLoad(0, Collections.singletonList(JsonStringFormat.EMAIL));
+        newInstance(0, Collections.singletonList(JsonStringFormat.EMAIL));
         assertValueMapIsEmpty();
     }
 
     @Test
     public void preLoadOnNegativeVolumeHasNoEffect() {
-        dataService.preLoad(-1, Collections.singletonList(JsonStringFormat.EMAIL));
+        newInstance(-1, Collections.singletonList(JsonStringFormat.EMAIL));
         assertValueMapIsEmpty();
     }
 
     @Test
     public void preLoadOnNullFormatListHasNoEffect() {
-        dataService.preLoad(10, null);
+        newInstance(10, null);
         assertValueMapIsEmpty();
     }
 
     @Test
     public void preLoadOnZeroVolumeAndNullFormatListHasNoEffect() {
-        dataService.preLoad(0, null);
+        newInstance(0, null);
         assertValueMapIsEmpty();
     }
 
     @Test
     public void preLoadOnNegativeVolumeAndNullFormatListHasNoEffect() {
-        dataService.preLoad(-1, null);
+        newInstance(-1, null);
         assertValueMapIsEmpty();
     }
 
     @Test
     public void preLoadOnNullFormatHasNoEffect() {
-        dataService.preLoad(10, Collections.singletonList(null));
+        newInstance(10, Collections.singletonList(null));
         assertValueMapIsEmpty();
     }
 

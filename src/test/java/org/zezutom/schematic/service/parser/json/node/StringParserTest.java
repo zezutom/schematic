@@ -30,6 +30,11 @@ public class StringParserTest extends BaseJsonNodeParserTestCase<String, StringG
     }
 
     @Test
+    public void basic() {
+        parse("basic.json");
+    }
+
+    @Test
     public void parseIPv4()  {
         parseFormat("ipv4.json", JsonStringFormat.IPV4);
     }
@@ -76,7 +81,7 @@ public class StringParserTest extends BaseJsonNodeParserTestCase<String, StringG
     @Test
     public void parsePattern() {
         parse("pattern.json");
-        assertEquals("^(\\([0-9]{3}\\))?[0-9]{3}-[0-9]{4}$", generator.getPattern());
+        assertEquals("(\\([0-9]{3}\\))?[0-9]{3}-[0-9]{4}", generator.getPattern());
     }
 
     private void parseFormat(String fileName, JsonStringFormat expectedFormat) {

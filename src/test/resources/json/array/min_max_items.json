@@ -1,5 +1,8 @@
 {
   "type": "array",
   "minItems": 2,
-  "maxItems": 3
+  "maxItems": 10,
+  "items": {
+    "type": "number"
+  }
 }

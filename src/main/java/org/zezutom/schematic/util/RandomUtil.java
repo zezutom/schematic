@@ -15,11 +15,11 @@ public class RandomUtil {
 
     private static final int MULTIPLIER_MAX = 10;
 
-    private static final int DEFAULT_STRING_LENGTH = 10;
-
     private static final int DEFAULT_INT_MAX = 10000;
 
-    private static final int MIN_STRING_LENGTH = 2;
+    static final int MIN_STRING_LENGTH = 2;
+
+    static final int MAX_STRING_LENGTH = 32;
 
     private RandomUtil() {}
 
@@ -64,16 +64,6 @@ public class RandomUtil {
     }
 
     /**
-     * Generates a random integer within a range, inclusive on either end
-     * @param min   min value or null if unbounded
-     * @param max   max value or null if unbounded
-     * @return  a random integer within the provided boundaries (inclusive)
-     */
-    private static int nextInt(Integer min, Integer max) {
-        return nextInt(min, max, false, false);
-    }
-
-    /**
      * Generates a random integer within a range
      * @param min           min value or null if unbounded
      * @param max           max value or null if unbounded
@@ -81,7 +71,6 @@ public class RandomUtil {
      * @param exclusiveMax  true, if the max value should be exclusive
      * @return  a random integer within the provided boundaries
      */
-
     public static int nextInt(Integer min, Integer max, Boolean exclusiveMin, Boolean exclusiveMax) {
         if (min == null || max == null) return nextInt();
 
@@ -99,16 +88,11 @@ public class RandomUtil {
 
     public static int nextInt(Integer bound) {
         ThreadLocalRandom random = ThreadLocalRandom.current();
-        return (bound == null) ? random.nextInt() : random.nextInt(bound);
+        return (bound == null || bound <= 0) ? random.nextInt() : random.nextInt(bound);
     }
 
     private static int stringLength(Integer min, Integer max) {
-        if (!AppUtil.isValidMin(min)) min = AppUtil.ZERO;
-        if (max == null) max = AppUtil.ZERO;
-
-        if (min == AppUtil.ZERO && max.equals(min)) return nextInt(DEFAULT_STRING_LENGTH);
-
-        // If max wasn't provided or is invalid, set to a default value
+        // If the range is invalid, set to a default value
         if (!AppUtil.isValidRange(min, max)) max = min * (MULTIPLIER_MIN + 1);
         return ThreadLocalRandom.current().nextInt((max - min) + 1) + min;
     }
@@ -120,9 +104,7 @@ public class RandomUtil {
      * @return a random string whose length is with the provided boundaries (inclusive)
      */
     public static String nextString(Integer min, Integer max) {
-        int length = stringLength(min, max);
-        if (length <= 0) length = DEFAULT_STRING_LENGTH;
-        if (length < MIN_STRING_LENGTH) length = MIN_STRING_LENGTH;
+        int length = stringLength(adjustStringLength(min), adjustStringLength(max));
 
         StringBuilder sb = new StringBuilder(length);
         Random random = ThreadLocalRandom.current();
@@ -132,8 +114,58 @@ public class RandomUtil {
         return sb.toString();
     }
 
+    /**
+     * Generates a string with a minimum length, inclusive. The upper bound is capped by MAX_STRING_LENGTH.
+     *
+     * @param length    The requested min length
+     * @return  A pseudo random string with the requested minimal length, capping applies.
+     * @link {RandomUtil#MAX_STRING_LENGTH}
+     */
+    public static String nextStringWithMinLength(Integer length) {
+        return nextString(length, MAX_STRING_LENGTH);
+    }
+
+    /**
+     * Generates a string using a defined maximum length, inclusive. The upper bound is capped by MAX_STRING_LENGTH.
+     *
+     * @param length    The requested max length
+     * @return  A pseudo random string with the requested maximum length, capping applies.
+     * @link {RandomUtil#MAX_STRING_LENGTH}
+     */
+    public static String nextStringWithMaxLength(Integer length) {
+        return nextString(MIN_STRING_LENGTH, length);
+    }
+
+    /**
+     * Generates a pseudo random string from UUID.
+     *
+     * @return  A pseudo random UUID turned into a string.
+     */
     public static String nextStringFromUUID() {
         return UUID.randomUUID().toString();
+    }
+
+    /**
+     * Generates a random integer within a range, inclusive on either end
+     * @param min   min value or null if unbounded
+     * @param max   max value or null if unbounded
+     * @return  a random integer within the provided boundaries (inclusive)
+     */
+    public static int nextInt(Integer min, Integer max) {
+        return nextInt(min, max, false, false);
+    }
+
+    /**
+     * Adjusts the requested string length to fit within the expected boundaries.
+     *
+     * @param length    The requested length
+     * @return  The original length, if it fits, or min / max allowed length.
+     * @link {RandomUtil#MIN_STRING_LENGTH}
+     * @link {RandomUtil#MAX_STRING_LENGTH}
+     */
+    private static int adjustStringLength(Integer length) {
+        if (length == null || length < AppUtil.ZERO) return MIN_STRING_LENGTH;
+        return (length > MAX_STRING_LENGTH) ? MAX_STRING_LENGTH : length;
     }
 
 }
