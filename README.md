@@ -35,7 +35,7 @@ Takes a schema and generates a data sample. Useful for mock APIs, load testing e
   - [Null](#null)
   - [Enumerated Values](#enumerated-values)
   - [Schema Combinations](#schema-combinations)
-  - [Acknowledgements](#acknowledgements)
+  - [Acknowledgments](#acknowledgments)
   
 
 ## Installation
