@@ -4,6 +4,40 @@
 # Schematic
 Takes a schema and generates a data sample. Useful for mock APIs, load testing etc. Currently only supports JSON (http://json-schema.org).
 
+## Table of Contents
+- [Installation](#installation)
+- [Usage](#usage)
+  - [Run with Default Settings](#run-with-default-settings)
+  - [Run with Custom Settings](#run-with-custom-settings)
+- [Example](#example)
+- [Load Testing](#load-testing)
+- [JSON Schema Support](#json-schema-support)
+  - [String](#string)
+    - [Basic Random String](#basic-random-string)
+    - [Length Range](#length-range)
+    - [Regex](#regex)
+  - [String Format](#string-format)
+    - [Date Time](#date-time)
+    - [Hostname](#hostname)
+    - [IPv4](#ipv4)
+    - [IPv6](#ipv6)
+    - [Email](#email)
+  - [Numeric Types](#numeric-types)
+    - [Random Number](#random-number)
+    - [Inclusive Range](#inclusive-range)
+    - [Exclusive Range](#exclusive-range)    
+  - [Boolean](#boolean)
+  - [Object](#object)
+    - [Examples](#examples)
+      - [Random Address](#random-address)
+      - [Web Proxy Log](#web-proxy-log)
+  - [Array](#array)
+  - [Null](#null)
+  - [Enumerated Values](#enumerated-values)
+  - [Schema Combinations](#schema-combinations)
+  - [Acknowledgements](#acknowledgements)
+  
+
 ## Installation
 ```
 ./gradlew clean build
@@ -32,8 +66,7 @@ Or, more conveniently, use the runner:
 ```
 sh ./runner.sh -j build/libs/schematic-all-0.1.0.jar -c /path/to/my.properties
 ```
-## Examples
-### Web Server Logs
+## Example
 The following schema describes a single line of a server log.
 
 **proxy_log_schema.json**
@@ -152,10 +185,8 @@ http://localhost:8080/api/v1/items/1000
 ```
 
 ## JSON Schema Support
-
-### Data Types
-#### String
-##### Basic Random String
+### String
+#### Basic Random String
 Generates a pseudorandom string from an UUID.
 ```json
 { "type": "string" }
@@ -167,7 +198,7 @@ Examples of generated values:
 6d26c9e2-5b52-4c89-aa8d-a79b879facf5
 ...
 ```
-##### Min / Max Length
+#### Length Range
 Generates a pseudorandom string whose length fits within the given boundaries, inclusive.
 ```json
 {
@@ -183,7 +214,7 @@ wR
 ZNg
 ...
 ```
-##### Regex
+#### Regex
 Generates a random string according to the provided pattern.
 ```json
 {
@@ -198,7 +229,7 @@ Examples of generated values:
 (490)812-5120
 ...
 ```
-#### String Format
+### String Format
 Supported formats:
 * date / time
 * hostname
@@ -207,7 +238,7 @@ Supported formats:
 
 Generated values of the respective format are provided by Fabricator.
 
-##### Date / Time
+#### Date Time
 Generates a formatted date as 'MM-dd-yyyy'.
 ```json
 {
@@ -223,7 +254,7 @@ Examples of generated values:
 ...
 ```
 
-##### Hostname
+#### Hostname
 ```json
 {
   "type": "string",
@@ -238,7 +269,7 @@ http://patentsprisoners.tl/getEntity?q=test
 ...
 ```
 
-##### IPv4
+#### IPv4
 ```json
 {
   "type": "string",
@@ -253,7 +284,7 @@ Examples of generated values:
 ...
 ```
 
-##### IPv6
+#### IPv6
 ```json
 {
   "type": "string",
@@ -268,7 +299,7 @@ B3c3:E5F9:59B9:e6e1:4FE5:affC:4a77:5C5E
 ...
 ```
 
-##### Email
+#### Email
 ```json
 {
   "type": "string",
@@ -283,8 +314,8 @@ kendrick_kerluke690@hotmail.com
 ...
 ```
 
-#### Numeric Types
-##### Random Number
+### Numeric Types
+#### Random Number
 Generates a pseudorandom integer, _java.util.Random.nextInt()_ is used under the hood.
 ```json
 {
@@ -297,7 +328,7 @@ Examples of generated values:
 -582023836
 1366993374
 ```
-##### Numeric Inclusive Range
+#### Inclusive Range
 Generates a pseudorandom integer within the given range, inclusive.
 ```json
 {
@@ -313,7 +344,7 @@ Examples of generated values:
 32
 ...
 ```
-##### Numeric Exclusive Range
+#### Exclusive Range
 Generates a pseudorandom integer with the given range. Either end can be specified as exclusive.
 
 Exclusive minimum:
@@ -354,13 +385,13 @@ Examples of generated values:
 ...
 ```
 
-#### Boolean
+### Boolean
 ```json
 { "type": "boolean" }
 ```
 Returns either _true_ or _false_ at (pseudo) random.
 
-#### Object
+### Object
 Objects are essentially key-value pairs of properties, where values are either primitive data types or nested objects.
 
 In its simplest form, an object is defined as:
@@ -369,6 +400,7 @@ In its simplest form, an object is defined as:
 ```
 However, declaring a mere object type isn't too useful, at it always results into an empty object _{}_. Let's take a look at other, more practical, use cases.
 
+#### Examples
 ##### Random Address
 Let's define an address in a fictional city as a combination of a templated street name (regex), a street number ranging between 1 and 100 and a type.
 ```json
@@ -438,16 +470,15 @@ Example of a generated value:
 }
 ```
 
-#### Array
+### Array
 An array can be seen as a list of items. Both primitive and complex data types are supported.
 
 In its simplest form, an array is defined as:
 ```json
 { "type": "array" }
 ```
-That's not too useful however, since it always results into an empty array _[]_. Let's explore some of more practical examples.
+That's not too useful however, since it always results into an empty array _[]_. Let's take a look at a more practical example.
 
-##### Bunch of Random Numbers
 Suppose we need 2 to 10 of pseudorandom numbers, we define the schema as follows.
 ```json
 {
@@ -461,13 +492,68 @@ Suppose we need 2 to 10 of pseudorandom numbers, we define the schema as follows
 ```
 Example of a generated values:
 ```json
-[20630503, 400700874]
-[20630503, 400700874, 1173509128, 1628650785]
-[-620837239,1529303543,-1122104159]
+[-1189437792, -1423085079, 1325760399, -1129235459]
+[-717568727, 1738813416, -507288103, -409329610, -629047263]
+[420015966, -1288342479, 724078588, -352463376, -1322173860, -261609858, -1288125758]
 ...
 ```
+### Null
+```json
+{ "type": "null" }
+```
+Returns _null_.
 
-
-#### Null
 ### Enumerated Values
+Enums are like arrays, but they only allow for primitive values only.
+
+Examples:
+
+Picks any of the defined colours.
+```json
+{ "enum": ["red", "amber", "green"] }
+```
+One can even mix different datatypes.
+```json
+{ "enum": ["red", "amber", "green", null, 42, 10.5, true] }
+```
+
 ### Schema Combinations
+Combinations are a powerful feature adding flexibility in terms of applying rules on nested sub-schemas. The following combination types are supported:
+* allOf
+* oneOf
+* not
+
+Examples:
+
+IP address, either of v4 or v6.
+```json
+{
+  "type": "object",
+  "properties": {
+    "ip": {
+      "type": "string",
+      "oneOf": [
+        {"format": "ipv4"},
+        {"format": "ipv6"}
+      ]
+    }
+  }
+}
+```
+Fictional contact details.
+```json
+{
+  "type": "string",
+  "allOf": [
+    {"pattern": "(\\([0-9]{3}\\))?[0-9]{3}-[0-9]{4}"},
+    {"format": "hostname"},
+    {"format": "email"}
+  ]
+}
+```
+
+## Acknowledgments
+Special thanks to:
+* Space Telescope Science Institute for their brilliant [introduction into JSON schema](https://spacetelescope.github.io/understanding-json-schema)
+* Andrew Zakordonets for his awesome [Fabricator](https://github.com/azakordonets/fabricator), which I use as a factory for pseudo random emails, IPs, hostnames etc.
+* Youssef Mifrah for [Generex](https://github.com/mifmif/Generex), which allows for generating random strings based on regex.
