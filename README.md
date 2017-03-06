@@ -74,7 +74,7 @@ The following schema describes a single line of a server log.
 {
   "type": "object",
   "properties": {
-    "timestamp": {"type": "number"},
+    "timestamp": {"type": "number", "minimum": 0},
     "ip": {
       "type": "string",
       "oneOf": [
@@ -170,7 +170,7 @@ http://localhost:8080/api/v1/items/1000
       "res_size":3689,
       "user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/601.6.17 (KHTML, like Gecko) Version/9.1.1 Safari/601.6.17",
       "url":"http://leaksrevenue.bd/getEntity?q=test",
-      "timestamp":-1030984564
+      "timestamp":1030984564
    },
    {
       "authenticated":true,
@@ -428,7 +428,7 @@ A proxy log schema is a good example of a more complex object. A single line of 
 {
   "type": "object",
   "properties": {
-    "timestamp": {"type": "number"},
+    "timestamp": {"type": "number", "minimum": 0},
     "ip": {
       "type": "string",
       "oneOf": [
